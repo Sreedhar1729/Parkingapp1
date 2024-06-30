@@ -149,7 +149,7 @@
                                                 id="idparkingdrivernameval"
                                                 text="{driverName}"
                                             />
-                                             <Text
+                                            <Text
                                                 id="idtruckenterDateval"
                                                 text="{enterDate}"
                                             />
@@ -157,12 +157,10 @@
                                                 id="idparkingexitDateval"
                                                 text="{exitDate}"
                                             />
-                                             <Text
+                                            <Text
                                                 id="idassignstatusval"
                                                 text="{assign}"
                                             />
-                                
-                                            
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -178,7 +176,7 @@
                     </ScrollContainer>
                     <ScrollContainer id="root3">
                         <f:DynamicPageHeader id="_IDGenDynamicPageHeader1">
-                        <!-- <f:DynamicPageTitle id="dynamic" >
+                            <!-- <f:DynamicPageTitle id="dynamic" >
                         <f:heading>
                         <Title id="titleval" text="ParkingLot"/>
                         </f:heading>
@@ -194,7 +192,7 @@
                                 >
                                     <Label
                                         id="_IDGenLabel1"
-                                        text="PakingSlot Number"
+                                        text="PakingLot Number"
                                     />
                                     <MultiInput
                                         id="_IDGenMultiInput1"
@@ -208,12 +206,30 @@
                                 >
                                     <Label
                                         id="_IDGenLabel2"
-                                        text="Availability"
+                                        text="Inward"
                                     />
-                                    <MultiInput
-                                        id="_IDGenMultiInput2"
-                                        value=""
-                                    />
+                                    <Select
+                                        id="inward"
+                                        selectedKey="{Inward}"
+                                    >
+                                        <items>
+                                            <t:Item
+                                                id="iditem"
+                                                text=" "
+                                                key=""
+                                            />
+                                            <t:Item
+                                                id="_IDGenItem1"
+                                                text="Yes"
+                                                key="true"
+                                            />
+                                            <t:Item
+                                                id="_IDGenItem2"
+                                                text="No"
+                                                key="false"
+                                            />
+                                        </items>
+                                    </Select>
                                 </VBox>
 
                                 <VBox
@@ -277,9 +293,9 @@
                                     />
                                     <Button
                                         id="idParkinSlotEdit"
-                                        text="Edit"
-                                        press="onEdit"
-                                        icon="sap-icon://edit"
+                                        text="Delete"
+                                        press="onDelete"
+                                        icon="sap-icon://delete"
                                         type="Emphasized"
                                     />
                                 </OverflowToolbar>
@@ -288,7 +304,7 @@
                                 <Column id="idparkingveh_id">
                                     <Title
                                         id="parkingveh_text"
-                                        text="Slot.No"
+                                        text="Lot.No"
                                     />
                                 </Column>
                                 <Column id="idparkingveh_inward">
@@ -416,7 +432,11 @@
                         >
                             <headerToolbar>
                                 <OverflowToolbar id="_IDGenOverflowToolbar1">
-                                <Title id="idtitleval" text="Reserved Parking Details" class="simple"/>
+                                    <Title
+                                        id="idtitleval"
+                                        text="Reserved Parking Details"
+                                        class="simple"
+                                    />
                                     <ToolbarSpacer id="_IDGenToolbarSpacer1" />
                                     <Button
                                         id="_IDGenButton1"

@@ -1,12 +1,535 @@
-<mvc:View controllerName="com.app.parkingapp.controller.Home"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <content >
+<mvc:View
+    xmlns:simple="sap.gantt.simple"
+    controllerName="com.app.parkingapp.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:tnt="sap.tnt"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:t="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <tnt:ToolPage id="app">
+        <tnt:header>
+            <tnt:ToolHeader id="idtoolheader">
+                <tnt:content>
+                    <Image
+                        id="idimage1"
+                        src="https://artihcus.com/assets/img/Artihcus-global-logo-1.png"
+                    />
 
-<Label id="idinput" text="id"/>
-<Input id="idinput1" value="{}"></Input>
+                    <ToolbarSpacer id="idtoolspace" />
+                    <Title
+                        id="idlabel"
+                        class="sample"
+                        text="ParkingLotApplication"
+                    />
+                    <ToolbarSpacer id="idtoolspacer2" />
+                    <Button
+                        id="idlogout"
+                        text="Logout"
+                        type="Accept"
+                    />
+                    <Button
+                        id="idnotification"
+                        tooltip="Notifications"
+                        icon="sap-icon://bell"
+                    />
+                    <Avatar id="idbt1" />
+                </tnt:content>
+            </tnt:ToolHeader>
+        </tnt:header>
+        <tnt:sideContent>
+            <tnt:SideNavigation
+                id="idSidenavigation"
+                itemSelect="onItemSelect"
+            >
+                <tnt:NavigationList id="idnavigation">
+                    <tnt:NavigationListItem
+                        id="idnavhome"
+                        key="Home"
+                        text="Home"
+                    />
 
-        </content>
-    </Page>
+                    <tnt:NavigationListItem
+                        id="idnavlistitem"
+                        key="RouteParkingSlot"
+                        text="ParkingLots"
+                    />
+                    <tnt:NavigationListItem
+                        id="idparkingscreation"
+                        key="parkingslotAssign"
+                        text="Parking Lot Assignment"
+                    />
+                    <tnt:NavigationListItem
+                        id="idnavlistitem1"
+                        key="RouteReserve"
+                        text="ReserveParking"
+                    />
+
+                    <tnt:NavigationListItem
+                        id="idnavlistitem2"
+                        key="root1"
+                        text="ParkingVehicles"
+                    />
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+            <NavContainer
+                id="idNavContainer"
+                initialPage="root2"
+            >
+                <pages>
+                    <ScrollContainer
+                        id="root1"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <VBox id="idprkingveh">
+                            <Table
+                                id="idParkingvehiclestable"
+                                items="{/ParkignVeh}"
+                                mode="MultiSelect"
+                            >
+                                <headerToolbar>
+                                    <OverflowToolbar id="idoverflowbutoon">
+                                        <Title
+                                            id="idd"
+                                            text="Paking vehicles"
+                                        />
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column id="idparkingVeh">
+                                        <Title
+                                            id="idparkingvehlabel"
+                                            text="VehicleNumber"
+                                        />
+                                    </Column>
+                                    <Column id="idparkingdrivername">
+                                        <Title
+                                            id="idparkingdrivernametitle"
+                                            text="Driver Name"
+                                        />
+                                    </Column>
+
+                                    <Column id="idparkingenterDate">
+                                        <Title
+                                            id="idparkingenterDatetitle"
+                                            text="Enter Date"
+                                        />
+                                    </Column>
+                                    <Column id="idparkingexitDate">
+                                        <Title
+                                            id="idParkingexitDatetitle"
+                                            text="Exit Date"
+                                        />
+                                    </Column>
+                                    <Column id="idassignstatus">
+                                        <Title
+                                            id="idassignstatustitle"
+                                            text="In Parking"
+                                        />
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem id="idcollist2">
+                                        <cells>
+                                            <Text
+                                                id="idparkingvehval"
+                                                text="{truckNo}"
+                                            />
+                                            <Text
+                                                id="idparkingdrivernameval"
+                                                text="{driverName}"
+                                            />
+                                             <Text
+                                                id="idtruckenterDateval"
+                                                text="{enterDate}"
+                                            />
+                                            <Text
+                                                id="idparkingexitDateval"
+                                                text="{exitDate}"
+                                            />
+                                             <Text
+                                                id="idassignstatusval"
+                                                text="{assign}"
+                                            />
+                                
+                                            
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </ScrollContainer>
+                    <ScrollContainer id="root2">
+                        <Image
+                            id="idimage"
+                            width="100%"
+                            src="https://cdn.pixabay.com/photo/2024/06/07/07/47/car-8814158_640.jpg"
+                        />
+                    </ScrollContainer>
+                    <ScrollContainer id="root3">
+                        <f:DynamicPageHeader id="_IDGenDynamicPageHeader1">
+                        <!-- <f:DynamicPageTitle id="dynamic" >
+                        <f:heading>
+                        <Title id="titleval" text="ParkingLot"/>
+                        </f:heading>
+                        </f:DynamicPageTitle> -->
+                            <HBox
+                                id="_IDGenHBox1"
+                                alignContent="SpaceBetween"
+                                width="100vw"
+                            >
+                                <VBox
+                                    id="_IDGenVBox1"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="_IDGenLabel1"
+                                        text="PakingSlot Number"
+                                    />
+                                    <MultiInput
+                                        id="_IDGenMultiInput1"
+                                        value=""
+                                    />
+                                </VBox>
+
+                                <VBox
+                                    id="_IDGenVBox2"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="_IDGenLabel2"
+                                        text="Availability"
+                                    />
+                                    <MultiInput
+                                        id="_IDGenMultiInput2"
+                                        value=""
+                                    />
+                                </VBox>
+
+                                <VBox
+                                    id="idGoButton"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="idGoButtonLabel"
+                                        text=""
+                                    />
+                                    <Button
+                                        id="idGoButtonValue"
+                                        text="Go"
+                                        type="Emphasized"
+                                        press="onGoPress"
+                                    />
+                                </VBox>
+
+                                <VBox
+                                    id="idClearFilterButton"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="idClearFilterButtonLabel"
+                                        text=""
+                                    />
+                                    <Button
+                                        id="idClearFilterButtonValue"
+                                        text="Clear Filter"
+                                        type="Emphasized"
+                                        press="onClearFilterPress"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                            <ToolbarSpacer id="tool" />
+                        </f:DynamicPageHeader>
+
+                        <!-- Table declaration -->
+                        <Table
+                            id="idparkingslottable"
+                            contextualWidth="Inherit"
+                            alternateRowColors="true"
+                            items="{/ParkingLot}"
+                            mode="MultiSelect"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar id="idoverflow">
+                                    <Title
+                                        id="idtitle11"
+                                        text="ParkingLot"
+                                        textAlign="Center"
+                                    />
+                                    <ToolbarSpacer id="idtoolReserve" />
+                                    <Button
+                                        id="idParkinSlotAdd"
+                                        text="Add"
+                                        press="onAdd"
+                                        icon="sap-icon://add"
+                                        type="Success"
+                                    />
+                                    <Button
+                                        id="idParkinSlotEdit"
+                                        text="Edit"
+                                        press="onEdit"
+                                        icon="sap-icon://edit"
+                                        type="Emphasized"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column id="idparkingveh_id">
+                                    <Title
+                                        id="parkingveh_text"
+                                        text="Slot.No"
+                                    />
+                                </Column>
+                                <Column id="idparkingveh_inward">
+                                    <Title
+                                        id="parkingveh_inward"
+                                        text="Inward"
+                                    />
+                                </Column>
+                                <Column id="idparkingveh_length">
+                                    <Title
+                                        id="parkingveh_length"
+                                        text="Slot Length"
+                                    />
+                                </Column>
+                            </columns>
+
+                            <!-- items -->
+                            <items>
+                                <ColumnListItem id="idcollist">
+                                    <cells>
+                                        <Text
+                                            id="parkingSlotvalue"
+                                            text="{id}"
+                                        />
+                                        <Text
+                                            id="parkinginwarvalue"
+                                            text="{inward}"
+                                        />
+                                        <Text
+                                            id="parkinglengthvalue"
+                                            text="{length}"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </ScrollContainer>
+                    <!-- for parkinglot assignment  -->
+                    <ScrollContainer id="idparkingassign">
+                        <VBox
+                            id="idVbox"
+                            class="sapUiSmallMargin"
+                        >
+                            <form:SimpleForm
+                                id="_IDGenSimpleForm1"
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="3"
+                                labelSpanL="3"
+                                labelSpanM="3"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="4"
+                                emptySpanL="4"
+                                emptySpanM="4"
+                                emptySpanS="0"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                                singleContainerFullSize="false"
+                            >
+                                <form:toolbar>
+                                    <Toolbar id="TB1">
+                                        <Title
+                                            id="_IDGenTitle1"
+                                            text="ParkingLotAssignment"
+                                        />
+
+                                        <ToolbarSpacer id="idtool1" />
+                                        <Button
+                                            id="idassign"
+                                            text="Assign"
+                                            press="onAssignPress"
+                                        />
+                                        <Button
+                                            id="unassign"
+                                            text="UnAssign"
+                                            press="onUnassignPress"
+                                        />
+                                    </Toolbar>
+                                </form:toolbar>
+
+                                <Label
+                                    id="idTruckLabel"
+                                    text="TruckNo"
+                                />
+                                <Input
+                                    id="idTruckInput"
+                                    value="{}"
+                                />
+                                <Label
+                                    id="idDriverNameLabel"
+                                    text="DriverName"
+                                />
+                                <Input
+                                    id="idDriverNameInput"
+                                    value="{}"
+                                />
+                                <Label
+                                    id="idDriverMobileLabel"
+                                    text="DriverMobileNumber"
+                                />
+                                <Input
+                                    id="idDriverMobileInput"
+                                    value="{}"
+                                />
+                                <Label
+                                    id="idParkingslotLabel"
+                                    text="ParkingSlotNumber"
+                                />
+                                <Input
+                                    id="idPakingslotInput"
+                                    value="{}"
+                                />
+                            </form:SimpleForm>
+                        </VBox>
+                    </ScrollContainer>
+                    <ScrollContainer id="root4">
+                        <Table
+                            id="idReserveParkingtable"
+                            contextualWidth="Inherit"
+                            alternateRowColors="true"
+                            items="{/ReserveParking}"
+                            mode="MultiSelect"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar id="_IDGenOverflowToolbar1">
+                                <Title id="idtitleval" text="Reserved Parking Details" class="simple"/>
+                                    <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                                    <Button
+                                        id="_IDGenButton1"
+                                        class="sapUiSmallMarginBeginEnd"
+                                        type="Reject"
+                                        icon="sap-icon://delete"
+                                        text="Delete"
+                                        press="onDelete"
+                                    />
+                                    <Button
+                                        id="_IDGenButton2"
+                                        class="sapUiSmallMarginBeginEnd"
+                                        type="Accept"
+                                        icon="sap-icon://add"
+                                        text="Add"
+                                        press="onAdd"
+                                    />
+
+                                    <Button
+                                        id="_IDGenButton3"
+                                        class="sapUiSmallMarginBeginEnd"
+                                        type="Accept"
+                                        icon="sap-icon://edit"
+                                        text="Edit"
+                                        enabled="true"
+                                        press="onEdit"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column id="idReserveparkingveh_id">
+                                    <Title
+                                        id="reserveparkingveh_text"
+                                        text="ReserveID"
+                                    />
+                                </Column>
+                                <Column id="idreservetruck">
+                                    <Title
+                                        id="trucknumber"
+                                        text="TruckNumber"
+                                    />
+                                </Column>
+                                <Column id="iddrivername">
+                                    <Title
+                                        id="driverName"
+                                        text="DriverName"
+                                    />
+                                </Column>
+                                <Column id="idreservedrivermobile">
+                                    <Title
+                                        id="drivermobile"
+                                        text="DriverMobile"
+                                    />
+                                </Column>
+                                <Column id="idres_staus">
+                                    <Title
+                                        id="res_staus"
+                                        text="Status"
+                                    />
+                                </Column>
+                                <Column id="idParkingLot_ID">
+                                    <Title
+                                        id="parkinglotid"
+                                        text="PakingSlotID"
+                                    />
+                                </Column>
+                                <Column id="idConfDate">
+                                    <Title
+                                        id="idconfdate"
+                                        text="ConfirmDate"
+                                    />
+                                </Column>
+                            </columns>
+
+                            <!-- items -->
+                            <items>
+                                <ColumnListItem id="idRescollist">
+                                    <cells>
+                                        <Text
+                                            id="ReserveParkingvalue"
+                                            text="{id}"
+                                        />
+                                        <Text
+                                            id="ReservedParkingTruck"
+                                            text="{truckNo}"
+                                        />
+                                        <Text
+                                            id="ReservedParkingvalue"
+                                            text="{driverName}"
+                                        />
+                                        <Text
+                                            id="ReserveddriverNum"
+                                            text="{driverMob}"
+                                        />
+                                        <Text
+                                            id="ReservedParkingstatus"
+                                            text="{res_staus}"
+                                        />
+                                        <Text
+                                            id="ReservedParkingParkingLot"
+                                            text="{parkinglot_id}"
+                                        />
+                                        <Text
+                                            id="ReservedParkingConfDate"
+                                            text="{confDate}"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </ScrollContainer>
+                </pages>
+            </NavContainer>
+        </tnt:mainContents>
+    </tnt:ToolPage>
 </mvc:View>

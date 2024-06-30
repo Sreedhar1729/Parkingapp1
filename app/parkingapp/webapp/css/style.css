@@ -1,1 +1,22 @@
 /* Enter your custom styles here */
+
+/* for making page title as Blue color */
+.titleclass{
+    color:blue;
+}
+
+.customToolbar .sapMTB {
+    height: 3rem;
+}
+
+.se{
+    background-image: url("https://assets.hongkiat.com/uploads/coolest-libraries-in-the-world/leeds-library.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sample{
+    color: red;
+    height: max-content;
+    font-size: large;
+}

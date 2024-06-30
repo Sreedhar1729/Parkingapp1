@@ -1,0 +1,54 @@
+{
+    "selectedKey": "page2",
+    "navigation": [
+        {
+            "title": "Analytics",
+            "icon": "sap-icon://attachment",
+            "expanded": true,
+            "key": "root1"
+           
+        },
+        {
+            "title": "Parking lot Assignment",
+            "icon": "sap-icon://employee",
+            "expanded": true,
+            "key": "root2"
+           
+        },
+        {
+            "title": "All Slots",
+            "icon": "sap-icon://building",
+            "key": "root3"
+        },
+        {
+            "title": "Pre-Booking Slots",
+            "icon": "sap-icon://card",
+            "expanded": true,
+            "key":"root4"
+        },
+        {
+            "title": "Empty Slots",
+            "icon": "sap-icon://action",
+            "expanded": true,
+            "key":"root5"  
+        },
+        {
+            "title": "Allocated Slots",
+            "icon": "sap-icon://action-settings",
+            "expanded": true,
+            "key":"root6"
+        },
+        {
+            "title": "Reserved Slots",
+            "icon": "sap-icon://action-settings",
+            "expanded": true,
+            "key":"root7"
+        },
+        {
+            "title": "History",
+            "icon": "sap-icon://action-settings",
+            "expanded": true,
+            "key":"root8"
+        }
+    ]
+}

@@ -3,22 +3,6 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <App id="app">
-        <pages>
-            <Page id="homePage" title="{i18n>title}">
-                <headerContent>
-                    <Toolbar id="_IDGenToolbar1">
-                        <content>
-                            <Title id="_IDGenTitle1" text="ParkingLot Management Application" level="H1" />
-                        </content>
-                    </Toolbar>
-                </headerContent>
-                <content>
-                    <Button id="_IDGenButton1" text="Home" press="onEntity1Press" />
-                    <Button id="_IDGenButton2" text="Parking Slots" press="onEntity2Press" />
-                    <Button id="_IDGenButton3" text="ParkingVehicles" press="onEntity3Press" />
-                    <Button id="_IDGenButton4" text="ReserveParking" press="onEntity4Press" />
-                </content>
-            </Page>
-        </pages>
+       
     </App>
 </mvc:View>

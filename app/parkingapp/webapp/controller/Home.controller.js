@@ -5,7 +5,7 @@ sap.ui.define([
     "sap/ui/model/FilterOperator",
     "sap/m/Token",
 ],
-    function (Controller, ODataModel, Filter, FilterOperator,Token) {
+    function (Controller, ODataModel, Filter, FilterOperator, Token) {
         "use strict";
 
         return Controller.extend("com.app.parkingapp.controller.Home", {
@@ -13,16 +13,34 @@ sap.ui.define([
                 // Tokens
 
                 const oView = this.getView(),
-                oMulti1 = this.oView.byId("_IDGenMultiInput1");
-                 
+                    oMulti1 = this.oView.byId("_IDGenMultiInput1");
 
-            let validae = function (arg) {
-                if (true) {
-                    var text = arg.text;
-                    return new sap.m.Token({ key: text, text: text });
+
+                let validae = function (arg) {
+                    if (true) {
+                        var text = arg.text;
+                        return new sap.m.Token({ key: text, text: text });
+                    }
                 }
-            }
-            oMulti1.addValidator(validae);
+                oMulti1.addValidator(validae);
+
+                // creating json model for the  parkinglot assignment
+                const oLocalModel = new sap.ui.model.json.JSONModel(
+                    {
+                        id: "",
+                        truckNo: "",
+                        driverName: "",
+                        driverMob: "",
+                        parkinglot_id: "",
+                        enterDate: " ",
+                        enterTime: " ",
+                        exitDate: " ",
+                        exitTime: " "
+
+                    }
+                );
+
+                this.getView().setModel(oLocalModel, "localModel");
 
 
             },
@@ -57,12 +75,15 @@ sap.ui.define([
                 const oview = this.getView(),
                     oParkingSlotFilter = oview.byId("inward"),
                     oParkingno = oview.byId("_IDGenMultiInput1"),
+                    oavailable = oview.byId("idavailablestausforselect"),
                     sParkingSlotNumber = oParkingSlotFilter.getSelectedKey(),
+                    savailable = oavailable.getSelectedKey(),
                     sParkingno = oParkingno.getTokens(),
                     oTable = oview.byId("idparkingslottable"),
                     aFilters = [];
 
                 sParkingSlotNumber ? aFilters.push(new Filter("inward", FilterOperator.EQ, sParkingSlotNumber)) : "";
+                savailable ? aFilters.push(new Filter("avialable", FilterOperator.EQ, savailable)) : "";
                 // sParkingno ? aFilters.push(new Filter("id", FilterOperator.EQ, sParkingno)) : "";
                 sParkingno.filter((ele) => {
                     ele ? aFilters.push(new Filter("id", FilterOperator.EQ, ele.getKey())) : " ";
@@ -76,10 +97,10 @@ sap.ui.define([
                     oParkingno = oView.byId("_IDGenMultiInput1").setValue(),
                     oParkingSlotFilter = oView.byId("inward").setValue();
             },
-            onDelete: function(oEvent) {
+            onDelete: function (oEvent) {
                 var oTable = this.getView().byId("idparkingslottable");
                 var aSelectedItems = oTable.getSelectedItems();
-            
+
                 aSelectedItems.forEach(function (oSelectedItem) {
                     var aISBNs = [];
                     var sISBN = oSelectedItem.getBindingContext().getObject().id;
@@ -87,11 +108,17 @@ sap.ui.define([
 
                     oSelectedItem.getBindingContext().delete("$auto");
                 });
-                 oTable.getBinding("items").refresh();
+                oTable.getBinding("items").refresh();
+            },
+            // fragment open for reservation creation
+            onAdd:async function()
+            {
+                this.oDialog ??= await this.loadFragment({
+                    name: "com.app.parkingapp.fragments.create"
+                });
+                this.oDialog.open();
             }
-            
-            
 
-
+            
         });
     });

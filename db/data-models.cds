@@ -6,6 +6,7 @@ define entity ParkingLot {
     key id             : Integer @(title: 'PakingLotNumber');
         inward         : Boolean @(title: 'IN/OUT');
         length         : String;
+        avialable      : Boolean;
         parkingveh     : Composition of many ParkignVeh
                              on parkingveh.parkinglot = $self;
         reserveparking : Composition of many ReserveParking

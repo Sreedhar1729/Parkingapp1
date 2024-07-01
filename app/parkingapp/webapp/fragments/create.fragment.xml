@@ -1,0 +1,76 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idDialogCreate"
+        resizable="true"
+        draggable="true"
+        contentWidth="30%"
+        title="Create Reservation"
+    >
+        <beginButton>
+            <Button
+                id="idCreateButtonnew"
+                text="Create"
+                press="onCreateBook"
+                type="Success"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCancelButtonnew"
+                text="Cancel"
+                press="onCloseDialog"
+                type="Negative"
+            />
+        </endButton>
+        <content>
+            <form:SimpleForm
+                id="_IDGenSimpleForm1new"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            >
+                <Label
+                    id="idTruckNumberLabel"
+                    text="TruckNumber"
+                />
+                <Input
+                    id="idTruckNumberInput"
+                    value="{}"
+                />
+
+                <Label
+                    id="idDriverNameLabel"
+                    text="DriverName"
+                />
+                <Input
+                    id="idDriverNameInput"
+                    value="{}"
+                />
+                <Label
+                    id="idDriverMobilenumbernew"
+                    text="Driver Mobile"
+                />
+                <Input
+                    id="idDrivernewMobile"
+                    value="{}"
+                />
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

@@ -231,6 +231,37 @@
                                         </items>
                                     </Select>
                                 </VBox>
+                                <VBox
+                                    id="_IDGenVBox3"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="_IDGenLabel3"
+                                        text="Available"
+                                    />
+                                    <Select
+                                        id="idavailablestausforselect"
+                                        selectedKey="{avialabile}"
+                                    >
+                                        <items>
+                                            <t:Item
+                                                id="iditem11"
+                                                text=" "
+                                                key=""
+                                            />
+                                            <t:Item
+                                                id="iditem12"
+                                                text="Yes"
+                                                key="true"
+                                            />
+                                            <t:Item
+                                                id="iditem13"
+                                                text="No"
+                                                key="false"
+                                            />
+                                        </items>
+                                    </Select>
+                                </VBox>
 
                                 <VBox
                                     id="idGoButton"
@@ -319,6 +350,12 @@
                                         text="Slot Length"
                                     />
                                 </Column>
+                                <Column id="idparkingavailability">
+                                    <Title
+                                        id="idavailabilitystatus"
+                                        text="Available"
+                                    />
+                                </Column>
                             </columns>
 
                             <!-- items -->
@@ -336,6 +373,10 @@
                                         <Text
                                             id="parkinglengthvalue"
                                             text="{length}"
+                                        />
+                                        <Text
+                                            id="parkingavailadbility"
+                                            text="{avialable}"
                                         />
                                     </cells>
                                 </ColumnListItem>
@@ -396,27 +437,27 @@
                                     value="{}"
                                 />
                                 <Label
-                                    id="idDriverNameLabel"
+                                    id="idDriverNameLabels"
                                     text="DriverName"
                                 />
                                 <Input
-                                    id="idDriverNameInput"
+                                    id="idDriverNameInputs"
                                     value="{}"
                                 />
                                 <Label
-                                    id="idDriverMobileLabel"
-                                    text="DriverMobileNumber"
+                                    id="idDriverMobileLabels"
+                                    text="DriverMobileNumbers"
                                 />
                                 <Input
-                                    id="idDriverMobileInput"
+                                    id="idDriverMobileInputs"
                                     value="{}"
                                 />
                                 <Label
-                                    id="idParkingslotLabel"
-                                    text="ParkingSlotNumber"
+                                    id="idParkingslotLabels"
+                                    text="ParkingSlotNumbers"
                                 />
                                 <Input
-                                    id="idPakingslotInput"
+                                    id="idPakingslotInputs"
                                     value="{}"
                                 />
                             </form:SimpleForm>

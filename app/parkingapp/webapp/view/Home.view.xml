@@ -74,6 +74,11 @@
                         key="root1"
                         text="ParkingVehicles"
                     />
+                    <tnt:NavigationListItem
+                        id="idnavlistitem3"
+                        key="LeftVehicles"
+                        text="ParkingVehicleHistory"
+                    />
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>
@@ -84,6 +89,83 @@
                 initialPage="root2"
             >
                 <pages>
+                    <!-- parking vehicles history -->
+                    <ScrollContainer
+                        id="LeftVehicles"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <VBox id="ParkingHistory">
+                            <Table
+                                id="idparkinghis"
+                                items="{path:'/ParkingVeh'}" >
+                                <columns>
+                                    <Column id="idparkinghisVeh">
+                                        <Title
+                                            id="idparkinghisvehlabel"
+                                            text="VehicleNumber"
+                                        />
+                                    </Column>
+                                    <Column id="idparkinghisdrivername">
+                                        <Title
+                                            id="idparkinghisdrivernametitle"
+                                            text="Driver Name"
+                                        />
+                                    </Column>
+
+                                    <Column id="idparkinghisenterDate">
+                                        <Title
+                                            id="idparkinghisenterDatetitle"
+                                            text="Enter Date"
+                                        />
+                                    </Column>
+                                    <Column id="idparkinghisexitDate">
+                                        <Title
+                                            id="idParkinghisexitDatetitle"
+                                            text="Exit Date"
+                                        />
+                                    </Column>
+                                    <Column id="idassignhisstatus">
+                                        <Title
+                                            id="idassignhisstatustitle"
+                                            text="In Parking"
+                                        />
+                                    </Column>
+                                </columns>
+
+                                <items>
+                                    <ColumnListItem id="idcolhislist2">
+                                        <cells>
+                                            <Text
+                                                id="idparkinghisvehval"
+                                                text="{truckNo}"
+                                            />
+                                            <Text
+                                                id="idparkinghisdrivernameval"
+                                                text="{driverName}"
+                                            />
+                                            <Text
+                                                id="idtruckhisenterDateval"
+                                                text="{enterDate}"
+                                            />
+                                            <Text
+                                                id="idparkinghisexitDateval"
+                                                text="{exitDate}"
+                                            />
+                                            <Text
+                                                id="idassignhisstatusval"
+                                                text="{assign}"
+                                            />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </ScrollContainer>
+
+                    <!-- Parking Vehicles page -->
                     <ScrollContainer
                         id="root1"
                         horizontal="false"
@@ -94,7 +176,7 @@
                         <VBox id="idprkingveh">
                             <Table
                                 id="idParkingvehiclestable"
-                                items="{/ParkignVeh}"
+                                items="{path:'/ParkignVeh',filters:[{path:'avialable',operator:'EQ',value1:'true'}]}"
                                 mode="MultiSelect"
                             >
                                 <headerToolbar>
@@ -102,6 +184,15 @@
                                         <Title
                                             id="idd"
                                             text="Paking vehicles"
+                                        />
+                                        <ToolbarSpacer id="idtoolbarspacer11" />
+                                        <Button
+                                            id="idsimple"
+                                            type="Negative"
+                                            text="Left"
+                                            press="onLeft"
+                                            icon="sap-icon://delete"
+                                            iconFirst="false"
                                         />
                                     </OverflowToolbar>
                                 </headerToolbar>
@@ -172,16 +263,13 @@
                         <Image
                             id="idimage"
                             width="100%"
-                            src="https://cdn.pixabay.com/photo/2024/06/07/07/47/car-8814158_640.jpg"
+                            src="https://thumbs.dreamstime.com/z/cargo-terminal-large-warehouse-complex-trucks-unload-unloading-waiting-parking-lot-front-warehouse-st-31659857.jpg"
                         />
                     </ScrollContainer>
+
+                    <!-- ParkingSlots List page  -->
                     <ScrollContainer id="root3">
                         <f:DynamicPageHeader id="_IDGenDynamicPageHeader1">
-                            <!-- <f:DynamicPageTitle id="dynamic" >
-                        <f:heading>
-                        <Title id="titleval" text="ParkingLot"/>
-                        </f:heading>
-                        </f:DynamicPageTitle> -->
                             <HBox
                                 id="_IDGenHBox1"
                                 alignContent="SpaceBetween"
@@ -384,6 +472,7 @@
                             </items>
                         </Table>
                     </ScrollContainer>
+
                     <!-- for parkinglot assignment  -->
                     <ScrollContainer id="idparkingassign">
                         <VBox
@@ -472,6 +561,8 @@
                             </form:SimpleForm>
                         </VBox>
                     </ScrollContainer>
+
+                    <!-- Reserve parking page in toolpage Layout -->
                     <ScrollContainer id="root4">
                         <Table
                             id="idReserveParkingtable"
@@ -517,12 +608,6 @@
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
-                                <Column id="idReserveparkingveh_id">
-                                    <Title
-                                        id="reserveparkingveh_text"
-                                        text="ReserveID"
-                                    />
-                                </Column>
                                 <Column id="idreservetruck">
                                     <Title
                                         id="trucknumber"
@@ -565,10 +650,6 @@
                             <items>
                                 <ColumnListItem id="idRescollist">
                                     <cells>
-                                        <Text
-                                            id="ReserveParkingvalue"
-                                            text="{id}"
-                                        />
                                         <Text
                                             id="ReservedParkingTruck"
                                             text="{truckNo}"

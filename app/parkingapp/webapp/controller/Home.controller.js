@@ -4,8 +4,10 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/m/Token",
+    "sap/ui/core/Fragment",
+    "sap/ui/model/json/JSONModel"
 ],
-    function (Controller, ODataModel, Filter, FilterOperator, Token) {
+    function (Controller, ODataModel, Filter, FilterOperator, Token, Fragment, JSONModel) {
         "use strict";
 
         return Controller.extend("com.app.parkingapp.controller.Home", {
@@ -14,7 +16,8 @@ sap.ui.define([
 
                 const oView = this.getView(),
                     oMulti1 = this.oView.byId("_IDGenMultiInput1");
-
+                var oModel = new sap.ui.model.odata.v2.ODataModel("https://port4004-workspaces-ws-tltdr.us10.trial.applicationstudio.cloud.sap/v2/odata/v4/parking/");
+                this.getView().setModel(oModel);
 
                 let validae = function (arg) {
                     if (true) {
@@ -23,24 +26,38 @@ sap.ui.define([
                     }
                 }
                 oMulti1.addValidator(validae);
+//getting time in hh:mm:ss
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
+    
+    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+  }
+  
+  // Example usage:
+  const formattedTime = getCurrentTime();
 
                 // creating json model for the  parkinglot assignment
                 const oLocalModel = new sap.ui.model.json.JSONModel(
                     {
-                        id: "",
+                        
                         truckNo: "",
                         driverName: "",
                         driverMob: "",
+                        enterDate: new Date(),
+                        enterTime: formattedTime,
+                        exitDate: "  ",
+                        exitTime: " ",
+                        assign: true,
                         parkinglot_id: "",
-                        enterDate: " ",
-                        enterTime: " ",
-                        exitDate: " ",
-                        exitTime: " "
 
                     }
                 );
 
-                this.getView().setModel(oLocalModel, "localModel");
+                this.getView().setModel(oLocalModel, "gotmm");
 
 
             },
@@ -111,14 +128,77 @@ sap.ui.define([
                 oTable.getBinding("items").refresh();
             },
             // fragment open for reservation creation
-            onAdd:async function()
-            {
+            onAdd: async function () {
                 this.oDialog ??= await this.loadFragment({
                     name: "com.app.parkingapp.fragments.create"
                 });
                 this.oDialog.open();
-            }
+            },
+            onCloseDialog: function () {
+                //checking whether dialog is open or not
+                if (this.oDialog.isOpen()) {
+                    this.oDialog.close()
+                }
 
-            
+            },
+
+            // on create reserve
+            onCreateReserve: function () {
+                const oCreateReserveModel = new sap.ui.model.JSONModel({
+                    truckNo: "",
+                    driverName: "",
+                    driverMob: "",
+
+
+                });
+
+            },
+             
+
+            // on assign
+            onAssignPress: function () {
+                // var otruckNo = this.byId("idTruckInput").getValue(),
+                //     odriverName = this.byId("idDriverNameInputs").getValue(),
+                //     odriverMob = this.byId("idDriverMobileInputs").getValue(),
+                //     otruck_id = this.byId("productInput").getValue();
+                // var oLocalModel1 = new sap.ui.model.json.JSONModel({
+                //     "truckNo": otruckNo,
+                //     "driverName": odriverName,
+                //     "driverMob": odriverMob,
+                //     "enterDate": "",
+                //     "enterTime": "",
+                //     "exitDate": " ",
+                //     "exitTime": " ",
+                //     "assign": true,
+                //     "parkinglot_id": otruck_id,
+
+                // });
+                // this.getView().setModel(oLocalModel1, "ss");
+                const oPath = this.getView().getModel("gotmm").getProperty("/")
+                const oModel = this.getView().getModel("ModelV2")
+                try {
+                    this.createData(oModel, oPath, "/ParkignVeh");
+                    this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
+                    sap.m.MessageBox("success");
+                    // this.oCreateBooksDialog.close();
+                } catch (error) {
+                    // this.oCreateBooksDialog.close();
+                    sap.m.MessageBox.error("Some technical Issue");
+                }
+
+            },
+            createData: function (oModel, oPath, sPath) {
+                return new Promise((resolve, reject) => {
+                    oModel.create(sPath, oPath, {
+                        refreshAfterChange: true,
+                        success: function (oSuccessData) {
+                            resolve(oSuccessData);
+                        },
+                        error: function (oErrorData) {
+                            reject(oErrorData)
+                        }
+                    })
+                });
+            }
         });
     });

@@ -9,6 +9,7 @@
     xmlns:f="sap.f"
     xmlns:t="sap.ui.core"
     xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
 >
     <tnt:ToolPage id="app">
         <tnt:header>
@@ -434,7 +435,7 @@
                                 />
                                 <Input
                                     id="idTruckInput"
-                                    value="{}"
+                                    value="{gotmm>/truckNo}"
                                 />
                                 <Label
                                     id="idDriverNameLabels"
@@ -442,7 +443,7 @@
                                 />
                                 <Input
                                     id="idDriverNameInputs"
-                                    value="{}"
+                                    value="{gotmm>/driverName}"
                                 />
                                 <Label
                                     id="idDriverMobileLabels"
@@ -450,16 +451,24 @@
                                 />
                                 <Input
                                     id="idDriverMobileInputs"
-                                    value="{}"
+                                    value="{gotmm/>driverMob}"
                                 />
+
                                 <Label
                                     id="idParkingslotLabels"
                                     text="ParkingSlotNumbers"
                                 />
-                                <Input
-                                    id="idPakingslotInputs"
-                                    value="{}"
-                                />
+
+                                <Select
+                                    id="parkingLotSelect"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
+                                >
+                                    <t:Item
+                                        id="_IDGenItem3"
+                                        key="{id}"
+                                        text="{id}"
+                                    />
+                                </Select>
                             </form:SimpleForm>
                         </VBox>
                     </ScrollContainer>

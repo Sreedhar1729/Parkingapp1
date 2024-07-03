@@ -14,7 +14,7 @@
             <Button
                 id="idCreateButtonnew"
                 text="Create"
-                press="onCreateBook"
+                press="onCreateReserve"
                 type="Success"
             />
         </beginButton>

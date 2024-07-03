@@ -3,7 +3,7 @@ namespace app.parking;
 
 define entity ParkingLot {
 
-    key id             : Integer @(title: 'PakingLotNumber');
+    key id             : String @(title: 'PakingLotNumber');
         inward         : Boolean @(title: 'IN/OUT');
         length         : String;
         avialable      : Boolean;
@@ -19,11 +19,11 @@ define entity ParkignVeh {
     key id         : UUID;
         truckNo    : String;
         driverName : String;
-        driverMob  : Int64;
+        driverMob  : String;
         enterDate  : Date;
         enterTime  : Time;
-        exitDate   : Date;
-        exitTime   : Time;
+        exitDate   : String;
+        exitTime   : String;
         assign     : Boolean;
         parkinglot : Association to ParkingLot;
 

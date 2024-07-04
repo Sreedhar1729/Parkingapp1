@@ -62,6 +62,7 @@
                         id="idparkingscreation"
                         key="parkingslotAssign"
                         text="Parking Lot Assignment"
+                        icon="sap-icon://activate"
                     />
                     <tnt:NavigationListItem
                         id="idnavlistitem1"
@@ -79,6 +80,11 @@
                         key="LeftVehicles"
                         text="ParkingVehicleHistory"
                     />
+                    <tnt:NavigationListItem
+                        id="idNavlistitem4"
+                        key="waitingforconfirm"
+                        text="Reservation Pending Vehicles"
+                    />
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>
@@ -89,6 +95,62 @@
                 initialPage="root2"
             >
                 <pages>
+                    <!-- Reservation pending vehicles -->
+                    <ScrollContainer
+                        id="reservationpending"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <VBox id="idreservependingvbox">
+                            <Table id="idreservependingtable" 
+                            items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'false'}]}"
+                            >
+                            <!-- adding header to the table -->
+                            <headerToolbar>
+                            <OverflowToolbar id="idreserverpendingoverflow">
+                            <Title id="idreservependingtabletitle" text="Reservation pending"/>
+                            </OverflowToolbar>
+                            </headerToolbar>
+                                <columns>
+                                    <Column id="idreserevependigicol1">
+                                        <Title
+                                            id="idreservependingtitle"
+                                            text="Truck Number"
+                                        />
+                                    </Column>
+                                    <Column id="idreserevependigicol2">
+                                        <Title
+                                            id="idreservependingtitleforName"
+                                            text="Driver Name"
+                                        />
+                                    </Column>
+                                    <Column id="idreserevependigicol3">
+                                        <Title
+                                            id="idreservependingtitleforDriver"
+                                            text="Driver Mobile"
+                                        />
+                                    </Column>
+                                </columns>
+                                <items>
+                                <ColumnListItem id="idreserverparkingpendingcol">
+                                <cells>
+                                <Text id="idreserveparkinghisvalue" text="{truckNo}"/>
+                                <Text id="idreserveparkinghisvalue1" text="{driverName}"/>
+                                <Text id="idreserveparkinghisvalue2" text="{driverMob}"/>
+                                
+                                </cells>
+                                
+                                
+                                </ColumnListItem>
+                                
+                                </items>
+
+                            </Table>
+                        </VBox>
+                    </ScrollContainer>
+
                     <!-- parking vehicles history -->
                     <ScrollContainer
                         id="LeftVehicles"
@@ -100,7 +162,22 @@
                         <VBox id="ParkingHistory">
                             <Table
                                 id="idparkinghis"
-                                items="{path:'/ParkingVeh'}" >
+                                items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'false'}]}"
+                            >
+                                <!-- set the header and title -->
+                                <headerToolbar>
+                                    <OverflowToolbar
+                                        id="overflowbuttonsforhistory"
+                                    >
+                                        <Title
+                                            id="idhistory"
+                                            text="ParkingLot History"
+                                        />
+                                        <ToolbarSpacer
+                                            id="idtoolbarspacerhistory"
+                                        />
+                                    </OverflowToolbar>
+                                </headerToolbar>
                                 <columns>
                                     <Column id="idparkinghisVeh">
                                         <Title
@@ -176,7 +253,7 @@
                         <VBox id="idprkingveh">
                             <Table
                                 id="idParkingvehiclestable"
-                                items="{path:'/ParkignVeh',filters:[{path:'avialable',operator:'EQ',value1:'true'}]}"
+                                items="{path:'/ParkignVeh'}"
                                 mode="MultiSelect"
                             >
                                 <headerToolbar>
@@ -548,7 +625,7 @@
                                     text="ParkingSlotNumbers"
                                 />
 
-                                <Select
+                                <ComboBox
                                     id="parkingLotSelect"
                                     items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
                                 >
@@ -557,7 +634,7 @@
                                         key="{id}"
                                         text="{id}"
                                     />
-                                </Select>
+                                </ComboBox>
                             </form:SimpleForm>
                         </VBox>
                     </ScrollContainer>
@@ -644,6 +721,9 @@
                                         text="ConfirmDate"
                                     />
                                 </Column>
+                                <Column id="idactions">
+                                <Title id="idactiontitle" text="Actions"/>
+                                </Column>
                             </columns>
 
                             <!-- items -->
@@ -666,14 +746,16 @@
                                             id="ReservedParkingstatus"
                                             text="{res_staus}"
                                         />
-                                        <Text
+                                        <Input
                                             id="ReservedParkingParkingLot"
-                                            text="{parkinglot_id}"
+                                            value="{parkinglot_id}"
+                                            editable="false"
                                         />
                                         <Text
                                             id="ReservedParkingConfDate"
                                             text="{confDate}"
                                         />
+                                        <Button id="idactionbuttons" press="editbutton" type="Accept" text="edit"/>
                                     </cells>
                                 </ColumnListItem>
                             </items>

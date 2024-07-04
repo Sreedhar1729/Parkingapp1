@@ -13,7 +13,7 @@ sap.ui.define([
         return Controller.extend("com.app.parkingapp.controller.Home", {
             onInit: function () {
                 // set the initial value
-               
+
                 // Tokens
 
                 const oView = this.getView(),
@@ -84,6 +84,12 @@ sap.ui.define([
                         break;
                     case "root1":
                         navContainer.to(this.getView().createId("root1"));
+                        break;
+                    case "LeftVehicles":
+                        navContainer.to(this.getView().createId("LeftVehicles"));
+                        break;
+                    case "waitingforconfirm":
+                        navContainer.to(this.getView().createId("reservationpending"))
                     default:
                         break;
                 }
@@ -119,11 +125,11 @@ sap.ui.define([
             onDelete: function () {
                 var oTable = this.getView().byId("idparkingslottable");
                 var aSelectedItems = oTable.getSelectedItems();
-            
+
                 aSelectedItems.forEach(function (oSelectedItem) {
                     var sPath = oSelectedItem.getBindingContext().getPath();
                     var oModel = oSelectedItem.getModel();
-            
+
                     oModel.remove(sPath, {
                         success: function () {
                             console.log("Item deleted successfully.");
@@ -133,8 +139,8 @@ sap.ui.define([
                         }
                     });
                 });
-            
-            
+
+
                 // oTable.getBinding("items").refresh();
             },
             // fragment open for reservation creation
@@ -167,15 +173,15 @@ sap.ui.define([
 
             // on assign
             onAssignPress: function () {
-                 
+
                 const oPath = this.getView().getModel("gotmm").getProperty("/")
                 const oModel = this.getView().getModel("ModelV2")
                 try {
                     this.createData(oModel, oPath, "/ParkignVeh");
                     this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
                     sap.m.MessageBox.success("success");
-                    
-                    
+
+
                 } catch (error) {
                     // this.oCreateBooksDialog.close();
                     sap.m.MessageBox.error("Some technical Issue");
@@ -194,6 +200,37 @@ sap.ui.define([
                         }
                     })
                 });
+            },
+            editbutton: function (oEvent) {
+                var oButton = oEvent.getSource();
+                var sButtonText = oButton.getText();
+                var oTable = oButton.getParent().getParent(); // Assuming the button is directly inside a table row
+
+                var oModel = this.getView().getModel(); // Assuming the model is accessible from the view
+
+                if (sButtonText === "edit") {
+                    oButton.setText("submit");
+                    var oRow = oButton.getParent(); // Assuming the button is directly inside a table row
+                    var oCell = oRow.getCells()[4]; // Accessing the 5th cell (index 4) in the row
+                    oCell.setEditable(true);
+                } else {
+                    oButton.setText("edit");
+                    var oRow = oButton.getParent(); // Assuming the button is directly inside a table row
+                    var oCell = oRow.getCells()[4]; // Accessing the same cell as in edit mode
+                    oCell.setEditable(false);
+
+                    // Perform data update
+                    var oInput = oRow.getCells()[4].getValue();
+                    var oID = oEvent.getSource().getBindingContext().getProperty("id");
+                    oModel.update("/ReserveParking(" + oID+")",{parkinglot_id:oInput},{
+                        success:function(odata){
+                            oModel.refresh(true);
+                        },error:function(oError){
+                            alert(oError);
+                        }
+                    })
+                }
+
             }
         });
     });

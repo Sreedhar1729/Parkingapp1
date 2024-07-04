@@ -25,6 +25,7 @@ define entity ParkignVeh {
         exitDate   : String;
         exitTime   : String;
         assign     : Boolean;
+        leave:Boolean;
         parkinglot : Association to ParkingLot;
 
 };

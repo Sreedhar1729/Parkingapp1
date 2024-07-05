@@ -28,19 +28,7 @@ sap.ui.define([
                     }
                 }
                 oMulti1.addValidator(validae);
-                //getting time in hh:mm:ss
-                function getCurrentTime() {
-                    const now = new Date();
-                    const hours = now.getHours().toString().padStart(2, '0');
-                    const minutes = now.getMinutes().toString().padStart(2, '0');
-                    const seconds = now.getSeconds().toString().padStart(2, '0');
-                    const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
 
-                    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-                }
-
-                // Example usage:
-                const formattedTime = getCurrentTime();
 
                 // creating json model for the  parkinglot assignment
                 const oLocalModel = new sap.ui.model.json.JSONModel(
@@ -50,7 +38,7 @@ sap.ui.define([
                         driverName: "",
                         driverMob: "",
                         enterDate: new Date(),
-                        enterTime: formattedTime,
+                        enterTime: "",
                         exitDate: "  ",
                         exitTime: " ",
                         assign: true,
@@ -164,22 +152,61 @@ sap.ui.define([
                     truckNo: "",
                     driverName: "",
                     driverMob: "",
-
-
+                    enterDate: new Date(),
+                    enterTime: formattedTime,
+                    exitDate: "  ",
+                    exitTime: " ",
+                    assign: true,
                 });
+                this.getView().setModel(oCreateReserveModel, "oCreateReserveModel")
 
             },
 
 
             // on assign
             onAssignPress: function () {
+                // assuming one model
+                var otruckNo = this.getView().byId("idTruckInput").getValue();
+                var oDriverName = this.getView().byId("idDriverNameInputs").getValue();
+                var omobile = this.getView().byId("idDriverMobileInputs").getValue();
+                var oparkingslotid = this.getView().byId("parkingLotSelect").getSelectedKey();
+                //getting time in hh:mm:ss
+                function getCurrentTime() {
+                    const now = new Date();
+                    const hours = now.getHours().toString().padStart(2, '0');
+                    const minutes = now.getMinutes().toString().padStart(2, '0');
+                    const seconds = now.getSeconds().toString().padStart(2, '0');
+                    const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
 
-                const oPath = this.getView().getModel("gotmm").getProperty("/")
+                    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+                }
+
+                // Example usage:
+                const formattedTime = getCurrentTime();
+                const opayload = new sap.ui.model.json.JSONModel({
+                    truckNo: otruckNo,
+                    driverName: oDriverName,
+                    driverMob: omobile,
+                    parkinglot_id: oparkingslotid,
+                    enterDate: new Date(),
+                    enterTime: formattedTime,
+                    exitDate: "  ",
+                    exitTime: " ",
+                    assign: true,
+                })
+                this.getView().setModel(opayload, "opayload")
+
+                const oPath = this.getView().getModel("opayload").getProperty("/")
                 const oModel = this.getView().getModel("ModelV2")
                 try {
                     this.createData(oModel, oPath, "/ParkignVeh");
                     this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
                     sap.m.MessageBox.success("success");
+                    oModel.refresh(true);
+                    this.getView().byId("idTruckInput").setValue();
+                    this.getView().byId("idDriverNameInputs").setValue();
+                    this.getView().byId("idDriverMobileInputs").setValue();
+
 
 
                 } catch (error) {
@@ -222,15 +249,90 @@ sap.ui.define([
                     // Perform data update
                     var oInput = oRow.getCells()[4].getValue();
                     var oID = oEvent.getSource().getBindingContext().getProperty("id");
-                    oModel.update("/ReserveParking(" + oID+")",{parkinglot_id:oInput},{
-                        success:function(odata){
+                    oModel.update("/ReserveParking(" + oID + ")", { parkinglot_id: oInput }, {
+                        success: function (odata) {
                             oModel.refresh(true);
-                        },error:function(oError){
+                        }, error: function (oError) {
                             alert(oError);
                         }
                     })
                 }
 
+            },
+            // vehicle leaves from the parkinglot
+            onLeft: function () {
+                var osel = this.getView().byId("idParkingvehiclestable").getSelectedItem().getBindingContext().getObject();
+                const leftModel = new sap.ui.model.json.JSONModel({
+                    assign: false,
+                    id: osel.id,
+                    parkinglot_id: osel.parkinglot_id
+                });
+                this.getView().setModel(leftModel, "leftModel");
+                const opayload = this.getView().getModel("leftModel").getData(),
+                    oModel = this.getView().getModel("ModelV2");
+                try {
+                    oModel.update("/ParkignVeh(" + opayload.id + ")", opayload, {
+                        success: function () {
+                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
+                            sap.m.MessageBox.success("Vehicle left from the parking area!!!");
+                            oModel.refresh(true);
+                        }.bind(this),
+                        error: function (oError) {
+                            sap.m.MessageBox.error("Vehicle still in the Parking Area!!" + oError.message);
+                        }.bind(this)
+                    })
+                } catch (error) {
+                    sap.m.MessageBox.error("Vehicle still in the parking area")
+
+                }
+            },
+            onConfirm: function () {
+                var osel = this.getView().byId("idreservependingtable").getSelectedItem().getBindingContext().getObject();
+                const oSample = new sap.ui.model.json.JSONModel({
+                    res_staus: true,
+                    id: osel.id
+                });
+                var number = osel.driverMob; // Assuming osel.driverMob contains the recipient's phone number
+                var text = "Your reservation is confirmed!!!";
+
+                // Construct the WhatsApp API URL
+                var baseUrl = "https://wa.me/";
+                var encodedPhoneNumber = encodeURIComponent(number);
+                var encodedText = encodeURIComponent(text);
+                var finalUrl = baseUrl + encodedPhoneNumber + "?text=" + encodedText;
+
+                // Redirect to the WhatsApp URL
+                sap.m.URLHelper.redirect(finalUrl, true);
+
+                this.getView().setModel(oSample, "oSample");
+                const opayload = this.getView().getModel("oSample").getData(),
+                    oModel = this.getView().getModel("ModelV2");
+                try {
+                    oModel.update("/ReserveParking(" + opayload.id + ")", opayload, {
+                        success: function () {
+                            this.getView().byId("idreservependingtable").getBinding("items").refresh();
+                            sap.m.MessageBox.success("Reservation Confirmed/Approved !!!");
+                        }.bind(this),
+                        error: function (oError) {
+                            sap.m.MessageBox.error("Reservation not approved!!" + oError.message);
+                        }.bind(this)
+                    })
+                } catch (error) {
+                    sap.m.MessageBox.error("Reservation not Confirmed!!!");
+
+                }
+
+            },
+            // New parking slots creation fragment loaded
+            onAdd: async function () {
+                this.oDialog ??= this.loadFragment({
+                    name: "com.app.parkingapp.fragments.slotcreation"
+                });
+                this.oDialog.open();
+            },
+            onClears: function () {
+                this.byId("idslotcreationDialog").close();
             }
+
         });
     });

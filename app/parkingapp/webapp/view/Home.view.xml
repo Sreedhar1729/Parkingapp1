@@ -17,6 +17,7 @@
                 <tnt:content>
                     <Image
                         id="idimage1"
+                        width="auto"
                         src="https://artihcus.com/assets/img/Artihcus-global-logo-1.png"
                     />
 
@@ -60,8 +61,6 @@
                         key="RouteParkingSlot"
                         text="ParkingLots"
                         icon="sap-icon://bus-public-transport"
-                        
-                       
                     />
                     <tnt:NavigationListItem
                         id="idparkingscreation"
@@ -80,7 +79,7 @@
                         id="idnavlistitem2"
                         key="root1"
                         text="ParkingRecord"
-                         icon="sap-icon://shipping-status"
+                        icon="sap-icon://shipping-status"
                     />
                     <tnt:NavigationListItem
                         id="idnavlistitem3"
@@ -116,6 +115,7 @@
                             <Table
                                 id="idreservependingtable"
                                 mode="SingleSelect"
+                                alternateRowColors="true"
                                 items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'false'}]}"
                             >
                                 <!-- adding header to the table -->
@@ -203,6 +203,7 @@
                         <VBox id="ParkingHistory">
                             <Table
                                 id="idparkinghis"
+                                alternateRowColors="true"
                                 items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'false'}]}"
                             >
                                 <!-- set the header and title -->
@@ -296,6 +297,7 @@
                                 id="idParkingvehiclestable"
                                 items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'true'}]}"
                                 mode="MultiSelect"
+                                alternateRowColors="true"
                             >
                                 <headerToolbar>
                                     <OverflowToolbar id="idoverflowbutoon">
@@ -535,7 +537,7 @@
                                     <Button
                                         id="idParkinSlotAdd"
                                         text="Add"
-                                        press="onAdd"
+                                        press="onAdd1"
                                         icon="sap-icon://add"
                                         type="Success"
                                     />
@@ -782,7 +784,10 @@
 
                             <!-- items -->
                             <items>
-                                <ColumnListItem id="idRescollist">
+                                <ColumnListItem
+                                    id="idRescollist"
+                                    class="{= ${${0} % 2 === 0 ? 'tableRowEven' : 'tableRowOdd'}}"
+                                >
                                     <cells>
                                         <Text
                                             id="ReservedParkingTruck"
@@ -823,6 +828,5 @@
                 </pages>
             </NavContainer>
         </tnt:mainContents>
-        
     </tnt:ToolPage>
 </mvc:View>

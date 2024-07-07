@@ -54,7 +54,8 @@
         "[production]": {
           "kind": "xsuaa"
         }
-      }
+      },
+      "db": "sqlite"
     },
     "features": {
       "fetch_csrf": true

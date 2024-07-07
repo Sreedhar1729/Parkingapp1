@@ -44,25 +44,27 @@
             columnsM="1"
             singleContainerFullSize="false"
         >
-            <Label id="idslotcreatingidlabel" />
+            <Label id="idslotcreatingidlabel" text="Parking Slot Number"/>
             <Input
                 id="idslotcreatingidval"
-                value="{}"
+                type="Number"
+                value=""
             />
-            <Label id="idslotcreatinglengthlabel" />
+            <Label id="idslotcreatinglengthlabel" text="Length"/>
             <Input
                 id="idslotcreatinglengthval"
-                value="{}"
+                value=""
             />
-            <Label id="idslotcreatinginwardlabel" />
+            <Label id="idslotcreatinginwardlabel" text="Inward"/>
             <Input
                 id="idslotcreatinginwardval"
-                value="{}"
+                value=" "
             />
-            <Label id="idslotcreatingavialablelabel" />
+            <Label id="idslotcreatingavialablelabel" text="Avialable" />
             <Input
                 id="idslotcreatingavialableval"
-                value="{}"
+                value="True"
+                editable="false"
             />
         </form:SimpleForm>
     </Dialog>

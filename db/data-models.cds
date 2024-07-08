@@ -24,6 +24,7 @@ define entity ParkignVeh {
         enterTime  : Time;
         exitDate   : String;
         exitTime   : String;
+        vendorName : String;
         assign     : Boolean;
         leave      : Boolean;
         parkinglot : Association to ParkingLot;
@@ -36,11 +37,12 @@ define entity ReserveParking {
     key id           : UUID;
         truckNo      : String;
         driverName   : String;
-        driverMob    : Int64;
+        driverMob    : String;
         resStartDate : Date;
         resStartTime : Time;
         confDate     : Date;
         confTime     : Time;
+        vendorName   : String;
         res_staus    : Boolean;
         parkinglot   : Association to ParkingLot;
 }

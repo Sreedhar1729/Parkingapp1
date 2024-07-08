@@ -16,7 +16,9 @@ sap.ui.define([
                 // Tokens
                 const oView = this.getView(),
                     oMulti1 = this.oView.byId("_IDGenMultiInput1");
-                    const oMulti11 = this.oView.byId("iddytrucknumber");
+                const oMulti11 = this.oView.byId("iddytrucknumber"),
+                    oMulti12 = this.oView.byId("iddyslotnumber"),
+                    oMulti13 = this.oView.byId("iddrivermul");
                 var oModel = new sap.ui.model.odata.v2.ODataModel("https://port4004-workspaces-ws-tltdr.us10.trial.applicationstudio.cloud.sap/v2/odata/v4/parking/");
                 this.getView().setModel(oModel);
                 let validae = function (arg) {
@@ -27,6 +29,8 @@ sap.ui.define([
                 }
                 oMulti1.addValidator(validae);
                 oMulti11.addValidator(validae);
+                oMulti12.addValidator(validae);
+                oMulti13.addValidator(validae);
                 // creating json model for the  parkinglot assignment
                 const oLocalModel = new sap.ui.model.json.JSONModel(
                     {
@@ -37,6 +41,7 @@ sap.ui.define([
                         enterTime: "",
                         exitDate: "  ",
                         exitTime: " ",
+                        vendorName: " ",
                         assign: true,
                         parkinglot_id: "",
                     }
@@ -138,6 +143,7 @@ sap.ui.define([
                     enterTime: formattedTime,
                     exitDate: " ",
                     exitTime: " ",
+                    vendorName: " ",
                     assign: true,
                 });
                 this.getView().setModel(oCreateReserveModel, "oCreateReserveModel")
@@ -147,6 +153,7 @@ sap.ui.define([
                 var oTruckNo = this.getView().byId("idTruckInput").getValue();
                 var oDriverName = this.getView().byId("idDriverNameInputs").getValue();
                 var oMobile = this.getView().byId("idDriverMobileInputs").getValue();
+                var oVendor = this.getView().byId("idinputvendor").getValue();
                 var oParkingLotId = this.getView().byId("parkingLotSelect").getSelectedKey();
 
                 // Function to get current time in hh:mm:ss
@@ -171,6 +178,7 @@ sap.ui.define([
                     enterTime: formattedTime,
                     exitDate: "",
                     exitTime: "",
+                    vendorName: oVendor,
                     assign: true
                 };
 
@@ -194,7 +202,7 @@ sap.ui.define([
                         this.clearInputFields();
                     })
                     .catch((error) => {
-                        sap.m.MessageBox.error("Failed to assign vehicle to parking slot: " + error.message);
+                        // sap.m.MessageBox.error("Failed to assign vehicle to parking slot: " + error.message);
                     });
             },
 
@@ -228,6 +236,8 @@ sap.ui.define([
                 this.getView().byId("idTruckInput").setValue("");
                 this.getView().byId("idDriverNameInputs").setValue("");
                 this.getView().byId("idDriverMobileInputs").setValue("");
+                this.getView().byId("idinputvendor").setValue("");
+
                 oModel.refresh(true);
             }
             ,
@@ -271,24 +281,27 @@ sap.ui.define([
                 }
 
                 var osel = oSelectedItem.getBindingContext().getObject();
-                // Function to get current time in hh:mm:ss
-                function getCurrentTime() {
-                    const now = new Date();
-                    const hours = now.getHours().toString().padStart(2, '0');
-                    const minutes = now.getMinutes().toString().padStart(2, '0');
-                    const seconds = now.getSeconds().toString().padStart(2, '0');
-                    const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
-                    return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-                }
+                // Create a new Date object
+                var currentDate = new Date();
 
-                const formattedTime = getCurrentTime();
+                // Extract date components
+                var exitDate1 = currentDate.getFullYear() + '-' +
+                    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + currentDate.getDate()).slice(-2);
+
+                // Extract time components
+                var exitTime1 = ('0' + currentDate.getHours()).slice(-2) + ':' +
+                    ('0' + currentDate.getMinutes()).slice(-2) + ':' +
+                    ('0' + currentDate.getSeconds()).slice(-2);
+
+                // const formattedTime = getCurrentTime();
 
                 // Create JSON models for leftModel and oParkingslot
                 var leftModel = new sap.ui.model.json.JSONModel({
                     assign: false,
                     id: osel.id,
-                    exitDate: new Date(),
-                    exitTime: formattedTime,
+                    exitDate: exitDate1,
+                    exitTime: exitTime1,
                     parkinglot_id: osel.parkinglot_id
                 });
                 oView.setModel(leftModel, "leftModel");
@@ -420,9 +433,10 @@ sap.ui.define([
                 if (sQuery && sQuery.length > 0) {
                     var oTruckNofilter = new Filter("truckNo", FilterOperator.Contains, sQuery);
                     var oDriverName = new Filter("driverName", FilterOperator.Contains, sQuery);
+                    var oVendorName = new Filter("vendorName", FilterOperator.Contains, sQuery);
                     // var oAssign = new Filter("assign", FilterOperator.Contains, sQuery);
 
-                    var aFilters = new Filter([oTruckNofilter, oDriverName]);
+                    var aFilters = new Filter([oTruckNofilter, oDriverName, oVendorName]);
                     debugger
                 }
                 // updating or searching the table based on filters
@@ -433,21 +447,147 @@ sap.ui.define([
 
 
             // Filters in reservation table
-            onGoFilter:function(ele){
+            onGoFilter: function (ele) {
 
                 const otruckFilter = this.getView().byId("iddytrucknumber").getTokens();
+                const oparkingslot = this.getView().byId("iddyslotnumber").getTokens();
+                const oDriverName = this.getView().byId("iddrivermul").getTokens();
 
                 var aFilter = [];
                 otruckFilter.filter((ele) => {
                     ele ? aFilter.push(new Filter("truckNo", FilterOperator.EQ, ele.getKey())) : " ";
+                });
+                oparkingslot.filter((ele) => {
+                    ele ? aFilter.push(new Filter("parkinglot_id", FilterOperator.EQ, ele.getKey())) : " ";
+
+                })
+                oDriverName.filter((ele) => {
+                    ele ? aFilter.push(new Filter("driverName", FilterOperator.EQ, ele.getKey())) : " ";
                 })
                 // otruckFilter ? aFilter.push(new sap.ui.model.Filter("truckNo",sap.ui.model.FilterOperator.EQ,ele.getKey())) : " ";
 
-// update the table based on filters
-const oTable = this.byId("idReserveParkingtable");
-var oBinding = oTable.getBinding("items");
-oBinding.filter(aFilter)
+                // update the table based on filters
+                const oTable = this.byId("idReserveParkingtable");
+                var oBinding = oTable.getBinding("items");
+                oBinding.filter(aFilter)
 
-            }
+            },
+            // on Search Filtering values in Parking vehicle
+            onSearchParking: function (oEvent) {
+                var sQuery = oEvent.getSource().getValue();
+                if (sQuery && sQuery.length > 0) {
+                    var oTruckNo = new Filter("truckNo", FilterOperator.Contains, sQuery);
+                    var oDriverName = new Filter("driverName", FilterOperator.Contains, sQuery);
+                    var oVendorName = new Filter("vendorName", FilterOperator.Contains, sQuery);
+                    var oParkingLotId = new Filter("parkinglot_id", FilterOperator.Contains, sQuery);
+                    var aFilter = new Filter([oTruckNo, oDriverName, oParkingLotId, oVendorName])
+                }
+                this.getView().byId("idParkingvehiclestable").getBinding("items").filter(aFilter);
+
+            },
+            onUnassignPress: function () {
+                this.getView().byId("idTruckInput").setValue("");
+                this.getView().byId("idDriverNameInputs").setValue("");
+                this.getView().byId("idDriverMobileInputs").setValue("");
+                this.getView().byId("idinputvendor").setValue("");
+                // oModel.refresh(true);
+
+            },
+            // truck Number validation
+            TruckLiveChange: async function (oEvent) {
+                // Step 1: Retrieve the value from input field
+                var oTruckNoInput = oEvent.getSource(); // Assuming this is the input field control
+                var oTruckNo = oTruckNoInput.getValue();
+
+                // Step 2: Define the regular expression pattern
+                var truckNumberRegex = /^[a-zA-Z0-9]{1,10}$/;
+                if (oTruckNo.match(truckNumberRegex)) {
+                    oTruckNoInput.setValueState("Success");
+                } else if (oTruckNo.trim === '') {
+                    oTruckNoInput.setValueState("None");
+                }
+                else {
+                    oTruckNoInput.setValueState("Error")
+
+                }
+            },
+            onAddLoan: function () {
+                var oData = this.byId("idReserveParkingtable").getSelectedItem().getBindingContext().getObject();
+                // Create a new Date object
+                var currentDate = new Date();
+
+                // Extract date components
+                var exitDate1 = currentDate.getFullYear() + '-' +
+                    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + currentDate.getDate()).slice(-2);
+
+                // Extract time components
+                var exitTime1 = ('0' + currentDate.getHours()).slice(-2) + ':' +
+                    ('0' + currentDate.getMinutes()).slice(-2) + ':' +
+                    ('0' + currentDate.getSeconds()).slice(-2);
+
+                const oAddLoanModel = new sap.ui.model.json.JSONModel({
+                    truckNo: oData.truckNo,
+                    driverName: oData.driverName,
+                    driverMob: oData.driverMob,
+                    enterDate: exitDate1,
+                    enterTime: exitTime1,
+                    exitDate: "",
+                    exitTime: "",
+                    vendorName: oData.vendorName,
+                    assign: true,
+                    leave: false,
+                    parkinglot_id: oData.parkinglot_id
+
+                });
+                this.getView().setModel(oAddLoanModel, "oAddLoanModel");
+                // var temp = oAddLoanModel.getData().id;
+                // console.log(temp);
+
+                const oModel = this.getView().getModel("ModelV2");
+                oModel.create("/ParkignVeh", oAddLoanModel.getData(), {
+                    success: function (odata) {
+                        console.log("succes");
+                        oModel.refresh(true);
+                        oModel.update("/ParkingLot('" + oAddLoanModel.getData().parkinglot_id + "')", { avialable: false }, {
+                            success: function (odata) {
+                                console.log(odata);
+                                oModel.refresh(true);
+                                oModel.remove("/ReserveParking(" +oData.id+ ")", {
+                                    success: function (odata) {
+                                        console.log("success")
+                                        oModel.refresh(true);
+                                    }, error: function (oError) {
+                                        console.log(oError);
+                                    }
+                                })
+                            }, error: function (oError) {
+                                console.log(oError);
+                            }
+                        })
+                    }, error: function (oError) {
+                        console.log(oError);
+                    }
+                })
+            },
+            onDeletes:function(){
+                // var oModel = this.getView().getModel("ModelV2");
+                var osel = this.byId("idReserveParkingtable").getSelectedItems();
+                osel.forEach(function(oselected){
+                    var sPath = oselected.getBindingContext().getPath();
+                    var oModel = oselected.getModel();
+                    oModel.remove(sPath, {
+                        success: function () {
+                            console.log("Item deleted successfully.");
+                            sap.m.MessageToast.show("successfully Deleted!!!")
+                        },
+                        error: function (oError) {
+                            console.error("Error deleting item:", oError);
+                        }
+        
+
+                })
+            })
+        }
         });
     });

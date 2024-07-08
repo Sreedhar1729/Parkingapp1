@@ -164,6 +164,12 @@
                                             text="Reservation Conifrmed"
                                         />
                                     </Column>
+                                    <Column id="idreserveVendor">
+                                        <Title
+                                            id="idreservevendortitle"
+                                            text="Vendor Details"
+                                        />
+                                    </Column>
                                 </columns>
                                 <items>
                                     <ColumnListItem
@@ -185,6 +191,10 @@
                                             <Text
                                                 id="idresparkingstatus"
                                                 text="{res_staus}"
+                                            />
+                                            <Text
+                                                id="idvendorvalue"
+                                                text="{vendorName}"
                                             />
                                         </cells>
                                     </ColumnListItem>
@@ -260,6 +270,12 @@
                                             text="In Parking"
                                         />
                                     </Column>
+                                    <Column id="idparkingVendordetails">
+                                        <Title
+                                            id="idparkingvendordea"
+                                            text="Vendor Name"
+                                        />
+                                    </Column>
                                 </columns>
 
                                 <items>
@@ -284,6 +300,10 @@
                                             <Text
                                                 id="idassignhisstatusval"
                                                 text="{assign}"
+                                            />
+                                            <Text
+                                                id="idparkingvendorvalue"
+                                                text="{vendorName}"
                                             />
                                         </cells>
                                     </ColumnListItem>
@@ -315,6 +335,12 @@
                                             text="Paking vehicles"
                                         />
                                         <ToolbarSpacer id="idtoolbarspacer11" />
+                                        <SearchField
+                                            id="idsearchvalues"
+                                            width="20%"
+                                            liveChange="onSearchParking"
+                                            placeholder="Enter values here"
+                                        />
                                         <Button
                                             id="idsimple"
                                             type="Negative"
@@ -363,6 +389,12 @@
                                             text="PakingSlotNo"
                                         />
                                     </Column>
+                                    <Column id="idrvendorName">
+                                        <Title
+                                            id="idpvendornametitle"
+                                            text="Vendor Name"
+                                        />
+                                    </Column>
                                 </columns>
 
                                 <items>
@@ -391,6 +423,10 @@
                                             <Text
                                                 id="idassignparkingslotvalue"
                                                 text="{parkinglot_id}"
+                                            />
+                                            <Text
+                                                id="idparkingvendorde"
+                                                text="{vendorName}"
                                             />
                                         </cells>
                                     </ColumnListItem>
@@ -653,7 +689,7 @@
                                         />
                                         <Button
                                             id="unassign"
-                                            text="UnAssign"
+                                            text="Clear"
                                             press="onUnassignPress"
                                         />
                                     </Toolbar>
@@ -666,6 +702,7 @@
                                 <Input
                                     id="idTruckInput"
                                     value=" "
+                                    liveChange="TruckLiveChange"
                                 />
                                 <Label
                                     id="idDriverNameLabels"
@@ -682,6 +719,14 @@
                                 <Input
                                     id="idDriverMobileInputs"
                                     value=" "
+                                />
+                                <Label
+                                    id="idassignvendordetils"
+                                    text="Vendor Details"
+                                />
+                                <Input
+                                    id="idinputvendor"
+                                    value=""
                                 />
 
                                 <Label
@@ -798,7 +843,7 @@
                                         type="Reject"
                                         icon="sap-icon://delete"
                                         text="Delete"
-                                        press="onDelete"
+                                        press="onDeletes"
                                     />
                                     <Button
                                         id="_IDGenButton2"
@@ -819,12 +864,14 @@
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
+                               
                                 <Column id="idreservetruck">
                                     <Title
                                         id="trucknumber"
                                         text="TruckNumber"
                                     />
                                 </Column>
+
                                 <Column id="iddrivername">
                                     <Title
                                         id="driverName"
@@ -855,6 +902,21 @@
                                         text="ConfirmDate"
                                     />
                                 </Column>
+                                <Column id="idparkingvendorres">
+                                    <Title
+                                        id="idparkingkg"
+                                        text="Vendor Details"
+                                    />
+                                </Column>
+                                 <Column
+                                    id="idreserid"
+                                    visible="false"
+                                >
+                                    <Title
+                                        id="idreseridtitle"
+                                        text="Reservation ID"
+                                    />
+                                </Column>
                                 <Column id="idactions">
                                     <Title
                                         id="idactiontitle"
@@ -870,6 +932,7 @@
                                     class="{= ${${0} % 2 === 0 ? 'tableRowEven' : 'tableRowOdd'}}"
                                 >
                                     <cells>
+                                        
                                         <Text
                                             id="ReservedParkingTruck"
                                             text="{truckNo}"
@@ -894,6 +957,14 @@
                                         <Text
                                             id="ReservedParkingConfDate"
                                             text="{confDate}"
+                                        />
+                                        <Text
+                                            id="idresro"
+                                            text="{vendorName}"
+                                        />
+                                        <Text
+                                            id="idreseidval"
+                                            text="{id}"
                                         />
                                         <Button
                                             id="idactionbuttons"

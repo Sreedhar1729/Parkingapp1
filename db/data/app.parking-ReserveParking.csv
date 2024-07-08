@@ -1,6 +1,6 @@
-id;truckNo;driverName;driverMob;resStartDate;resStartTime;confDate;confTime;res_staus;parkinglot_id
-9bf7e2a3-9fa6-4bcc-aad4-2a54227958f1;PQR678;Emily Davis;8888888888;2021-07-02;09:30:00;2021-07-01;15:00:00;true;4
-e6252cd1-253a-486c-9b87-0697120bf258;STU901;Michael Wilson;2222222222;2021-07-03;10:45:00;2021-07-02;16:30:00;false;5
-cdaf78b5-0df2-462d-9e47-7154c7ab2fa6;VWX234;Lisa Taylor;6666666666;2021-07-04;08:15:00;2021-07-03;14:30:00;true;5
-367a98a0-fe8b-4209-af25-fe30a41c46aa;YZA567;Chris Anderson;3333333333;2021-07-05;11:30:00;2021-07-04;17:45:00;true;3
-fe0f300e-8550-4fec-ac07-d50dc6eea715;BCD890;Jessica Wilson;7777777777;2021-07-06;07:45:00;2021-07-05;13:30:00;false;2
+id;truckNo;driverName;driverMob;resStartDate;resStartTime;confDate;confTime;vendorName;res_staus;parkinglot_id
+9bf7e2a3-9fa6-4bcc-aad4-2a54227958f1;PQR678;Emily Davis;8888888888;2021-07-02;09:30:00;2021-07-01;15:00:00;KLM fashions;true;4
+e6252cd1-253a-486c-9b87-0697120bf258;STU901;Michael Wilson;2222222222;2021-07-03;10:45:00;2021-07-02;16:30:00;Denim Fashions;false;5
+cdaf78b5-0df2-462d-9e47-7154c7ab2fa6;VWX234;Lisa Taylor;6666666666;2021-07-04;08:15:00;2021-07-03;14:30:00;Levis Fashions;true;5
+367a98a0-fe8b-4209-af25-fe30a41c46aa;YZA567;Chris Anderson;3333333333;2021-07-05;11:30:00;2021-07-04;17:45:00;Rebook Sports;true;3
+fe0f300e-8550-4fec-ac07-d50dc6eea715;BCD890;Jessica Wilson;7777777777;2021-07-06;07:45:00;2021-07-05;13:30:00;Nike Sports;false;2

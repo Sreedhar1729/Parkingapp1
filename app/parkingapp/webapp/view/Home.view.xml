@@ -115,6 +115,7 @@
                             <Table
                                 id="idreservependingtable"
                                 mode="SingleSelect"
+                                class="setcolor2"
                                 alternateRowColors="true"
                                 items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'false'}]}"
                             >
@@ -203,6 +204,7 @@
                         <VBox id="ParkingHistory">
                             <Table
                                 id="idparkinghis"
+                                class="setcolor"
                                 alternateRowColors="true"
                                 items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'false'}]}"
                             >
@@ -217,6 +219,12 @@
                                         />
                                         <ToolbarSpacer
                                             id="idtoolbarspacerhistory"
+                                        />
+                                        <SearchField
+                                            id="idsearchbar"
+                                            liveChange="onSearch"
+                                            width="20%"
+                                            placeholder="Search here"
                                         />
                                     </OverflowToolbar>
                                 </headerToolbar>
@@ -298,6 +306,7 @@
                                 items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'true'}]}"
                                 mode="MultiSelect"
                                 alternateRowColors="true"
+                                class="setcolor1"
                             >
                                 <headerToolbar>
                                     <OverflowToolbar id="idoverflowbutoon">
@@ -525,6 +534,7 @@
                             alternateRowColors="true"
                             items="{/ParkingLot}"
                             mode="MultiSelect"
+                            class="setcolor2"
                         >
                             <headerToolbar>
                                 <OverflowToolbar id="idoverflow">
@@ -632,6 +642,7 @@
                                         <Title
                                             id="_IDGenTitle1"
                                             text="ParkingLotAssignment"
+                                            class="setcolor3"
                                         />
 
                                         <ToolbarSpacer id="idtool1" />
@@ -694,12 +705,84 @@
 
                     <!-- Reserve parking page in toolpage Layout -->
                     <ScrollContainer id="root4">
+                        <!-- Filters added -->
+                        <f:DynamicPageHeader id="iddynamicpageheader">
+                            <HBox
+                                id="idhh"
+                                alignContent="SpaceBetween"
+                                width="100vw"
+                            >
+                                <!-- <layout:VerticalLayout id="idverti"> -->
+                                <VBox
+                                    id="idverti"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="iddylabeltruck"
+                                        text="Truck Number"
+                                    />
+                                    <MultiInput
+                                        id="iddytrucknumber"
+                                        value="{}"
+                                    />
+                                </VBox>
+                                <VBox
+                                    id="vetic"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="iddylabelslot"
+                                        text="parking slot"
+                                    />
+                                    <MultiInput
+                                        id="iddyslotnumber"
+                                        value="{}"
+                                    />
+                                </VBox>
+                                <VBox
+                                    id="idve"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label
+                                        id="idmuldriverlabel"
+                                        text="DriverName"
+                                    />
+                                    <MultiInput id="iddrivermul" />
+                                </VBox>
+                                <VBox
+                                    id="idfilbutton1"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label id="idfillabel" />
+                                    <Button
+                                        id="idfilgo"
+                                        text="Go"
+                                        type="Emphasized"
+                                        press="onGoFilter"
+                                    />
+                                </VBox>
+                                <VBox
+                                    id="idvboxclearv"
+                                    class="sapUiSmallMarginEnd"
+                                >
+                                    <Label id="idclearlabels" />
+                                    <Button
+                                        id="idclearvaluesd"
+                                        text="Clear"
+                                        press="onClearFilter"
+                                    />
+                                </VBox>
+                                <!-- </layout:VerticalLayout> -->
+                            </HBox>
+                        </f:DynamicPageHeader>
+                        <!-- Reserve Parking Details Table -->
                         <Table
                             id="idReserveParkingtable"
                             contextualWidth="Inherit"
                             alternateRowColors="true"
                             items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'true'}]}"
                             mode="MultiSelect"
+                            class="setcolor4"
                         >
                             <headerToolbar>
                                 <OverflowToolbar id="_IDGenOverflowToolbar1">
@@ -725,15 +808,13 @@
                                         text="Add"
                                         press="onAdd"
                                     />
-
                                     <Button
                                         id="_IDGenButton3"
                                         class="sapUiSmallMarginBeginEnd"
                                         type="Accept"
-                                        icon="sap-icon://edit"
-                                        text="Edit"
+                                        text="Assign"
                                         enabled="true"
-                                        press="onEdit"
+                                        press="onAddLoan"
                                     />
                                 </OverflowToolbar>
                             </headerToolbar>

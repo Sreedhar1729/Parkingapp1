@@ -22,8 +22,8 @@ define entity ParkignVeh {
         driverMob  : String;
         enterDate  : Date;
         enterTime  : Time;
-        exitDate   : Date;
-        exitTime   : Time;
+        exitDate   : String;
+        exitTime   : String;
         assign     : Boolean;
         leave      : Boolean;
         parkinglot : Association to ParkingLot;

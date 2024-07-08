@@ -11,11 +11,12 @@ sap.ui.define([
         "use strict";
         return Controller.extend("com.app.parkingapp.controller.Home", {
             onInit: function () {
-                this.onReadSorters();
+                // this.onReadSorters();
                 // set the initial value
                 // Tokens
                 const oView = this.getView(),
                     oMulti1 = this.oView.byId("_IDGenMultiInput1");
+                    const oMulti11 = this.oView.byId("iddytrucknumber");
                 var oModel = new sap.ui.model.odata.v2.ODataModel("https://port4004-workspaces-ws-tltdr.us10.trial.applicationstudio.cloud.sap/v2/odata/v4/parking/");
                 this.getView().setModel(oModel);
                 let validae = function (arg) {
@@ -25,6 +26,7 @@ sap.ui.define([
                     }
                 }
                 oMulti1.addValidator(validae);
+                oMulti11.addValidator(validae);
                 // creating json model for the  parkinglot assignment
                 const oLocalModel = new sap.ui.model.json.JSONModel(
                     {
@@ -334,6 +336,7 @@ sap.ui.define([
                     res_staus: true,
                     id: osel.id
                 });
+                // json model constructing
                 var number = osel.driverMob; // Assuming osel.driverMob contains the recipient's phone number
                 var text = "Your reservation is confirmed!!!";
                 // Construct the WhatsApp API URL
@@ -395,18 +398,56 @@ sap.ui.define([
                     console.log(error)
                 }
             },
-            onReadSorters: function () {
-                var oModel = this.getOwnerComponent().getModel("ModelV2");
-                var oSorter = new sap.ui.model.Sorter('id', true);
-                oModel.read("/ParkingLot", {
-                    Sorters: [oSorter],
-                    success: function (odata) {
-                        var jModel = new sap.ui.model.json.JSONModel(odata);
-                        this.getView().byId("idparkingslottable").setModel(jModel);
-                    }, error: function (oError) {
+            // onReadSorters: function () {
+            //     var oModel = this.getOwnerComponent().getModel("ModelV2");
+            //     var oSorter = new sap.ui.model.Sorter('id', true);
+            //     oModel.read("/ParkingLot", {
+            //         Sorters: [oSorter],
+            //         success: function (odata) {
+            //             var jModel = new sap.ui.model.json.JSONModel(odata);
+            //             this.getView().byId("idparkingslottable").setModel(jModel);
+            //         }, error: function (oError) {
 
-                    }
+            //         }
+            //     })
+            // },
+
+            // onSearch for filtering the values
+            onSearch: function (oEvent) {
+                // var aFilters=[];
+                debugger
+                var sQuery = oEvent.getSource().getValue();
+                if (sQuery && sQuery.length > 0) {
+                    var oTruckNofilter = new Filter("truckNo", FilterOperator.Contains, sQuery);
+                    var oDriverName = new Filter("driverName", FilterOperator.Contains, sQuery);
+                    // var oAssign = new Filter("assign", FilterOperator.Contains, sQuery);
+
+                    var aFilters = new Filter([oTruckNofilter, oDriverName]);
+                    debugger
+                }
+                // updating or searching the table based on filters
+                var oList = this.byId("idparkinghis");
+                var oBinding = oList.getBinding("items");
+                oBinding.filter(aFilters);
+            },
+
+
+            // Filters in reservation table
+            onGoFilter:function(ele){
+
+                const otruckFilter = this.getView().byId("iddytrucknumber").getTokens();
+
+                var aFilter = [];
+                otruckFilter.filter((ele) => {
+                    ele ? aFilter.push(new Filter("truckNo", FilterOperator.EQ, ele.getKey())) : " ";
                 })
+                // otruckFilter ? aFilter.push(new sap.ui.model.Filter("truckNo",sap.ui.model.FilterOperator.EQ,ele.getKey())) : " ";
+
+// update the table based on filters
+const oTable = this.byId("idReserveParkingtable");
+var oBinding = oTable.getBinding("items");
+oBinding.filter(aFilter)
+
             }
         });
     });

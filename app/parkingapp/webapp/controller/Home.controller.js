@@ -48,6 +48,7 @@ sap.ui.define([
                 );
                 this.getView().setModel(oLocalModel, "gotmm");
             },
+            
             // Controller logic
             onItemSelect: function (oEvent) {
                 var itemKey = oEvent.getParameter("item").getKey();

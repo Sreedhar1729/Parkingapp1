@@ -24,7 +24,7 @@
     "@sap/cds-dk": "^7.9.4",
     "@sap/dev-cap-tools": "^1.31.0",
     "@sap/eslint-plugin-cds": "^3",
-    "@sap/ux-specification": "^1.120.13",
+    "@sap/ux-specification": "^1.120.14",
     "eslint": "^9",
     "rimraf": "^5.0.5"
   },
@@ -36,7 +36,8 @@
     "watch-parkingapp": "cds watch --open parkingapp/webapp/index.html?sap-ui-xx-viewCache=false",
     "undeploy": "cf undeploy parkinglotappfullstack --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "watch-vendorpage": "cds watch --open vendorpage/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {

@@ -40,8 +40,8 @@ define entity ReserveParking {
         driverMob    : String;
         resStartDate : Date;
         resStartTime : Time;
-        confDate     : Date;
-        confTime     : Time;
+        confDate     : String;
+        confTime     : String;
         vendorName   : String;
         res_staus    : Boolean;
         parkinglot   : Association to ParkingLot;

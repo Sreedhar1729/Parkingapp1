@@ -728,22 +728,14 @@
                                     id="idinputvendor"
                                     value=""
                                 />
+                                <!-- newly added -->
+                                
 
-                                <Label
-                                    id="idParkingslotLabels"
-                                    text="ParkingSlotNumbers"
-                                />
-
-                                <Select
-                                    id="parkingLotSelect"
-                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
-                                >
-                                    <t:Item
-                                        id="_IDGenItem3"
-                                        key="{id}"
-                                        text="{id}"
-                                    />
-                                </Select>
+        <!-- Parking Slot Numbers -->
+        <Label id="idParkingslotLabels" text="Parking Slot Numbers" />
+        <Select id="parkingLotSelect" items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}">
+            <t:Item id="_IDGenItem5" key="{id}" text="{id}" />
+        </Select>
                             </form:SimpleForm>
                         </VBox>
                     </ScrollContainer>

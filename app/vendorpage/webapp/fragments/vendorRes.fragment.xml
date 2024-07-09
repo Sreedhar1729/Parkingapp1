@@ -6,7 +6,7 @@
     <Dialog id="idresevednd" title="Reservation of ParkingLot">
         <beginButton>
             <Button
-                id="ksks"
+                id="ksksas"
                 text="Confirm"
                 type="Success"
                 press="onConfirmDialog"
@@ -57,6 +57,30 @@
                     id="idvednorval"
                     value="{}"
                 />
+                 <Label id="ojjjdas" text="Inbound"/>
+                                <Select
+                                        id="inwards"
+                                        selectedKey="{Inbound}"
+                                    >
+                                        <items>
+                                            <core:Item
+                                                id="iditeadms"
+                                                text=" "
+                                                key=""
+                                            />
+                                            <core:Item
+                                                id="_IDGenItems1"
+                                                text="Yes"
+                                                key="true"
+                                            />
+                                            <core:Item
+                                                id="_IDGenItems2"
+                                                text="No"
+                                                key="false"
+                                            />
+                                        </items>
+                                    </Select>
+
             </form:SimpleForm>
         </content>
     </Dialog>

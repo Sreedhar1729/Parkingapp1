@@ -1,6 +1,6 @@
-id;inward;length;avialable 
-1;true;100 meters;true
-2;false;150 meters;false
-3;true;120 meters;true
-4;false;200 meters;true
-5;true;80 meters;false
+id;length;avialable 
+1;100 meters;true
+2;150 meters;false
+3;120 meters;true
+4;200 meters;true
+5;80 meters;false

@@ -4,7 +4,6 @@ namespace app.parking;
 define entity ParkingLot {
 
     key id             : String  @(title: 'PakingLotNumber');
-        inward         : Boolean @(title: 'IN/OUT');
         length         : String;
         avialable      : Boolean;
         parkingveh     : Composition of many ParkignVeh
@@ -27,6 +26,7 @@ define entity ParkignVeh {
         vendorName : String;
         assign     : Boolean;
         leave      : Boolean;
+        inbound    : Boolean;
         parkinglot : Association to ParkingLot;
 
 };
@@ -44,5 +44,6 @@ define entity ReserveParking {
         confTime     : String;
         vendorName   : String;
         res_staus    : Boolean;
+        inbound      : Boolean;
         parkinglot   : Association to ParkingLot;
 }

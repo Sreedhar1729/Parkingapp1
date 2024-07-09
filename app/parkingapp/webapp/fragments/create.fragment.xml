@@ -70,6 +70,37 @@
                     id="idDrivernewMobile"
                     value="{}"
                 />
+                <Label
+                    id="idreseVendorname"
+                    text="VendorName"
+                />
+                <Input
+                    id="idvessbane"
+                    value="{}"
+                />
+                <Label id="idinboundlabe" text="Inbound" />
+                <Select
+                    id="inwards21"
+                    selectedKey="{Inbound}"
+                >
+                    <items>
+                        <core:Item
+                            id="iditeadms12"
+                            text=" "
+                            key=""
+                        />
+                        <core:Item
+                            id="_IDGenItems1121"
+                            text="Yes"
+                            key="true"
+                        />
+                        <core:Item
+                            id="_IDGenItems112"
+                            text="No"
+                            key="false"
+                        />
+                    </items>
+                </Select>
             </form:SimpleForm>
         </content>
     </Dialog>

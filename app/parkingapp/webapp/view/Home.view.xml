@@ -137,6 +137,7 @@
                                             text="Confirm"
                                             type="Success"
                                         />
+                                        <Button id="idrefres" icon="sap-icon://refresh" press="onRefresh"/>
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
@@ -170,6 +171,9 @@
                                             text="Vendor Details"
                                         />
                                     </Column>
+                                    <Column id="isjwef">
+                                    <Title id="iskkwsdd" text="Inbound"></Title>
+                                    </Column>
                                 </columns>
                                 <items>
                                     <ColumnListItem
@@ -196,6 +200,7 @@
                                                 id="idvendorvalue"
                                                 text="{vendorName}"
                                             />
+                                            <Text id="idtrnas" text="{inbound}"/>
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -276,6 +281,9 @@
                                             text="Vendor Name"
                                         />
                                     </Column>
+                                    <Column id="iisd" >
+                                    <Title id="idinesward" text="Inbound"></Title>
+                                    </Column>
                                 </columns>
 
                                 <items>
@@ -305,6 +313,7 @@
                                                 id="idparkingvendorvalue"
                                                 text="{vendorName}"
                                             />
+                                            <Text id="idtextiward" text="{inbound}"></Text>
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -395,6 +404,8 @@
                                             text="Vendor Name"
                                         />
                                     </Column>
+                                    <Column id="idclolven">
+                                    <Text id="djjds" text="Inbound"/></Column>
                                 </columns>
 
                                 <items>
@@ -428,6 +439,8 @@
                                                 id="idparkingvendorde"
                                                 text="{vendorName}"
                                             />
+                                            <Text id="idinboundinward"
+                                            text="{inbound}"/>
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -464,7 +477,7 @@
                                     />
                                 </VBox>
 
-                                <VBox
+                                <!-- <VBox
                                     id="_IDGenVBox2"
                                     class="sapUiSmallMarginEnd"
                                 >
@@ -494,7 +507,7 @@
                                             />
                                         </items>
                                     </Select>
-                                </VBox>
+                                </VBox> -->
                                 <VBox
                                     id="_IDGenVBox3"
                                     class="sapUiSmallMarginEnd"
@@ -603,12 +616,12 @@
                                         text="Lot.No"
                                     />
                                 </Column>
-                                <Column id="idparkingveh_inward">
+                                <!-- <Column id="idparkingveh_inward">
                                     <Title
                                         id="parkingveh_inward"
                                         text="Inward"
                                     />
-                                </Column>
+                                </Column> -->
                                 <Column id="idparkingveh_length">
                                     <Title
                                         id="parkingveh_length"
@@ -631,10 +644,10 @@
                                             id="parkingSlotvalue"
                                             text="{id}"
                                         />
-                                        <Text
+                                        <!-- <Text
                                             id="parkinginwarvalue"
                                             text="{inward}"
-                                        />
+                                        /> -->
                                         <Text
                                             id="parkinglengthvalue"
                                             text="{length}"
@@ -729,7 +742,29 @@
                                     value=""
                                 />
                                 <!-- newly added -->
-                                
+                                <Label id="ojjjd" text="Inbound"/>
+                                <Select
+                                        id="inward"
+                                        selectedKey="{Inbound}"
+                                    >
+                                        <items>
+                                            <t:Item
+                                                id="iditem"
+                                                text=" "
+                                                key=""
+                                            />
+                                            <t:Item
+                                                id="_IDGenItem1"
+                                                text="Yes"
+                                                key="true"
+                                            />
+                                            <t:Item
+                                                id="_IDGenItem2"
+                                                text="No"
+                                                key="false"
+                                            />
+                                        </items>
+                                    </Select>
 
         <!-- Parking Slot Numbers -->
         <Label id="idParkingslotLabels" text="Parking Slot Numbers" />
@@ -909,12 +944,16 @@
                                         text="Reservation ID"
                                     />
                                 </Column>
+                                <Column id="idinbound">
+                                <Title id="idinboundtitle" text="Inbound"/>
+                                </Column>
                                 <Column id="idactions">
                                     <Title
                                         id="idactiontitle"
                                         text="Actions"
                                     />
                                 </Column>
+                                
                             </columns>
 
                             <!-- items -->
@@ -958,6 +997,7 @@
                                             id="idreseidval"
                                             text="{id}"
                                         />
+                                        <Text id="idinbval" text="{inbound}"></Text>
                                         <Button
                                             id="idactionbuttons"
                                             press="editbutton"

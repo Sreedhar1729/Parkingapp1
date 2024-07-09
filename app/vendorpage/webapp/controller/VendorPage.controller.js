@@ -27,7 +27,8 @@ sap.ui.define([
                 const oTruckNo = this.byId("idventruckno").getValue(),
                     oDriverName = this.byId("idvendrivername").getValue(),
                     oDriverMob = this.byId("idvenddrivermob").getValue(),
-                    oVendorName = this.byId("idvednorval").getValue();
+                    oVendorName = this.byId("idvednorval").getValue(),
+                    oinbound = this.byId("inwards").getSelectedKey();
                 // Create a new Date object
                 var currentDate = new Date();
 
@@ -52,15 +53,18 @@ sap.ui.define([
                     confTime: "",
                     vendorName: oVendorName,
                     res_staus: false,
+                    inbound:oinbound,
                     parkinglot_id: " "
                 });
                 this.getView().setModel(oSample,"oSample")
                
                 debugger
+                var that = this;
                 oModel.create("/ReserveParking", oSample.getData(), {
                     success: function (odata) {
                         sap.m.MessageToast.show("Successfully Reserved!!!!!");
-                        this.byId("idresevednd").close();
+                        // .oDialog.close();
+                        that.byId("idresevednd").close();
                         console.log("succcessfully Reserved!!!!");
                         oModel.refresh(true);
                     }, error: function (oError) {

@@ -55,11 +55,11 @@
                 id="idslotcreatinglengthval"
                 value=""
             />
-            <Label id="idslotcreatinginwardlabel" text="Inward"/>
+            <!-- <Label id="idslotcreatinginwardlabel" text="Inward"/>
             <Input
                 id="idslotcreatinginwardval"
                 value=" "
-            />
+            /> -->
             <Label id="idslotcreatingavialablelabel" text="Avialable" />
             <Input
                 id="idslotcreatingavialableval"

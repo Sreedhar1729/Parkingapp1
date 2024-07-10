@@ -113,7 +113,7 @@
                 <Select
                     id="parkingLotSelect1"
                     required="true"
-                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
+                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
                 >
                     <core:Item
                         id="_IDGenItem51"

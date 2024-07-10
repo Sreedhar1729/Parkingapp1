@@ -693,6 +693,28 @@ sap.ui.define([
                     inbound: oinbound,
                     parkinglot_id: oparkingid
                 });
+                var that = this;
+                const oModel = this.getView().getModel("ModelV2");
+                oModel.create("/ReserveParking",ReserveModel.getData(),{
+                    success:function(odata){
+                        sap.m.MessageToast.show("successfully created!!!");
+                        oModel.refresh(true);
+                        that.byId("idReserveParkingtable").getBinding("items").refresh(true);
+                        oModel.update("/ParkingLot('"+oparkingid+"')",{avialable:'Reserved'},{
+                            success:function(odata){
+                                sap.m.MessageToast.show("parking lot status change!!");
+                                that.byId("idDialogCreate").close();
+                                that.byId("idparkingslottable").getBinding("items").refresh(true);
+                                oModel.refresh(true);
+                            },error:function(oError){
+                                sap.m.MessageBox.error(oError);
+                            }
+                        })
+                    },error:function(oError)
+                    {
+                        sap.m.MessageBox.error(oError);
+                    }
+                })
 
             }
         });

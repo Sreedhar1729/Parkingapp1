@@ -13,7 +13,7 @@
 >
     <tnt:ToolPage id="app">
         <tnt:header>
-            <tnt:ToolHeader id="idtoolheader">
+            <tnt:ToolHeader id="idtoolheader" class="toolHeader">
                 <tnt:content>
                     <Image
                         id="idimage1"
@@ -543,11 +543,11 @@
                                         selectedKey="{avialabile}"
                                     >
                                         <items>
-                                        <t:Item 
-                                        id="idblank"
-                                        text=""
-                                        key="{  }"
-                                        ></t:Item>
+                                            <t:Item
+                                                id="idblank"
+                                                text=""
+                                                key="{  }"
+                                            />
                                             <t:Item
                                                 id="iditem11"
                                                 text="Available"

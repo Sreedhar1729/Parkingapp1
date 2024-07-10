@@ -30,6 +30,7 @@
                     text="Truck Number:"
                 />
                 <Input
+                    required="true"
                     id="idventruckno"
                     value="{}"
                 />
@@ -38,6 +39,7 @@
                     text="Driver Name"
                 />
                 <Input
+                required="true"
                     id="idvendrivername"
                     value="{}"
                 />
@@ -48,6 +50,7 @@
                 <Input
                     id="idvenddrivermob"
                     value="{  }"
+                    required="true"
                 />
                 <Label
                     id="idlabelVendorName"
@@ -56,9 +59,11 @@
                 <Input
                     id="idvednorval"
                     value="{}"
+                    required="true"
                 />
                  <Label id="ojjjdas" text="Inbound"/>
                                 <Select
+                                required="true"
                                         id="inwards"
                                         selectedKey="{Inbound}"
                                     >

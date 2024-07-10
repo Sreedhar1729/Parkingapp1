@@ -14,7 +14,7 @@
             <Button
                 id="idCreateButtonnew"
                 text="Create"
-                press="onCreateReserve"
+                press="onCreateReserveDialog"
                 type="Success"
             />
         </beginButton>
@@ -52,6 +52,7 @@
                 <Input
                     id="idTruckNumberInput"
                     value="{}"
+                    required="true"
                 />
 
                 <Label
@@ -61,6 +62,7 @@
                 <Input
                     id="idDriverNameInput"
                     value="{}"
+                    required="true"
                 />
                 <Label
                     id="idDriverMobilenumbernew"
@@ -69,6 +71,7 @@
                 <Input
                     id="idDrivernewMobile"
                     value="{}"
+                    required="true"
                 />
                 <Label
                     id="idreseVendorname"
@@ -77,10 +80,15 @@
                 <Input
                     id="idvessbane"
                     value="{}"
+                    required="true"
                 />
-                <Label id="idinboundlabe" text="Inbound" />
+                <Label
+                    id="idinboundlabe"
+                    text="Inbound"
+                />
                 <Select
                     id="inwards21"
+                    required="true"
                     selectedKey="{Inbound}"
                 >
                     <items>
@@ -100,6 +108,18 @@
                             key="false"
                         />
                     </items>
+                </Select>
+                <Label id="idddlabel" text="Parking Slot"/>
+                <Select
+                    id="parkingLotSelect1"
+                    required="true"
+                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
+                >
+                    <core:Item
+                        id="_IDGenItem51"
+                        key="{id}"
+                        text="{id}"
+                    />
                 </Select>
             </form:SimpleForm>
         </content>

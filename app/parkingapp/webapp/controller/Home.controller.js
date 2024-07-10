@@ -277,7 +277,6 @@ sap.ui.define([
                 var osel = oSelectedItem.getBindingContext().getObject();
                 // Create a new Date object
                 var currentDate = new Date();
-
                 // Extract date components
                 var exitDate1 = currentDate.getFullYear() + '-' +
                     ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
@@ -595,6 +594,63 @@ sap.ui.define([
             },
             onRefresh:function(){
                 this.getView().byId("idreservependingtable").getBinding("items").refresh(true);
+            },
+            // for mobile number validation 
+            onMobileVal:async function(oEvent)
+            {
+                var oPhone  = oEvent.getSource();
+                var oVal1 = oPhone.getValue();
+
+                // regular expression for validating the phone
+                var regexpMobile = /^[0-9]{10}$/;
+                if (oVal1.trim() === '') {
+                    oPhone.setValueState("None"); // Clear any previous state
+                } else if (oVal1.match(regexpMobile)) {
+                    oPhone.setValueState("Success");
+                } else {
+                    oPhone.setValueState("Error");
+                    // Check if MessageToast is available before showing message
+                    if (sap.m.MessageToast) {
+                        sap.m.MessageToast.show("Invalid Phone format");
+                    } else {
+                        console.error("MessageToast is not available.");
+                    }
+                }
+            },
+            onCreateReserveDialog:function(){
+                //getting  values from the input fields
+                var oTruckNo = this.getView().byId("idTruckNumberInput").getValue();
+                var oDriverName = this.getView().byId("idDriverNameInput").getValue();
+                var oDriverMob = this.getView().byId("idDrivernewMobile").getValue();
+                var ovendorName = this.getView().byId("idvessbane").getValue();
+                var oinbound = this.getView().byId("inwards21").getSelectedKey();
+                var oparkingid = this.getView().byId("parkingLotSelect1").getSelectedKey();
+                // getting date
+                // Create a new Date object
+                var currentDate = new Date();
+                // Extract date components
+                var exitDate1 = currentDate.getFullYear() + '-' +
+                    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + currentDate.getDate()).slice(-2);
+                // Extract time components
+                var exitTime1 = ('0' + currentDate.getHours()).slice(-2) + ':' +
+                    ('0' + currentDate.getMinutes()).slice(-2) + ':' +
+                    ('0' + currentDate.getSeconds()).slice(-2);
+                // constructing json Model
+                const ReserveModel = new sap.ui.model.json.JSONModel({
+                    truckNo:oTruckNo,
+                    driverName:oDriverName,
+                    driverMob:oDriverMob,
+                    resStartDate:exitDate1,
+                    resStartTime:exitTime1,
+                    confDate:exitDate1,
+                    confTime:exitTime1,
+                    vendorName:ovendorName,
+                    res_staus:true,
+                    inbound:oinbound,
+                    parkinglot_id:oparkingid
+                });
+
             }
         });
     });

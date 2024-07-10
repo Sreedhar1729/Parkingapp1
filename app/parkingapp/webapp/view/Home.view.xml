@@ -71,20 +71,20 @@
                     <tnt:NavigationListItem
                         id="idnavlistitem1"
                         key="RouteReserve"
-                        text="ReserveParking"
+                        text="Reservation Vehicles"
                         icon="sap-icon://present"
                     />
 
                     <tnt:NavigationListItem
                         id="idnavlistitem2"
                         key="root1"
-                        text="ParkingRecord"
+                        text="Assigned Vehicles"
                         icon="sap-icon://shipping-status"
                     />
                     <tnt:NavigationListItem
                         id="idnavlistitem3"
                         key="LeftVehicles"
-                        text="Parking History"
+                        text="Unassigned Vehicles"
                         icon="sap-icon://history"
                     />
                     <tnt:NavigationListItem
@@ -137,7 +137,11 @@
                                             text="Confirm"
                                             type="Success"
                                         />
-                                        <Button id="idrefres" icon="sap-icon://refresh" press="onRefresh"/>
+                                        <Button
+                                            id="idrefres"
+                                            icon="sap-icon://refresh"
+                                            press="onRefresh"
+                                        />
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
@@ -172,7 +176,10 @@
                                         />
                                     </Column>
                                     <Column id="isjwef">
-                                    <Title id="iskkwsdd" text="Inbound"></Title>
+                                        <Title
+                                            id="iskkwsdd"
+                                            text="Inbound"
+                                        />
                                     </Column>
                                 </columns>
                                 <items>
@@ -200,7 +207,10 @@
                                                 id="idvendorvalue"
                                                 text="{vendorName}"
                                             />
-                                            <Text id="idtrnas" text="{inbound}"/>
+                                            <Text
+                                                id="idtrnas"
+                                                text="{inbound}"
+                                            />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -281,8 +291,11 @@
                                             text="Vendor Name"
                                         />
                                     </Column>
-                                    <Column id="iisd" >
-                                    <Title id="idinesward" text="Inbound"></Title>
+                                    <Column id="iisd">
+                                        <Title
+                                            id="idinesward"
+                                            text="Inbound"
+                                        />
                                     </Column>
                                 </columns>
 
@@ -313,7 +326,10 @@
                                                 id="idparkingvendorvalue"
                                                 text="{vendorName}"
                                             />
-                                            <Text id="idtextiward" text="{inbound}"></Text>
+                                            <Text
+                                                id="idtextiward"
+                                                text="{inbound}"
+                                            />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -405,7 +421,11 @@
                                         />
                                     </Column>
                                     <Column id="idclolven">
-                                    <Text id="djjds" text="Inbound"/></Column>
+                                        <Text
+                                            id="djjds"
+                                            text="Inbound"
+                                        />
+                                    </Column>
                                 </columns>
 
                                 <items>
@@ -439,8 +459,10 @@
                                                 id="idparkingvendorde"
                                                 text="{vendorName}"
                                             />
-                                            <Text id="idinboundinward"
-                                            text="{inbound}"/>
+                                            <Text
+                                                id="idinboundinward"
+                                                text="{inbound}"
+                                            />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -713,6 +735,7 @@
                                     text="TruckNo"
                                 />
                                 <Input
+                                    required="true"
                                     id="idTruckInput"
                                     value=" "
                                     liveChange="TruckLiveChange"
@@ -722,6 +745,7 @@
                                     text="DriverName"
                                 />
                                 <Input
+                                    required="true"
                                     id="idDriverNameInputs"
                                     value=" "
                                 />
@@ -730,47 +754,65 @@
                                     text="DriverMobileNumbers"
                                 />
                                 <Input
+                                    required="true"
                                     id="idDriverMobileInputs"
                                     value=" "
+                                    liveChange="onMobileVal"
                                 />
                                 <Label
                                     id="idassignvendordetils"
                                     text="Vendor Details"
                                 />
                                 <Input
+                                    required="true"
                                     id="idinputvendor"
                                     value=""
                                 />
                                 <!-- newly added -->
-                                <Label id="ojjjd" text="Inbound"/>
+                                <Label
+                                    id="ojjjd"
+                                    text="Inbound"
+                                />
                                 <Select
-                                        id="inward"
-                                        selectedKey="{Inbound}"
-                                    >
-                                        <items>
-                                            <t:Item
-                                                id="iditem"
-                                                text=" "
-                                                key=""
-                                            />
-                                            <t:Item
-                                                id="_IDGenItem1"
-                                                text="Yes"
-                                                key="true"
-                                            />
-                                            <t:Item
-                                                id="_IDGenItem2"
-                                                text="No"
-                                                key="false"
-                                            />
-                                        </items>
-                                    </Select>
+                                    required="true"
+                                    id="inward"
+                                    selectedKey="{Inbound}"
+                                >
+                                    <items>
+                                        <t:Item
+                                            id="iditem"
+                                            text=" "
+                                            key=""
+                                        />
+                                        <t:Item
+                                            id="_IDGenItem1"
+                                            text="Yes"
+                                            key="true"
+                                        />
+                                        <t:Item
+                                            id="_IDGenItem2"
+                                            text="No"
+                                            key="false"
+                                        />
+                                    </items>
+                                </Select>
 
-        <!-- Parking Slot Numbers -->
-        <Label id="idParkingslotLabels" text="Parking Slot Numbers" />
-        <Select id="parkingLotSelect" items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}">
-            <t:Item id="_IDGenItem5" key="{id}" text="{id}" />
-        </Select>
+                                <!-- Parking Slot Numbers -->
+                                <Label
+                                    id="idParkingslotLabels"
+                                    text="Parking Slot Numbers"
+                                />
+                                <Select
+                                    id="parkingLotSelect"
+                                    required="true"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
+                                >
+                                    <t:Item
+                                        id="_IDGenItem5"
+                                        key="{id}"
+                                        text="{id}"
+                                    />
+                                </Select>
                             </form:SimpleForm>
                         </VBox>
                     </ScrollContainer>
@@ -891,7 +933,6 @@
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
-                               
                                 <Column id="idreservetruck">
                                     <Title
                                         id="trucknumber"
@@ -935,7 +976,7 @@
                                         text="Vendor Details"
                                     />
                                 </Column>
-                                 <Column
+                                <Column
                                     id="idreserid"
                                     visible="false"
                                 >
@@ -945,7 +986,10 @@
                                     />
                                 </Column>
                                 <Column id="idinbound">
-                                <Title id="idinboundtitle" text="Inbound"/>
+                                    <Title
+                                        id="idinboundtitle"
+                                        text="Inbound"
+                                    />
                                 </Column>
                                 <Column id="idactions">
                                     <Title
@@ -953,7 +997,6 @@
                                         text="Actions"
                                     />
                                 </Column>
-                                
                             </columns>
 
                             <!-- items -->
@@ -963,7 +1006,6 @@
                                     class="{= ${${0} % 2 === 0 ? 'tableRowEven' : 'tableRowOdd'}}"
                                 >
                                     <cells>
-                                        
                                         <Text
                                             id="ReservedParkingTruck"
                                             text="{truckNo}"
@@ -997,7 +1039,10 @@
                                             id="idreseidval"
                                             text="{id}"
                                         />
-                                        <Text id="idinbval" text="{inbound}"></Text>
+                                        <Text
+                                            id="idinbval"
+                                            text="{inbound}"
+                                        />
                                         <Button
                                             id="idactionbuttons"
                                             press="editbutton"

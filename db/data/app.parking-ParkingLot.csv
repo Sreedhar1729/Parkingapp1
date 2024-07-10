@@ -1,6 +1,9 @@
 id;length;avialable 
-1;100 meters;Available
-2;150 meters;Available
+1;100 meters;Not Available
+2;150 meters;Not Available
 3;120 meters;Reserved
 4;200 meters;Reserved
 5;80 meters;Not Available
+6;100 meters;Available
+7;100 meters;Available
+8;100 meters;Available

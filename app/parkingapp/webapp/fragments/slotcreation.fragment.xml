@@ -63,7 +63,7 @@
             <Label id="idslotcreatingavialablelabel" text="Avialable" />
             <Input
                 id="idslotcreatingavialableval"
-                value="True"
+                value="Available"
                 editable="false"
             />
         </form:SimpleForm>

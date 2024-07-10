@@ -86,7 +86,7 @@ sap.ui.define([
                     // oParkingSlotFilter = oview.byId("inward"),
                     oParkingno = oview.byId("_IDGenMultiInput1"),
                     oavailable = oview.byId("idavailablestausforselect"),
-                    sParkingSlotNumber = oParkingSlotFilter.getSelectedKey(),
+                    // sParkingSlotNumber = oParkingSlotFilter.getSelectedKey(),
                     savailable = oavailable.getSelectedKey(),
                     sParkingno = oParkingno.getTokens(),
                     oTable = oview.byId("idparkingslottable"),
@@ -108,19 +108,23 @@ sap.ui.define([
             onDelete: function () {
                 var oTable = this.getView().byId("idparkingslottable");
                 var aSelectedItems = oTable.getSelectedItems();
-                aSelectedItems.forEach(function (oSelectedItem) {
-                    var sPath = oSelectedItem.getBindingContext().getPath();
-                    var oModel = oSelectedItem.getModel();
-                    oModel.remove(sPath, {
-                        success: function () {
-                            console.log("Item deleted successfully.");
-                        },
-                        error: function (oError) {
-                            console.error("Error deleting item:", oError);
-                        }
+                if (aSelectedItems.length === 0) {
+                    sap.m.MessageBox.error("Please Select at least one item!!");
+                } else {
+                    aSelectedItems.forEach(function (oSelectedItem) {
+                        var sPath = oSelectedItem.getBindingContext().getPath();
+                        var oModel = oSelectedItem.getModel();
+                        oModel.remove(sPath, {
+                            success: function () {
+                                console.log("Item deleted successfully.");
+                            },
+                            error: function (oError) {
+                                console.error("Error deleting item:", oError);
+                            }
+                        });
                     });
-                });
-                // oTable.getBinding("items").refresh();
+
+                } // oTable.getBinding("items").refresh();
             },
             // fragment open for reservation creation
             onAdd: async function () {
@@ -170,40 +174,44 @@ sap.ui.define([
                 }
                 const formattedTime = getCurrentTime();
                 // Payload for creating ParkignVeh entity
-                const opayload = {
-                    truckNo: oTruckNo,
-                    driverName: oDriverName,
-                    driverMob: oMobile,
-                    parkinglot_id: oParkingLotId,
-                    enterDate: new Date(),
-                    enterTime: formattedTime,
-                    exitDate: "",
-                    exitTime: "",
-                    vendorName: oVendor,
-                    inbound: oinbound,
-                    assign: true
-                };
-                const oModel = this.getView().getModel("ModelV2");
-                // Create ParkignVeh entity
-                this.createData(oModel, opayload, "/ParkignVeh")
-                    .then(() => {
-                        // Update ParkingLot to mark slot as unavailable
-                        const oParkingslotpayload = {
-                            id: oParkingLotId,
-                            avialable:"Not Available" // Corrected spelling to 'available'
-                        };
-                        return this.updateData(oModel, oParkingslotpayload, "/ParkingLot('" + oParkingLotId + "')");
-                    })
-                    .then(() => {
-                        // Refresh table items and clear input fields on success
-                        this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
-                        sap.m.MessageToast.show("Vehicle assigned to parking slot successfully!");
-                        oModel.refresh(true);
-                        this.clearInputFields();
-                    })
-                    .catch((error) => {
-                        // sap.m.MessageBox.error("Failed to assign vehicle to parking slot: " + error.message);
-                    });
+                if (oTruckNo === '' || oDriverName === '' || oMobile === '' || oVendor === '' || oinbound === '' || oParkingLotId === '') {
+                    sap.m.MessageBox.error("Please enter all required fields!!!!!");
+                } else {
+                    const opayload = {
+                        truckNo: oTruckNo,
+                        driverName: oDriverName,
+                        driverMob: oMobile,
+                        parkinglot_id: oParkingLotId,
+                        enterDate: new Date(),
+                        enterTime: formattedTime,
+                        exitDate: "",
+                        exitTime: "",
+                        vendorName: oVendor,
+                        inbound: oinbound,
+                        assign: true
+                    };
+                    const oModel = this.getView().getModel("ModelV2");
+                    // Create ParkignVeh entity
+                    this.createData(oModel, opayload, "/ParkignVeh")
+                        .then(() => {
+                            // Update ParkingLot to mark slot as unavailable
+                            const oParkingslotpayload = {
+                                id: oParkingLotId,
+                                avialable: "Not Available" // Corrected spelling to 'available'
+                            };
+                            return this.updateData(oModel, oParkingslotpayload, "/ParkingLot('" + oParkingLotId + "')");
+                        })
+                        .then(() => {
+                            // Refresh table items and clear input fields on success
+                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
+                            sap.m.MessageToast.show("Vehicle assigned to parking slot successfully!");
+                            oModel.refresh(true);
+                            this.clearInputFields();
+                        })
+                        .catch((error) => {
+                            // sap.m.MessageBox.error("Failed to assign vehicle to parking slot: " + error.message);
+                        });
+                }
             },
             createData: function (oModel, opayload, sPath) {
                 return new Promise((resolve, reject) => {
@@ -228,6 +236,7 @@ sap.ui.define([
                         }
                     });
                 });
+
             },
             clearInputFields: function () {
                 this.getView().byId("idTruckInput").setValue("");
@@ -271,73 +280,80 @@ sap.ui.define([
                 var oTable = oView.byId("idParkingvehiclestable");
                 var oSelectedItem = oTable.getSelectedItem();
                 if (!oSelectedItem) {
-                    sap.m.MessageToast.show("Please select a vehicle to remove.");
+                    sap.m.MessageBox.error("Please select a vehicle to remove.");
                     return;
+                } else if (oSelectedItem.length > 1) {
+                    sap.m.MessageBox.error("Please Select only one value");
+                } else {
+                    var osel = oSelectedItem.getBindingContext().getObject();
+                    // Create a new Date object
+                    var currentDate = new Date();
+                    // Extract date components
+                    var exitDate1 = currentDate.getFullYear() + '-' +
+                        ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + currentDate.getDate()).slice(-2);
+
+                    // Extract time components
+                    var exitTime1 = ('0' + currentDate.getHours()).slice(-2) + ':' +
+                        ('0' + currentDate.getMinutes()).slice(-2) + ':' +
+                        ('0' + currentDate.getSeconds()).slice(-2);
+
+                    // const formattedTime = getCurrentTime();
+
+                    // Create JSON models for leftModel and oParkingslot
+                    var leftModel = new sap.ui.model.json.JSONModel({
+                        assign: false,
+                        id: osel.id,
+                        exitDate: exitDate1,
+                        exitTime: exitTime1,
+                        parkinglot_id: osel.parkinglot_id
+                    });
+                    oView.setModel(leftModel, "leftModel");
+
+                    var oParkingslot = new sap.ui.model.json.JSONModel({
+                        id: osel.parkinglot_id,
+                        avialable: "Available"
+                    });
+                    oView.setModel(oParkingslot, "oParkingslot");
+
+                    var oModel = oView.getModel("ModelV2");
+
+                    // Update ParkingLot to mark slot as available
+                    oModel.update("/ParkingLot('" + osel.parkinglot_id + "')", oParkingslot.getData(), {
+                        success: function () {
+                            // Update ParkignVeh to mark vehicle as unassigned
+                            oModel.update("/ParkignVeh(" + osel.id + ")", leftModel.getData(), {
+                                success: function () {
+                                    oTable.getBinding("items").refresh(); // Refresh table binding
+                                    sap.m.MessageToast.show("Vehicle left from the parking area.");
+
+                                    // Speak message
+                                    var text = osel.truckNo + " vehicle is left from parking";
+                                    var utterance = new SpeechSynthesisUtterance(text);
+                                    speechSynthesis.speak(utterance);
+
+                                    oModel.refresh(true); // Refresh the model after updates
+                                }.bind(this),
+                                error: function (oError) {
+                                    sap.m.MessageBox.error("Error updating ParkignVeh: " + oError.message);
+                                    console.error("Error updating ParkignVeh:", oError);
+                                }
+                            });
+                        }.bind(this),
+                        error: function (oError) {
+                            sap.m.MessageBox.error("Error updating ParkingLot: " + oError.message);
+                            console.error("Error updating ParkingLot:", oError);
+                        }
+                    });
                 }
-                var osel = oSelectedItem.getBindingContext().getObject();
-                // Create a new Date object
-                var currentDate = new Date();
-                // Extract date components
-                var exitDate1 = currentDate.getFullYear() + '-' +
-                    ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + currentDate.getDate()).slice(-2);
-
-                // Extract time components
-                var exitTime1 = ('0' + currentDate.getHours()).slice(-2) + ':' +
-                    ('0' + currentDate.getMinutes()).slice(-2) + ':' +
-                    ('0' + currentDate.getSeconds()).slice(-2);
-
-                // const formattedTime = getCurrentTime();
-
-                // Create JSON models for leftModel and oParkingslot
-                var leftModel = new sap.ui.model.json.JSONModel({
-                    assign: false,
-                    id: osel.id,
-                    exitDate: exitDate1,
-                    exitTime: exitTime1,
-                    parkinglot_id: osel.parkinglot_id
-                });
-                oView.setModel(leftModel, "leftModel");
-
-                var oParkingslot = new sap.ui.model.json.JSONModel({
-                    id: osel.parkinglot_id,
-                    avialable:"Available" 
-                });
-                oView.setModel(oParkingslot, "oParkingslot");
-
-                var oModel = oView.getModel("ModelV2");
-
-                // Update ParkingLot to mark slot as available
-                oModel.update("/ParkingLot('" + osel.parkinglot_id + "')", oParkingslot.getData(), {
-                    success: function () {
-                        // Update ParkignVeh to mark vehicle as unassigned
-                        oModel.update("/ParkignVeh(" + osel.id + ")", leftModel.getData(), {
-                            success: function () {
-                                oTable.getBinding("items").refresh(); // Refresh table binding
-                                sap.m.MessageToast.show("Vehicle left from the parking area.");
-
-                                // Speak message
-                                var text = osel.truckNo + " vehicle is left from parking";
-                                var utterance = new SpeechSynthesisUtterance(text);
-                                speechSynthesis.speak(utterance);
-
-                                oModel.refresh(true); // Refresh the model after updates
-                            }.bind(this),
-                            error: function (oError) {
-                                sap.m.MessageBox.error("Error updating ParkignVeh: " + oError.message);
-                                console.error("Error updating ParkignVeh:", oError);
-                            }
-                        });
-                    }.bind(this),
-                    error: function (oError) {
-                        sap.m.MessageBox.error("Error updating ParkingLot: " + oError.message);
-                        console.error("Error updating ParkingLot:", oError);
-                    }
-                });
             },
             onConfirm: function () {
+                var osele = this.getView().byId("idreservependingtable").getSelectedItem();
+                if (!osele) {
+                    sap.m.MessageBox.error("Please Select at least one!!!");
+                    return;
+                }
                 var osel = this.getView().byId("idreservependingtable").getSelectedItem().getBindingContext().getObject();
-               
                 var currentDate = new Date();
 
                 // Extract date components
@@ -351,8 +367,8 @@ sap.ui.define([
                     ('0' + currentDate.getSeconds()).slice(-2);
                 const oSample = new sap.ui.model.json.JSONModel({
                     res_staus: true,
-                    confDate:exitDate1,
-                    confTime:exitTime1,
+                    confDate: exitDate1,
+                    confTime: exitTime1,
                     id: osel.id
                 });
                 // json model constructing
@@ -398,26 +414,31 @@ sap.ui.define([
                 var oid = this.getView().byId("idslotcreatingidval").getValue(),
                     olength = this.getView().byId("idslotcreatinglengthval").getValue();
                 // oinward = this.getView().byId("idslotcreatinginwardval").getValue();
-                var oparkingslotpayload = new JSONModel({
-                    id: oid,
-                    // inward: oinward,
-                    length: olength,
-                    avialable:"Available",
-                });
-                this.getView().setModel(oparkingslotpayload, "oparkingslotpayload")
-                const oPath = this.getView().getModel("oparkingslotpayload").getProperty("/");
-                const oModel = this.getView().getModel("ModelV2");
-                try {
-                    await this.createData(oModel, oPath, "/ParkingLot");
-                    this.getView().byId("idparkingslottable").getBinding("items").refresh();
-                    sap.m.MessageBox.success("success");
-                    var oid = this.getView().byId("idslotcreatingidval").setValue(""),
-                        olength = this.getView().byId("idslotcreatinglengthval").setValue("");
-                    this.byId("idslotcreationDialog").close();
-                    oModel.refresh(true);
-                } catch (error) {
-                    this.byId("idslotcreationDialog").close();
-                    console.log(error)
+                if (oid === '' || olength === '') {
+                    sap.m.MessageBox.error("Please Enter all Required Fields!!");
+                } else {
+                    var oparkingslotpayload = new JSONModel({
+                        id: oid,
+                        // inward: oinward,
+                        length: olength,
+                        avialable: "Available",
+                    });
+                    this.getView().setModel(oparkingslotpayload, "oparkingslotpayload")
+                    const oPath = this.getView().getModel("oparkingslotpayload").getProperty("/");
+                    const oModel = this.getView().getModel("ModelV2");
+                    try {
+                        await this.createData(oModel, oPath, "/ParkingLot");
+                        this.getView().byId("idparkingslottable").getBinding("items").refresh();
+                        sap.m.MessageBox.success("success");
+                        var oid = this.getView().byId("idslotcreatingidval").setValue(""),
+                            olength = this.getView().byId("idslotcreatinglengthval").setValue("");
+                        this.byId("idslotcreationDialog").close();
+                        oModel.refresh(true);
+                    } catch (error) {
+                        this.byId("idslotcreationDialog").close();
+                        sap.m.MessageBox.error("Entity already Exist!!");
+                        console.log(error)
+                    }
                 }
             },
             // onReadSorters: function () {
@@ -510,8 +531,26 @@ sap.ui.define([
 
                 }
             },
+            DriverNameChange: async function (oEvent) {
+                var oDriverInput = oEvent.getSource();
+                var oDriveValue = oDriverInput.getValue();
+                var namereg = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+                if (oDriveValue.match(namereg)) {
+                    oDriverInput.setValueState("Success");
+                } else if (oDriveValue.trim === '') {
+                    oDriverInput.setValueState("None");
+                } else {
+                    oDriverInput.setValueState('Error')
+                }
+            },
             onAddLoan: function () {
+                var osam = this.byId("idReserveParkingtable").getSelectedItem();
+                if (!osam) {
+                    sap.m.MessageBox.error("Please Select alteast one Row!!!");
+                    return
+                }
                 var oData = this.byId("idReserveParkingtable").getSelectedItem().getBindingContext().getObject();
+
                 // Create a new Date object
                 var currentDate = new Date();
 
@@ -536,8 +575,8 @@ sap.ui.define([
                     vendorName: oData.vendorName,
                     assign: true,
                     leave: false,
-                    inbound:oData.inbound,
-                    parkinglot_id:oData.parkinglot_id
+                    inbound: oData.inbound,
+                    parkinglot_id: oData.parkinglot_id
 
                 });
                 this.getView().setModel(oAddLoanModel, "oAddLoanModel");
@@ -545,16 +584,16 @@ sap.ui.define([
                 // console.log(temp);
 
                 const oModel = this.getView().getModel("ModelV2");
-                var that=this;
+                var that = this;
                 oModel.create("/ParkignVeh", oAddLoanModel.getData(), {
                     success: function (odata) {
                         console.log("succes");
                         // oModel.refresh(true);
-                        oModel.update("/ParkingLot('"+oAddLoanModel.getData().parkinglot_id+"')", {avialable:"Not Available"}, {
+                        oModel.update("/ParkingLot('" + oAddLoanModel.getData().parkinglot_id + "')", { avialable: "Not Available" }, {
                             success: function (odata) {
                                 console.log(odata);
                                 that.getView().byId("idparkingslottable").getBinding("items").refresh();
-                                
+
                                 // oModel.refresh(true);
                                 oModel.remove("/ReserveParking(" + oData.id + ")", {
                                     success: function (odata) {
@@ -576,8 +615,12 @@ sap.ui.define([
                     }
                 })
             },
-            onDeletes: function () {
+            onDeletes1: function () {
                 var osel = this.byId("idReserveParkingtable").getSelectedItems();
+                if(osel.length===0){
+                    sap.m.MessageBox.error("Please select at least one Record!!");
+                    // return;
+                }else{
                 osel.forEach(function (oselected) {
                     var sPath = oselected.getBindingContext().getPath();
                     var oModel = oselected.getModel();
@@ -591,14 +634,14 @@ sap.ui.define([
                         }
                     })
                 })
+            }
             },
-            onRefresh:function(){
+            onRefresh: function () {
                 this.getView().byId("idreservependingtable").getBinding("items").refresh(true);
             },
             // for mobile number validation 
-            onMobileVal:async function(oEvent)
-            {
-                var oPhone  = oEvent.getSource();
+            onMobileVal: async function (oEvent) {
+                var oPhone = oEvent.getSource();
                 var oVal1 = oPhone.getValue();
 
                 // regular expression for validating the phone
@@ -617,7 +660,7 @@ sap.ui.define([
                     }
                 }
             },
-            onCreateReserveDialog:function(){
+            onCreateReserveDialog: function () {
                 //getting  values from the input fields
                 var oTruckNo = this.getView().byId("idTruckNumberInput").getValue();
                 var oDriverName = this.getView().byId("idDriverNameInput").getValue();
@@ -638,17 +681,17 @@ sap.ui.define([
                     ('0' + currentDate.getSeconds()).slice(-2);
                 // constructing json Model
                 const ReserveModel = new sap.ui.model.json.JSONModel({
-                    truckNo:oTruckNo,
-                    driverName:oDriverName,
-                    driverMob:oDriverMob,
-                    resStartDate:exitDate1,
-                    resStartTime:exitTime1,
-                    confDate:exitDate1,
-                    confTime:exitTime1,
-                    vendorName:ovendorName,
-                    res_staus:true,
-                    inbound:oinbound,
-                    parkinglot_id:oparkingid
+                    truckNo: oTruckNo,
+                    driverName: oDriverName,
+                    driverMob: oDriverMob,
+                    resStartDate: exitDate1,
+                    resStartTime: exitTime1,
+                    confDate: exitDate1,
+                    confTime: exitTime1,
+                    vendorName: ovendorName,
+                    res_staus: true,
+                    inbound: oinbound,
+                    parkinglot_id: oparkingid
                 });
 
             }

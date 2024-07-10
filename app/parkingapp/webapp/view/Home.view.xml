@@ -114,7 +114,7 @@
                         <VBox id="idreservependingvbox">
                             <Table
                                 id="idreservependingtable"
-                                mode="SingleSelect"
+                                mode="SingleSelectLeft"
                                 class="setcolor2"
                                 alternateRowColors="true"
                                 items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'false'}]}"
@@ -349,7 +349,7 @@
                             <Table
                                 id="idParkingvehiclestable"
                                 items="{path:'/ParkignVeh',filters:[{path:'assign',operator:'EQ',value1:'true'}]}"
-                                mode="MultiSelect"
+                                mode="SingleSelectLeft"
                                 alternateRowColors="true"
                                 class="setcolor1"
                             >
@@ -543,20 +543,25 @@
                                         selectedKey="{avialabile}"
                                     >
                                         <items>
+                                        <t:Item 
+                                        id="idblank"
+                                        text=""
+                                        key="{  }"
+                                        ></t:Item>
                                             <t:Item
                                                 id="iditem11"
-                                                text=" "
-                                                key=""
+                                                text="Available"
+                                                key="Available"
                                             />
                                             <t:Item
                                                 id="iditem12"
-                                                text="Yes"
-                                                key="true"
+                                                text="Reserved"
+                                                key="Reserved"
                                             />
                                             <t:Item
                                                 id="iditem13"
-                                                text="No"
-                                                key="false"
+                                                text="Not Available"
+                                                key="Not Available"
                                             />
                                         </items>
                                     </Select>
@@ -748,6 +753,7 @@
                                     required="true"
                                     id="idDriverNameInputs"
                                     value=" "
+                                    liveChange="DriverNameChange"
                                 />
                                 <Label
                                     id="idDriverMobileLabels"
@@ -895,7 +901,7 @@
                             contextualWidth="Inherit"
                             alternateRowColors="true"
                             items="{path:'/ReserveParking',filters:[{path:'res_staus',operator:'EQ',value1:'true'}]}"
-                            mode="MultiSelect"
+                            mode="SingleSelectLeft"
                             class="setcolor4"
                         >
                             <headerToolbar>
@@ -912,7 +918,7 @@
                                         type="Reject"
                                         icon="sap-icon://delete"
                                         text="Delete"
-                                        press="onDeletes"
+                                        press="onDeletes1"
                                     />
                                     <Button
                                         id="_IDGenButton2"

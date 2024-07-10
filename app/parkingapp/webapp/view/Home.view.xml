@@ -805,7 +805,7 @@
                                 <Select
                                     id="parkingLotSelect"
                                     required="true"
-                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'true'}]}"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
                                 >
                                     <t:Item
                                         id="_IDGenItem5"

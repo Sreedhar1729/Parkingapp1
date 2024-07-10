@@ -5,7 +5,7 @@ define entity ParkingLot {
 
     key id             : String  @(title: 'PakingLotNumber');
         length         : String;
-        avialable      : Boolean;
+        avialable      : String;
         parkingveh     : Composition of many ParkignVeh
                              on parkingveh.parkinglot = $self;
         reserveparking : Composition of many ReserveParking

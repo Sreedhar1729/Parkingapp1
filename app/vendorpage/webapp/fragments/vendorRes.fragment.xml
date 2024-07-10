@@ -85,6 +85,21 @@
                                             />
                                         </items>
                                     </Select>
+                                    <Label
+                                    id="idParkingslotLabels123"
+                                    text="Parking Slot Numbers"
+                                />
+                                <Select
+                                    id="parkingLotSelect121"
+                                    required="true"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                                >
+                                    <core:Item
+                                        id="_IDGenItem511"
+                                        key="{id}"
+                                        text="{id}"
+                                    />
+                                </Select>
 
             </form:SimpleForm>
         </content>

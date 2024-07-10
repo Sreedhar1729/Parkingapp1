@@ -190,7 +190,7 @@ sap.ui.define([
                         // Update ParkingLot to mark slot as unavailable
                         const oParkingslotpayload = {
                             id: oParkingLotId,
-                            avialable: false // Corrected spelling to 'available'
+                            avialable:"Not Available" // Corrected spelling to 'available'
                         };
                         return this.updateData(oModel, oParkingslotpayload, "/ParkingLot('" + oParkingLotId + "')");
                     })
@@ -301,7 +301,7 @@ sap.ui.define([
 
                 var oParkingslot = new sap.ui.model.json.JSONModel({
                     id: osel.parkinglot_id,
-                    avialable: true // Corrected spelling to 'available'
+                    avialable:"Available" 
                 });
                 oView.setModel(oParkingslot, "oParkingslot");
 
@@ -402,7 +402,7 @@ sap.ui.define([
                     id: oid,
                     // inward: oinward,
                     length: olength,
-                    avialable: true,
+                    avialable:"Available",
                 });
                 this.getView().setModel(oparkingslotpayload, "oparkingslotpayload")
                 const oPath = this.getView().getModel("oparkingslotpayload").getProperty("/");
@@ -550,7 +550,7 @@ sap.ui.define([
                     success: function (odata) {
                         console.log("succes");
                         // oModel.refresh(true);
-                        oModel.update("/ParkingLot('"+oAddLoanModel.getData().parkinglot_id+"')", {avialable: false}, {
+                        oModel.update("/ParkingLot('"+oAddLoanModel.getData().parkinglot_id+"')", {avialable:"Not Available"}, {
                             success: function (odata) {
                                 console.log(odata);
                                 that.getView().byId("idparkingslottable").getBinding("items").refresh();

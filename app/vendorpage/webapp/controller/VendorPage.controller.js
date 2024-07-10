@@ -28,7 +28,9 @@ sap.ui.define([
                     oDriverName = this.byId("idvendrivername").getValue(),
                     oDriverMob = this.byId("idvenddrivermob").getValue(),
                     oVendorName = this.byId("idvednorval").getValue(),
-                    oinbound = this.byId("inwards").getSelectedKey();
+                    oinbound = this.byId("inwards").getSelectedKey(),
+                    oparkingid = this.byId("parkingLotSelect121").getSelectedKey();
+
                 // Create a new Date object
                 var currentDate = new Date();
 
@@ -54,10 +56,10 @@ sap.ui.define([
                     vendorName: oVendorName,
                     res_staus: false,
                     inbound:oinbound,
-                    parkinglot_id: " "
+                    parkinglot_id: oparkingid
                 });
                 this.getView().setModel(oSample,"oSample")
-               
+                 var oid = oparkingid.split(' ').join('');
                 debugger
                 var that = this;
                 oModel.create("/ReserveParking", oSample.getData(), {
@@ -67,8 +69,15 @@ sap.ui.define([
                         that.byId("idresevednd").close();
                         console.log("succcessfully Reserved!!!!");
                         oModel.refresh(true);
+                        oModel.update("/ParkingLot('"+oid+"')",{avialable:'Reserved'},{
+                            success:function(odata){
+                                // that.getView().byId("idparkingslottable").getBinding("items").refresh();
+                            },error:function(oError){
+                                sap.m.MessageBox.error("Error !!");
+                            }
+                        })
                     }, error: function (oError) {
-
+                        sap.m.MessageBox.error("Error !!");
                     }
                 })
 

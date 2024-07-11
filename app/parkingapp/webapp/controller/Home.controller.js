@@ -630,7 +630,7 @@ sap.ui.define([
                             console.log("Item deleted successfully.");
                             sap.m.MessageToast.show("successfully Deleted!!!")
                             oModel.refresh(true);
-                            oModel.update("/ParkingLot('" + temp.parkinglot_id + "')", { avialable: 'Avialable' }, {
+                            oModel.update("/ParkingLot('" + temp.parkinglot_id + "')", { avialable: 'Available' }, {
                                 success: function () {
                                     sap.m.MessageToast.show("Successfully updated!!!");
                                     oModel.refresh();

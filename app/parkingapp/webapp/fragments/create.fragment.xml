@@ -52,9 +52,9 @@
                 <Input
                     id="idTruckNumberInput"
                     value="{}"
+                    liveChange="TruckLiveChange"
                     required="true"
                 />
-
                 <Label
                     id="idDriverNameLabel"
                     text="DriverName"
@@ -63,6 +63,7 @@
                     id="idDriverNameInput"
                     value="{}"
                     required="true"
+                    liveChange="DriverNameChange"
                 />
                 <Label
                     id="idDriverMobilenumbernew"
@@ -71,6 +72,7 @@
                 <Input
                     id="idDrivernewMobile"
                     value="{}"
+                    liveChange="onMobileVal"
                     required="true"
                 />
                 <Label

@@ -616,25 +616,35 @@ sap.ui.define([
                 })
             },
             onDeletes1: function () {
-                var osel = this.byId("idReserveParkingtable").getSelectedItems();
-                if(osel.length===0){
+                var osel = this.byId("idReserveParkingtable").getSelectedItem();
+                var temp = osel.getBindingContext().getObject();
+                if (osel.length === 0) {
                     sap.m.MessageBox.error("Please select at least one Record!!");
                     // return;
-                }else{
-                osel.forEach(function (oselected) {
-                    var sPath = oselected.getBindingContext().getPath();
-                    var oModel = oselected.getModel();
-                    oModel.remove(sPath, {
-                        success: function () {
-                            console.log("Item deleted successfully.");
-                            sap.m.MessageToast.show("successfully Deleted!!!")
-                        },
-                        error: function (oError) {
-                            console.error("Error deleting item:", oError);
-                        }
-                    })
-                })
-            }
+                } else {
+                        var sPath = osel.getBindingContext().getPath();
+                        var oModel = osel.getModel();
+                        oModel.remove(sPath, {
+                            success: function () {
+                                console.log("Item deleted successfully.");
+                                sap.m.MessageToast.show("successfully Deleted!!!")
+                                oModel.refresh(true);
+                                oModel.update("/ParkingLot('" + temp.parkinglot_id + "')", { avialable: 'Avialable' }, {
+                                    success: function () {
+                                        sap.m.MessageToast.show("Successfully updated!!!");
+                                        oModel.refresh();
+                                        that.byId("idparkingslottable").getBinding("items").refresh(true);
+                                    }, error: function (oError) {
+                                        sap.m.MessageBox.error("Error occurs!!");
+                                    }
+                                })
+                            },
+                            error: function (oError) {
+                                console.error("Error deleting item:", oError);
+                            }
+                        })
+                    
+                }
             },
             onRefresh: function () {
                 this.getView().byId("idreservependingtable").getBinding("items").refresh(true);
@@ -695,27 +705,33 @@ sap.ui.define([
                 });
                 var that = this;
                 const oModel = this.getView().getModel("ModelV2");
-                oModel.create("/ReserveParking",ReserveModel.getData(),{
-                    success:function(odata){
+                oModel.create("/ReserveParking", ReserveModel.getData(), {
+                    success: function (odata) {
                         sap.m.MessageToast.show("successfully created!!!");
                         oModel.refresh(true);
                         that.byId("idReserveParkingtable").getBinding("items").refresh(true);
-                        oModel.update("/ParkingLot('"+oparkingid+"')",{avialable:'Reserved'},{
-                            success:function(odata){
+                        oModel.update("/ParkingLot('" + oparkingid + "')", { avialable: 'Reserved' }, {
+                            success: function (odata) {
                                 sap.m.MessageToast.show("parking lot status change!!");
                                 that.byId("idDialogCreate").close();
                                 that.byId("idparkingslottable").getBinding("items").refresh(true);
                                 oModel.refresh(true);
-                            },error:function(oError){
+                            }, error: function (oError) {
                                 sap.m.MessageBox.error(oError);
                             }
                         })
-                    },error:function(oError)
-                    {
+                    }, error: function (oError) {
                         sap.m.MessageBox.error(oError);
                     }
                 })
 
+            },
+            onBell:async function(){
+                debugger
+                this.oDialogs ??= await this.loadFragment({
+                    name :"com.app.parkingapp.fragments.notify"
+                })
+                this.oDialogs.open();
             }
         });
     });

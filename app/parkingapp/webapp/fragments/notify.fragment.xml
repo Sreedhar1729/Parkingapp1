@@ -1,0 +1,51 @@
+<core:FragmentDefinition
+    xmlns:m="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:Notifications="sap.ui.vk.Notifications"
+    xmlns:l="sap.ui.layout"
+>
+    <m:Dialog
+        id="myPopover"
+        title="Hi! "
+        contentHeight="{  }"
+        contentWidth="{}"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--footer  customPopoverContent"
+    >
+        <m:NotificationList
+            id="_IDGenNotificationList1"
+           
+        >
+            <layoutData>
+                <FlexItemData
+                    id="_IDGenFlexItemData1"
+                    maxWidth="800px"
+                    maxHeight="100px"
+                />
+            </layoutData>
+            <m:NotificationListItem id="notificationssid">
+                <buttons>
+                    <Button
+                        id="idnotifyaccept"
+                        icon="sap-icon://accept"
+                        text="Accept"
+                        press="onAcceptPress"
+                    />
+                </buttons>
+                <buttons>
+                    <Button
+                        id="idnotifyreject"
+                        icon="sap-icon://decline"
+                        text="Reject"
+                        type="Reject"
+                        press="onCancleIssue"
+                    />
+                </buttons>
+            </m:NotificationListItem>
+        </m:NotificationList>
+    </m:Dialog>
+</core:FragmentDefinition>
+
+
+<!--  items="{path: '/IssueBooks', parameters:{ $count : true}}" -->

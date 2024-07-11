@@ -37,6 +37,7 @@
                         id="idnotification"
                         tooltip="Notifications"
                         icon="sap-icon://bell"
+                        press="onBell"
                     />
                     <Avatar id="idbt1" />
                 </tnt:content>
@@ -110,6 +111,7 @@
                         vertical="true"
                         height="100%"
                         class="sapUiContentPadding"
+                        
                     >
                         <VBox id="idreservependingvbox">
                             <Table
@@ -690,7 +692,7 @@
                     </ScrollContainer>
 
                     <!-- for parkinglot assignment  -->
-                    <ScrollContainer id="idparkingassign">
+                    <ScrollContainer id="idparkingassign" class="sss">
                         <VBox
                             id="idVbox"
                             class="sapUiSmallMargin"
@@ -712,8 +714,9 @@
                                 columnsL="1"
                                 columnsM="1"
                                 singleContainerFullSize="false"
+                                class="sss"
                             >
-                                <form:toolbar>
+                                <form:toolbar >
                                     <Toolbar id="TB1">
                                         <Title
                                             id="_IDGenTitle1"

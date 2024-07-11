@@ -199,6 +199,7 @@ sap.ui.define([
                                 id: oParkingLotId,
                                 avialable: "Not Available" // Corrected spelling to 'available'
                             };
+                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
                             return this.updateData(oModel, oParkingslotpayload, "/ParkingLot('" + oParkingLotId + "')");
                         })
                         .then(() => {
@@ -622,28 +623,28 @@ sap.ui.define([
                     sap.m.MessageBox.error("Please select at least one Record!!");
                     // return;
                 } else {
-                        var sPath = osel.getBindingContext().getPath();
-                        var oModel = osel.getModel();
-                        oModel.remove(sPath, {
-                            success: function () {
-                                console.log("Item deleted successfully.");
-                                sap.m.MessageToast.show("successfully Deleted!!!")
-                                oModel.refresh(true);
-                                oModel.update("/ParkingLot('" + temp.parkinglot_id + "')", { avialable: 'Avialable' }, {
-                                    success: function () {
-                                        sap.m.MessageToast.show("Successfully updated!!!");
-                                        oModel.refresh();
-                                        that.byId("idparkingslottable").getBinding("items").refresh(true);
-                                    }, error: function (oError) {
-                                        sap.m.MessageBox.error("Error occurs!!");
-                                    }
-                                })
-                            },
-                            error: function (oError) {
-                                console.error("Error deleting item:", oError);
-                            }
-                        })
-                    
+                    var sPath = osel.getBindingContext().getPath();
+                    var oModel = osel.getModel();
+                    oModel.remove(sPath, {
+                        success: function () {
+                            console.log("Item deleted successfully.");
+                            sap.m.MessageToast.show("successfully Deleted!!!")
+                            oModel.refresh(true);
+                            oModel.update("/ParkingLot('" + temp.parkinglot_id + "')", { avialable: 'Avialable' }, {
+                                success: function () {
+                                    sap.m.MessageToast.show("Successfully updated!!!");
+                                    oModel.refresh();
+                                    that.byId("idparkingslottable").getBinding("items").refresh(true);
+                                }, error: function (oError) {
+                                    sap.m.MessageBox.error("Error occurs!!");
+                                }
+                            })
+                        },
+                        error: function (oError) {
+                            console.error("Error deleting item:", oError);
+                        }
+                    })
+
                 }
             },
             onRefresh: function () {
@@ -726,12 +727,23 @@ sap.ui.define([
                 })
 
             },
-            onBell:async function(){
+            onBell: async function () {
                 debugger
                 this.oDialogs ??= await this.loadFragment({
-                    name :"com.app.parkingapp.fragments.notify"
-                })
+                    name: "com.app.parkingapp.fragments.notify"
+                });
+                this.oDialogs.addStyleClass("customDialogPosition");
                 this.oDialogs.open();
+            },
+            onItemClose: function (oEvent) {
+                var oItem = oEvent.getSource(),
+                    oList = oItem.getParent();
+
+                oList.removeItem(oItem);
+                MessageToast.show("Item Closed: ");
+            },
+            onnotifyClose: function () {
+                this.byId("myPopover").close();
             }
         });
     });

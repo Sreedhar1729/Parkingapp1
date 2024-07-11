@@ -8,14 +8,21 @@
 >
     <m:Dialog
         id="myPopover"
-        title="Hi! "
-        contentHeight="{  }"
-        contentWidth="{}"
-        class="sapUiResponsivePadding--header sapUiResponsivePadding--footer  customPopoverContent"
+        title="Reservation Request Notifications"
+        class="oooo"
+    
+       
     >
+        <m:beginButton>
+            <m:Button
+                id="okks"
+                press="onnotifyClose"
+                text="Close"
+            />
+        </m:beginButton>
         <m:NotificationList
             id="_IDGenNotificationList1"
-           
+            items="{path:'/Notifications',parameters:{ $count : true}}"
         >
             <layoutData>
                 <FlexItemData
@@ -24,16 +31,23 @@
                     maxHeight="100px"
                 />
             </layoutData>
-            <m:NotificationListItem id="notificationssid">
-                <buttons>
+            <m:NotificationListItem
+                id="notificationssid"
+                title="{nvendorName}"
+                datetime="{ndate}"
+                description="{message}"
+                showCloseButton="true"
+                close=".onItemClose"
+            >
+                <!-- <buttons>
                     <Button
                         id="idnotifyaccept"
                         icon="sap-icon://accept"
                         text="Accept"
                         press="onAcceptPress"
                     />
-                </buttons>
-                <buttons>
+                </buttons> -->
+                <!-- <buttons>
                     <Button
                         id="idnotifyreject"
                         icon="sap-icon://decline"
@@ -41,11 +55,9 @@
                         type="Reject"
                         press="onCancleIssue"
                     />
-                </buttons>
+                </buttons> -->
             </m:NotificationListItem>
         </m:NotificationList>
     </m:Dialog>
 </core:FragmentDefinition>
-
-
 <!--  items="{path: '/IssueBooks', parameters:{ $count : true}}" -->

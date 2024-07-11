@@ -3,7 +3,10 @@
     xmlns:form="sap.ui.layout.form"
     xmlns="sap.m"
 >
-    <Dialog id="idresevednd" title="Reservation of ParkingLot">
+    <Dialog
+        id="idresevednd"
+        title="Reservation of ParkingLot"
+    >
         <beginButton>
             <Button
                 id="ksksas"
@@ -33,15 +36,17 @@
                     required="true"
                     id="idventruckno"
                     value="{}"
+                    liveChange="TruckLiveChange"
                 />
                 <Label
                     id="idvendorDrivername"
                     text="Driver Name"
                 />
                 <Input
-                required="true"
+                    required="true"
                     id="idvendrivername"
                     value="{}"
+                    liveChange="DriverNameChange"
                 />
                 <Label
                     id="idlabel"
@@ -51,6 +56,7 @@
                     id="idvenddrivermob"
                     value="{  }"
                     required="true"
+                    liveChange="onMobileVal"
                 />
                 <Label
                     id="idlabelVendorName"
@@ -61,46 +67,48 @@
                     value="{}"
                     required="true"
                 />
-                 <Label id="ojjjdas" text="Inbound"/>
-                                <Select
-                                required="true"
-                                        id="inwards"
-                                        selectedKey="{Inbound}"
-                                    >
-                                        <items>
-                                            <core:Item
-                                                id="iditeadms"
-                                                text=" "
-                                                key=""
-                                            />
-                                            <core:Item
-                                                id="_IDGenItems1"
-                                                text="Yes"
-                                                key="true"
-                                            />
-                                            <core:Item
-                                                id="_IDGenItems2"
-                                                text="No"
-                                                key="false"
-                                            />
-                                        </items>
-                                    </Select>
-                                    <Label
-                                    id="idParkingslotLabels123"
-                                    text="Parking Slot Numbers"
-                                />
-                                <Select
-                                    id="parkingLotSelect121"
-                                    required="true"
-                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
-                                >
-                                    <core:Item
-                                        id="_IDGenItem511"
-                                        key="{id}"
-                                        text="{id}"
-                                    />
-                                </Select>
-
+                <Label
+                    id="ojjjdas"
+                    text="Inbound"
+                />
+                <Select
+                    required="true"
+                    id="inwards"
+                    selectedKey="{Inbound}"
+                >
+                    <items>
+                        <core:Item
+                            id="iditeadms"
+                            text=" "
+                            key=""
+                        />
+                        <core:Item
+                            id="_IDGenItems1"
+                            text="Yes"
+                            key="true"
+                        />
+                        <core:Item
+                            id="_IDGenItems2"
+                            text="No"
+                            key="false"
+                        />
+                    </items>
+                </Select>
+                <Label
+                    id="idParkingslotLabels123"
+                    text="Parking Slot Numbers"
+                />
+                <Select
+                    id="parkingLotSelect121"
+                    required="true"
+                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                >
+                    <core:Item
+                        id="_IDGenItem511"
+                        key="{id}"
+                        text="{id}"
+                    />
+                </Select>
             </form:SimpleForm>
         </content>
     </Dialog>

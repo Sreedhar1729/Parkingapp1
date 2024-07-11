@@ -3,7 +3,7 @@ namespace app.parking;
 
 define entity ParkingLot {
 
-    key id             : String  @(title: 'PakingLotNumber');
+    key id             : String @(title: 'PakingLotNumber');
         length         : String;
         avialable      : String;
         parkingveh     : Composition of many ParkignVeh
@@ -46,4 +46,12 @@ define entity ReserveParking {
         res_staus    : Boolean;
         inbound      : Boolean;
         parkinglot   : Association to ParkingLot;
+}
+
+define entity Notifications {
+    key id          : UUID;
+        nvendorName : String;
+        parkinglot  : Association to ParkingLot;
+        message     : String;
+        ndate       : Date;
 }

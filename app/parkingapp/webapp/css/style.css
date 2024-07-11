@@ -1,59 +1,75 @@
 /* Enter your custom styles here */
 
 /* for making page title as Blue color */
-.titleclass{
-    color:blue;
+.titleclass {
+    color: blue;
 }
 
 .customToolbar .sapMTB {
     height: 3rem;
 }
 
-.se{
+.se {
     background-image: url("https://assets.hongkiat.com/uploads/coolest-libraries-in-the-world/leeds-library.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.sample{
+.sample {
     color: red;
     height: max-content;
     font-size: large;
 }
 
 .tableRowEven {
-    background-color: #f2f2f2; /* Light gray background for even rows */
+    background-color: #f2f2f2;
+    /* Light gray background for even rows */
 }
 
 .tableRowOdd {
-    background-color: #ffffff; /* White background for odd rows */
+    background-color: #ffffff;
+    /* White background for odd rows */
 }
-.setcolor{
+
+.setcolor {
     background-color: burlywood;
 }
-.setcolor1{
+
+.setcolor1 {
     background-color: chartreuse;
 }
-.setcolor2{
-    background-color:chocolate;
+
+.setcolor2 {
+    background-color: chocolate;
 }
-.setcolor4{
+
+.setcolor4 {
     background-color: darkmagenta;
 }
-.setcolor3{
+
+.setcolor3 {
     background-color: lemonchiffon;
 }
 
 @media (max-width: 768px) {
+
     /* Styles for tablets and smaller */
     .toolHeader {
         flex-direction: column;
     }
+
     .navigationList {
         width: 100%;
     }
 }
-.sss{
-    background-color:blueviolet ;
+
+.sss {
+    background-color: blueviolet;
     enable-background: accumulate;
 }
+
+.customDialogPosition .sapMDialogCont {
+    left: 10px !important;
+    /* Adjust the left position as needed */
+}
+ 

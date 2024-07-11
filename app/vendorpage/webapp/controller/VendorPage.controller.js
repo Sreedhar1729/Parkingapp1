@@ -55,11 +55,22 @@ sap.ui.define([
                     confTime: "",
                     vendorName: oVendorName,
                     res_staus: false,
-                    inbound:oinbound,
+                    inbound: oinbound,
                     parkinglot_id: oparkingid
                 });
-                this.getView().setModel(oSample,"oSample")
-                 var oid = oparkingid.split(' ').join('');
+                this.getView().setModel(oSample, "oSample")
+                var msg = `Reservation request came from ${oVendorName} vendor on ${exitDate1} at ${exitTime1} for parkingslot ${oparkingid}`;
+                // json model for notifications
+                const oNotification = new sap.ui.model.json.JSONModel({
+                    nvendorName: oVendorName,
+                    parkinglot_id: oparkingid,
+                    message: msg,
+                    ndate: exitDate1
+                })
+                this.getView().setModel(oNotification, "oNotification")
+                var oid = oparkingid.split(' ').join('');
+                console.log(oNotification);
+                console.log(oNotification.getData());
                 debugger
                 var that = this;
                 oModel.create("/ReserveParking", oSample.getData(), {
@@ -69,10 +80,21 @@ sap.ui.define([
                         that.byId("idresevednd").close();
                         console.log("succcessfully Reserved!!!!");
                         oModel.refresh(true);
-                        oModel.update("/ParkingLot('"+oid+"')",{avialable:'Reserved'},{
-                            success:function(odata){
+                        oModel.update("/ParkingLot('" + oid + "')", { avialable: 'Reserved' }, {
+                            success: function (odata) {
                                 // that.getView().byId("idparkingslottable").getBinding("items").refresh();
-                            },error:function(oError){
+
+                                oModel.create("/Notifications", oNotification.getData()
+                                    , {
+                                        success: function (odata) {
+                                            sap.m.MessageToast.show("Request Notification sent!!!");
+                                        },
+                                        error: function (oError) {
+                                            sap.m.MessageBox.error("Error!!!");
+
+                                        }
+                                    })
+                            }, error: function (oError) {
                                 sap.m.MessageBox.error("Error !!");
                             }
                         })
@@ -81,6 +103,55 @@ sap.ui.define([
                     }
                 })
 
-            }
+            },
+            onMobileVal: async function (oEvent) {
+                var oPhone = oEvent.getSource();
+                var oVal1 = oPhone.getValue();
+
+                // regular expression for validating the phone
+                var regexpMobile = /^[0-9]{10}$/;
+                if (oVal1.trim() === '') {
+                    oPhone.setValueState("None"); // Clear any previous state
+                } else if (oVal1.match(regexpMobile)) {
+                    oPhone.setValueState("Success");
+                } else {
+                    oPhone.setValueState("Error");
+                    // Check if MessageToast is available before showing message
+                    if (sap.m.MessageToast) {
+                        sap.m.MessageToast.show("Invalid Phone format");
+                    } else {
+                        console.error("MessageToast is not available.");
+                    }
+                }
+            },
+            DriverNameChange: async function (oEvent) {
+                var oDriverInput = oEvent.getSource();
+                var oDriveValue = oDriverInput.getValue();
+                var namereg = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+                if (oDriveValue.match(namereg)) {
+                    oDriverInput.setValueState("Success");
+                } else if (oDriveValue.trim === '') {
+                    oDriverInput.setValueState("None");
+                } else {
+                    oDriverInput.setValueState('Error')
+                }
+            },
+            TruckLiveChange: async function (oEvent) {
+                // Step 1: Retrieve the value from input field
+                var oTruckNoInput = oEvent.getSource(); // Assuming this is the input field control
+                var oTruckNo = oTruckNoInput.getValue();
+
+                // Step 2: Define the regular expression pattern
+                var truckNumberRegex = /^[a-zA-Z0-9]{1,10}$/;
+                if (oTruckNo.match(truckNumberRegex)) {
+                    oTruckNoInput.setValueState("Success");
+                } else if (oTruckNo.trim === '') {
+                    oTruckNoInput.setValueState("None");
+                }
+                else {
+                    oTruckNoInput.setValueState("Error")
+
+                }
+            },
         });
     });

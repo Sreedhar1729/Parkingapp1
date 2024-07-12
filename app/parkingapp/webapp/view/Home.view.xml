@@ -32,6 +32,7 @@
                         id="idlogout"
                         text="Logout"
                         type="Accept"
+                        press="onCS"
                     />
                     <Button
                         id="idnotification"
@@ -103,7 +104,7 @@
                 id="idNavContainer"
                 initialPage="root2"
             >
-                <pages>
+                <pages >
                     <!-- Reservation pending vehicles -->
                     <ScrollContainer
                         id="reservationpending"

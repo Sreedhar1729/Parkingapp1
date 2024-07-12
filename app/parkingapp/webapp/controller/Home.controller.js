@@ -744,6 +744,9 @@ sap.ui.define([
             },
             onnotifyClose: function () {
                 this.byId("myPopover").close();
+            },
+            onCS:async function(){
+                this.getOwnerComponent().getRouter().navTo("Routechart");
             }
         });
     });

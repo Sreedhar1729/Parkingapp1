@@ -120,6 +120,13 @@
           "target": [
             "TargetHome"
           ]
+        },
+        {
+          "name": "Routechart",
+          "pattern": "chart",
+          "target": [
+            "TargetChart"
+          ]
         }
       ],
       "targets": {
@@ -129,6 +136,13 @@
           "clearControlAggregation": false,
           "viewId": "Home",
           "viewName": "Home"
+        },
+        "TargetChart":{
+          "viewId": "chart",
+          "viewName": "chart",
+          "clearControlAggregation": false,
+          "viewType": "XML",
+          "transition":"flip"
         }
       }
     },

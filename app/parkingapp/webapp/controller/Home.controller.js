@@ -199,7 +199,8 @@ sap.ui.define([
                                 id: oParkingLotId,
                                 avialable: "Not Available" // Corrected spelling to 'available'
                             };
-                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
+                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh(true);
+                            oModel.refresh(true)
                             return this.updateData(oModel, oParkingslotpayload, "/ParkingLot('" + oParkingLotId + "')");
                         })
                         .then(() => {
@@ -256,19 +257,51 @@ sap.ui.define([
                 if (sButtonText === "edit") {
                     oButton.setText("submit");
                     var oRow = oButton.getParent(); // Assuming the button is directly inside a table row
-                    var oCell = oRow.getCells()[4]; // Accessing the 5th cell (index 4) in the row
-                    oCell.setEditable(true);
+                    var oCell = oRow.getCells()[4];
+                    var oText = oCell.getItems()[0];
+                    var oComboBox = oCell.getItems()[1];
+                    oText.setVisible(false);
+                    oComboBox.setVisible(true);
+                    oComboBox.setEditable(true); // Accessing the 5th cell (index 4) in the row
+                    // oCell.setEditable(true);
                 } else {
                     oButton.setText("edit");
                     var oRow = oButton.getParent(); // Assuming the button is directly inside a table row
                     var oCell = oRow.getCells()[4]; // Accessing the same cell as in edit mode
-                    oCell.setEditable(false);
+                    // oCell.setEditable(false);
+                    var oText = oCell.getItems()[0]; // Assuming the first item is Text
+                    var oComboBox = oCell.getItems()[1]; // Assuming the second it
                     // Perform data update
-                    var oInput = oRow.getCells()[4].getValue();
+                    oComboBox.setVisible(false);
+                    oComboBox.setEditable(false);
+                    var t = oButton.getParent().getCells()[4].getItems()[0].getValue();
+                    var oInput = oComboBox.getSelectedKey();
                     var oID = oEvent.getSource().getBindingContext().getProperty("id");
+                    var that= this;
                     oModel.update("/ReserveParking(" + oID + ")", { parkinglot_id: oInput }, {
                         success: function (odata) {
                             oModel.refresh(true);
+                            that.getView().byId("idReserveParkingtable").getBinding("items").refresh(true);
+                            oModel.update("/ParkingLot('"+t+"')", {avialable:'Available'}, {
+                                success: function () {
+                                    sap.m.MessageToast.show("Successfully update the slot status");
+                                    oModel.refresh(true);
+                                    that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
+                                    oModel.update("/ParkingLot('"+oInput+"')",{avialable:'Reserved'}, {
+                                        success: function (odata) {
+                                            sap.m.MessageToast.show("successfully updaed!!");
+                                            oModel.refresh(true);
+                                            that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
+                                        }
+                                        , error: function (oError) {
+                                            sap.m.MessageBox.error(oError);
+                                        }
+                                    })
+                                },
+                                error: function (oError) {
+                                    sap.m.MessageBox.error(oError);
+                                }
+                            })
                         }, error: function (oError) {
                             alert(oError);
                         }
@@ -760,7 +793,7 @@ sap.ui.define([
                     var oText = oCell.getItems()[0]; // Assuming the first item is Text
                     // this.oval = oText.getValue();
                     var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
-                    
+
                     oText.setVisible(false);
                     oComboBox.setVisible(true);
                     oComboBox.setEditable(true);
@@ -781,7 +814,7 @@ sap.ui.define([
                     var oval = oButton.getParent().getCells()[4].getItems()[0].getText();
                     var oc = oComboBox.getSelectedKey();
                     var oModel = this.getView().getModel("ModelV2");
-                    oModel.update("/ParkignVeh(" + otemp +")", { parkinglot_id: oc }, {
+                    oModel.update("/ParkignVeh(" + otemp + ")", { parkinglot_id: oc }, {
                         success: function (odata) {
                             sap.m.MessageToast.show("Success!!");
                             oModel.refresh(true);

@@ -1064,11 +1064,27 @@
                                             id="ReservedParkingstatus"
                                             text="{res_staus}"
                                         />
+                                        <VBox id="osks" >
                                         <Input
                                             id="ReservedParkingParkingLot"
                                             value="{parkinglot_id}"
                                             editable="false"
+                                            visible="true"
                                         />
+                                         <Select
+                                    id="parkingLotSelect1js"
+                                    required="true"
+                                    visible="false"
+                                    editable="true"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                                >
+                                    <t:Item
+                                        id="_IDGenItem11512"
+                                        key="{id}"
+                                        text="{id}"
+                                    />
+                                </Select>
+                                            </VBox>
                                         <Text
                                             id="ReservedParkingConfDate"
                                             text="{confDate}"

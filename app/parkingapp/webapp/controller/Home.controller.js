@@ -747,6 +747,37 @@ sap.ui.define([
             },
             onCS:async function(){
                 this.getOwnerComponent().getRouter().navTo("Routechart");
+            },
+            onEditPress: function(oEvent) {
+                var oButton = oEvent.getSource();
+                var sButtonText = oButton.getText();
+            
+                if (sButtonText === "Edit") {
+                    oButton.setText("Submit");
+            
+                    var oRow = oButton.getParent(); // Get the table row
+                    var oCell = oRow.getCells()[4]; // Assuming the 5th cell contains both Text and ComboBox
+            
+                    var oText = oCell.getItems()[0]; // Assuming the first item is Text
+                    var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
+            
+                    oText.setVisible(false);
+                    oComboBox.setVisible(true);
+                    oComboBox.setEditable(true);
+                } else {
+                    oButton.setText("Edit");
+            
+                    var oRow = oButton.getParent(); // Get the table row
+                    var oCell = oRow.getCells()[4]; // Assuming the 5th cell contains both Text and ComboBox
+            
+                    var oText = oCell.getItems()[0]; // Assuming the first item is Text
+                    var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
+            
+                    oText.setVisible(true);
+                    oComboBox.setVisible(false);
+                    oComboBox.setEditable(false);
+                }
             }
+            
         });
     });

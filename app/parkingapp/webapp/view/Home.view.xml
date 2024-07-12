@@ -13,7 +13,10 @@
 >
     <tnt:ToolPage id="app">
         <tnt:header>
-            <tnt:ToolHeader id="idtoolheader" class="toolHeader">
+            <tnt:ToolHeader
+                id="idtoolheader"
+                class="toolHeader"
+            >
                 <tnt:content>
                     <Image
                         id="idimage1"
@@ -104,7 +107,7 @@
                 id="idNavContainer"
                 initialPage="root2"
             >
-                <pages >
+                <pages>
                     <!-- Reservation pending vehicles -->
                     <ScrollContainer
                         id="reservationpending"
@@ -112,7 +115,6 @@
                         vertical="true"
                         height="100%"
                         class="sapUiContentPadding"
-                        
                     >
                         <VBox id="idreservependingvbox">
                             <Table
@@ -424,9 +426,15 @@
                                         />
                                     </Column>
                                     <Column id="idclolven">
-                                        <Text
+                                        <Title
                                             id="djjds"
                                             text="Inbound"
+                                        />
+                                    </Column>
+                                    <Column id="skks">
+                                        <Title
+                                            id="ksjkssff"
+                                            text="Actions"
                                         />
                                     </Column>
                                 </columns>
@@ -454,10 +462,26 @@
                                                 id="idassignstatusval"
                                                 text="{assign}"
                                             />
+                                            <VBox id="jjskas" >
                                             <Text
                                                 id="idassignparkingslotvalue"
                                                 text="{parkinglot_id}"
+                                                visible="true"
                                             />
+                                             <Select
+                                    id="parkingLotSelect1"
+                                    required="true"
+                                    visible="false"
+                                    editable="true"
+                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                                >
+                                    <t:Item
+                                        id="_IDGenItem115"
+                                        key="{id}"
+                                        text="{id}"
+                                    />
+                                </Select>
+                                            </VBox>
                                             <Text
                                                 id="idparkingvendorde"
                                                 text="{vendorName}"
@@ -465,6 +489,11 @@
                                             <Text
                                                 id="idinboundinward"
                                                 text="{inbound}"
+                                            />
+                                            <Button
+                                                id="kkjsieed"
+                                                text="Edit"
+                                                press="onEditPress"
                                             />
                                         </cells>
                                     </ColumnListItem>
@@ -693,7 +722,10 @@
                     </ScrollContainer>
 
                     <!-- for parkinglot assignment  -->
-                    <ScrollContainer id="idparkingassign" class="sss">
+                    <ScrollContainer
+                        id="idparkingassign"
+                        class="sss"
+                    >
                         <VBox
                             id="idVbox"
                             class="sapUiSmallMargin"
@@ -717,7 +749,7 @@
                                 singleContainerFullSize="false"
                                 class="sss"
                             >
-                                <form:toolbar >
+                                <form:toolbar>
                                     <Toolbar id="TB1">
                                         <Title
                                             id="_IDGenTitle1"

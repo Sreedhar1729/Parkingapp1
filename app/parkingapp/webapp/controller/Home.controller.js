@@ -725,7 +725,6 @@ sap.ui.define([
                         sap.m.MessageBox.error(oError);
                     }
                 })
-
             },
             onBell: async function () {
                 debugger
@@ -740,44 +739,75 @@ sap.ui.define([
                     oList = oItem.getParent();
 
                 oList.removeItem(oItem);
-                MessageToast.show("Item Closed: ");
+                sap.m.MessageToast.show("Item Closed: ");
             },
             onnotifyClose: function () {
                 this.byId("myPopover").close();
             },
-            onCS:async function(){
+            onCS: async function () {
                 this.getOwnerComponent().getRouter().navTo("Routechart");
             },
-            onEditPress: function(oEvent) {
+            onEditPress: function (oEvent) {
                 var oButton = oEvent.getSource();
                 var sButtonText = oButton.getText();
-            
+
                 if (sButtonText === "Edit") {
                     oButton.setText("Submit");
-            
+
                     var oRow = oButton.getParent(); // Get the table row
                     var oCell = oRow.getCells()[4]; // Assuming the 5th cell contains both Text and ComboBox
-            
+
                     var oText = oCell.getItems()[0]; // Assuming the first item is Text
+                    // this.oval = oText.getValue();
                     var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
-            
+                    
                     oText.setVisible(false);
                     oComboBox.setVisible(true);
                     oComboBox.setEditable(true);
                 } else {
                     oButton.setText("Edit");
-            
+
                     var oRow = oButton.getParent(); // Get the table row
                     var oCell = oRow.getCells()[4]; // Assuming the 5th cell contains both Text and ComboBox
-            
+
                     var oText = oCell.getItems()[0]; // Assuming the first item is Text
                     var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
-            
-                    oText.setVisible(true);
+
+                    // oText.setVisible(true);
                     oComboBox.setVisible(false);
                     oComboBox.setEditable(false);
+                    var otemp = oButton.getParent().getBindingContext().getObject().id;
+                    // Getting model 
+                    var oval = oButton.getParent().getCells()[4].getItems()[0].getText();
+                    var oc = oComboBox.getSelectedKey();
+                    var oModel = this.getView().getModel("ModelV2");
+                    oModel.update("/ParkignVeh(" + otemp +")", { parkinglot_id: oc }, {
+                        success: function (odata) {
+                            sap.m.MessageToast.show("Success!!");
+                            oModel.refresh(true);
+                            oModel.update("/ParkingLot('" + oval + "')", { avialable: 'Available' }, {
+                                success: function () {
+                                    sap.m.MessageToast.show("success");
+                                    oModel.refresh(true);
+                                    oModel.update("/ParkingLot('" + oc + "')", { avialable: 'Not Available' }, {
+                                        success: function (odata) {
+                                            sap.m.MessageToast.show("success!!!");
+                                            oModel.refresh(true);
+                                        },
+                                        error: function () {
+                                            sap.m.MessageBox.error("error occurs man!!");
+                                        }
+                                    })
+                                },
+                                error: function (oError) {
+                                    sap.m.MessageBox.error("Error Occurs!!!");
+                                }
+                            })
+                        }, error: function () {
+                            sap.m.MessageBox.error("Error occurs!!");
+                        }
+                    })
                 }
             }
-            
         });
     });

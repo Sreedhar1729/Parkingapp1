@@ -205,10 +205,12 @@ sap.ui.define([
                         })
                         .then(() => {
                             // Refresh table items and clear input fields on success
-                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh();
+                            this.getView().byId("idParkingvehiclestable").getBinding("items").refresh(true);
+                            oModel.refresh(true);
                             sap.m.MessageToast.show("Vehicle assigned to parking slot successfully!");
                             oModel.refresh(true);
                             this.clearInputFields();
+                            this.onree();
                         })
                         .catch((error) => {
                             // sap.m.MessageBox.error("Failed to assign vehicle to parking slot: " + error.message);
@@ -272,37 +274,39 @@ sap.ui.define([
                     var oText = oCell.getItems()[0]; // Assuming the first item is Text
                     var oComboBox = oCell.getItems()[1]; // Assuming the second it
                     // Perform data update
+                    oText.setVisible(true);
+
                     oComboBox.setVisible(false);
                     oComboBox.setEditable(false);
                     var t = oButton.getParent().getCells()[4].getItems()[0].getValue();
                     var oInput = oComboBox.getSelectedKey();
                     var oID = oEvent.getSource().getBindingContext().getProperty("id");
-                    var that= this;
+                    var that = this;
                     oModel.update("/ReserveParking(" + oID + ")", { parkinglot_id: oInput }, {
                         success: function (odata) {
                             oModel.refresh(true);
                             that.getView().byId("idReserveParkingtable").getBinding("items").refresh(true);
-                            oModel.update("/ParkingLot('"+t+"')", {avialable:'Available'}, {
+                            oModel.update("/ParkingLot('" + t + "')", { avialable: 'Available' }, {
                                 success: function () {
                                     sap.m.MessageToast.show("Successfully update the slot status");
                                     oModel.refresh(true);
                                     that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
-                                    oModel.update("/ParkingLot('"+oInput+"')",{avialable:'Reserved'}, {
+                                    oModel.update("/ParkingLot('" + oInput + "')", { avialable: 'Reserved' }, {
                                         success: function (odata) {
                                             sap.m.MessageToast.show("successfully updaed!!");
                                             oModel.refresh(true);
                                             that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
-                                        }
+                                        }.bind(that)
                                         , error: function (oError) {
                                             sap.m.MessageBox.error(oError);
                                         }
                                     })
-                                },
+                                }.bind(that),
                                 error: function (oError) {
                                     sap.m.MessageBox.error(oError);
                                 }
                             })
-                        }, error: function (oError) {
+                        }.bind(that), error: function (oError) {
                             alert(oError);
                         }
                     })
@@ -622,10 +626,11 @@ sap.ui.define([
                 oModel.create("/ParkignVeh", oAddLoanModel.getData(), {
                     success: function (odata) {
                         console.log("succes");
-                        // oModel.refresh(true);
+                        oModel.refresh(true);
                         oModel.update("/ParkingLot('" + oAddLoanModel.getData().parkinglot_id + "')", { avialable: "Not Available" }, {
                             success: function (odata) {
                                 console.log(odata);
+                                oModel.refresh(true)
                                 that.getView().byId("idparkingslottable").getBinding("items").refresh();
 
                                 // oModel.refresh(true);
@@ -711,7 +716,7 @@ sap.ui.define([
                 var oDriverMob = this.getView().byId("idDrivernewMobile").getValue();
                 var ovendorName = this.getView().byId("idvessbane").getValue();
                 var oinbound = this.getView().byId("inwards21").getSelectedKey();
-                var oparkingid = this.getView().byId("parkingLotSelect1").getSelectedKey();
+                var oparkingid = this.getView().byId("parkingLotSelect122").getSelectedKey();
                 // getting date
                 // Create a new Date object
                 var currentDate = new Date();
@@ -806,26 +811,30 @@ sap.ui.define([
                     var oText = oCell.getItems()[0]; // Assuming the first item is Text
                     var oComboBox = oCell.getItems()[1]; // Assuming the second item is ComboBox
 
-                    // oText.setVisible(true);
+                    oText.setVisible(true);
                     oComboBox.setVisible(false);
                     oComboBox.setEditable(false);
                     var otemp = oButton.getParent().getBindingContext().getObject().id;
                     // Getting model 
-                    var oval = oButton.getParent().getCells()[4].getItems()[0].getText();
+                    var oval = oButton.getParent().getCells()[4].getItems()[0].getValue();
                     var oc = oComboBox.getSelectedKey();
                     var oModel = this.getView().getModel("ModelV2");
+                    var that = this;
                     oModel.update("/ParkignVeh(" + otemp + ")", { parkinglot_id: oc }, {
                         success: function (odata) {
                             sap.m.MessageToast.show("Success!!");
                             oModel.refresh(true);
+                            that.getView().byId("idParkingvehiclestable").getBinding("items").refresh(true);
                             oModel.update("/ParkingLot('" + oval + "')", { avialable: 'Available' }, {
                                 success: function () {
                                     sap.m.MessageToast.show("success");
                                     oModel.refresh(true);
+                                    that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
                                     oModel.update("/ParkingLot('" + oc + "')", { avialable: 'Not Available' }, {
                                         success: function (odata) {
                                             sap.m.MessageToast.show("success!!!");
                                             oModel.refresh(true);
+                                            that.getView().byId("idparkingslottable").getBinding("items").refresh(true);
                                         },
                                         error: function () {
                                             sap.m.MessageBox.error("error occurs man!!");
@@ -841,6 +850,22 @@ sap.ui.define([
                         }
                     })
                 }
+            },
+            onree: function () {
+                this.getView().byId("idVbox").refresh(true);
+                this.getView().byId("idparkingslottable").getBinding("items").refresh(true);
+            },
+            onToggleModePress: function() {
+                var bIsDarkMode = document.body.classList.contains("dark-mode");
+    
+                if (bIsDarkMode) {
+                    document.body.classList.remove("dark-mode");
+                } else {
+                    document.body.classList.add("dark-mode");
+                }
+            },
+            omfresh:function(){
+                this.byId("idReserveParkingtable").getBinding("items").refresh(true);
             }
         });
     });

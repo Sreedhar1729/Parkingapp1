@@ -11,11 +11,13 @@
     xmlns:form="sap.ui.layout.form"
     xmlns:l="sap.ui.layout"
 >
-    <tnt:ToolPage id="app">
-        <tnt:header>
+    <tnt:ToolPage id="app" class="sa">
+        <tnt:header >
             <tnt:ToolHeader
                 id="idtoolheader"
-                class="toolHeader"
+                class="custom-header"
+                height="20%"
+            
             >
                 <tnt:content>
                     <Image
@@ -31,6 +33,7 @@
                         text="ParkingLotApplication"
                     />
                     <ToolbarSpacer id="idtoolspacer2" />
+                    <Button id="idtoogle"  text="Toggle Dark/Light Mode" press="onToggleModePress" />
                     <Button
                         id="idlogout"
                         text="Logout"
@@ -48,12 +51,14 @@
             </tnt:ToolHeader>
         </tnt:header>
 
-        <tnt:sideContent>
+        <tnt:sideContent >
             <tnt:SideNavigation
+            class="sa"
                 id="idSidenavigation"
                 itemSelect="onItemSelect"
+                
             >
-                <tnt:NavigationList id="idnavigation">
+                <tnt:NavigationList id="idnavigation" class="sa">
                     <tnt:NavigationListItem
                         id="idnavhome"
                         key="Home"
@@ -141,6 +146,7 @@
                                             press="onConfirm"
                                             text="Confirm"
                                             type="Success"
+                                            
                                         />
                                         <Button
                                             id="idrefres"
@@ -463,9 +469,10 @@
                                                 text="{assign}"
                                             />
                                             <VBox id="jjskas" >
-                                            <Text
+                                            <Input
                                                 id="idassignparkingslotvalue"
-                                                text="{parkinglot_id}"
+                                                value="{parkinglot_id}"
+                                                editable="false"
                                                 visible="true"
                                             />
                                              <Select
@@ -473,7 +480,7 @@
                                     required="true"
                                     visible="false"
                                     editable="true"
-                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                                    items="{path: '/ParkingLot',templateShareable:true, filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
                                 >
                                     <t:Item
                                         id="_IDGenItem115"
@@ -510,7 +517,7 @@
                     </ScrollContainer>
 
                     <!-- ParkingSlots List page  -->
-                    <ScrollContainer id="root3">
+                    <ScrollContainer id="root3" class="temp">
                         <f:DynamicPageHeader id="_IDGenDynamicPageHeader1">
                             <HBox
                                 id="_IDGenHBox1"
@@ -666,6 +673,8 @@
                                         icon="sap-icon://delete"
                                         type="Emphasized"
                                     />
+                                    <Button id="iiirefresh"
+                                    press="onree" icon="sap-icon://refresh"/>
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -747,7 +756,7 @@
                                 columnsL="1"
                                 columnsM="1"
                                 singleContainerFullSize="false"
-                                class="sss"
+                                
                             >
                                 <form:toolbar>
                                     <Toolbar id="TB1">
@@ -770,7 +779,7 @@
                                         />
                                     </Toolbar>
                                 </form:toolbar>
-
+                                
                                 <Label
                                     id="idTruckLabel"
                                     text="TruckNo"
@@ -957,7 +966,7 @@
                                         press="onDeletes1"
                                     />
                                     <Button
-                                        id="_IDGenButton2"
+                                        id="_IDGenButton211"
                                         class="sapUiSmallMarginBeginEnd"
                                         type="Accept"
                                         icon="sap-icon://add"
@@ -972,6 +981,7 @@
                                         enabled="true"
                                         press="onAddLoan"
                                     />
+                                    <Button id="jdjhajkjajkjhgh" icon="sap-icon://refresh" press="onfresh"/>
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>

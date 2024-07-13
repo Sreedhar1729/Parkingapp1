@@ -6,7 +6,7 @@
 }
 
 .customToolbar .sapMTB {
-    height: 3rem;
+    height: 5rem;
 }
 
 .se {
@@ -66,6 +66,10 @@
 .sss {
     background-color: blueviolet;
     enable-background: accumulate;
+    background-size: cover; /* Adjust as per your image size preference */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
 }
 
 .customDialogPosition .sapMDialogCont {
@@ -73,3 +77,36 @@
     /* Adjust the left position as needed */
 }
  
+.toolHeader{
+    background-color: blueviolet;
+}
+.sa{
+    background-color: aquamarine;
+    color: #007bff;
+}
+.sapUiContentPadding{
+    color:aliceblue;
+    /* background-color: cornsilk; */
+    background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
+}
+/* Default light mode styles */
+body {
+    background-color: #f0f0f0; /* Light background */
+    color: #333; /* Dark text */
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #333; /* Dark background */
+    color: #f0f0f0; /* Light text */
+}
+.custom-header {
+    background-color: #007bff; /* Example blue color */
+    color: #fff; /* Example white text */
+}
+ 
+.temp{
+    background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
+}
+
+

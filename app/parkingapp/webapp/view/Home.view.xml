@@ -12,12 +12,10 @@
     xmlns:l="sap.ui.layout"
 >
     <tnt:ToolPage id="app" class="sa">
-        <tnt:header >
+        <tnt:header>
             <tnt:ToolHeader
                 id="idtoolheader"
                 class="custom-header"
-                height="20%"
-            
             >
                 <tnt:content>
                     <Image
@@ -25,7 +23,6 @@
                         width="auto"
                         src="https://artihcus.com/assets/img/Artihcus-global-logo-1.png"
                     />
-
                     <ToolbarSpacer id="idtoolspace" />
                     <Title
                         id="idlabel"
@@ -33,20 +30,28 @@
                         text="ParkingLotApplication"
                     />
                     <ToolbarSpacer id="idtoolspacer2" />
-                    <Button id="idtoogle"  text="Toggle Dark/Light Mode" press="onToggleModePress" />
+                    <!-- <Button id="idtoogle"  text="Toggle Dark/Light Mode" press="onToggleModePress" /> -->
                     <Button
                         id="idlogout"
                         text="Logout"
                         type="Accept"
                         press="onCS"
                     />
+                    <ToolbarSeparator id="ikksjdsds"></ToolbarSeparator>
+                    
                     <Button
                         id="idnotification"
-                        tooltip="Notifications"
                         icon="sap-icon://bell"
                         press="onBell"
-                    />
-                    <Avatar id="idbt1" />
+                    >
+                    <customData>
+                        <BadgeCustomData id="_IDGenBadgeCustomData1" 
+                            value="{/Notifications/$count}"
+                            />
+                    </customData>
+                    
+                    </Button>
+                    <!-- <Button id="idbt1" text="SMS" press="onSms"/>  -->
                 </tnt:content>
             </tnt:ToolHeader>
         </tnt:header>
@@ -153,6 +158,7 @@
                                             icon="sap-icon://refresh"
                                             press="onRefresh"
                                         />
+                                        <Button id="idsorter" icon="sap-icon://sort" text="sort" press="onSort1"/>
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
@@ -262,6 +268,7 @@
                                             width="20%"
                                             placeholder="Search here"
                                         />
+                                        <Button id="idsort1" text="sort" press="onSort" />
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
@@ -385,6 +392,7 @@
                                             icon="sap-icon://delete"
                                             iconFirst="false"
                                         />
+                                        <Button id="idsort2" text="sort" press="onSort" />
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
@@ -675,6 +683,7 @@
                                     />
                                     <Button id="iiirefresh"
                                     press="onree" icon="sap-icon://refresh"/>
+                                    <Button id="idsort3" text="sort" press="onSort" />
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -734,14 +743,18 @@
                     <ScrollContainer
                         id="idparkingassign"
                         class="sss"
+                         vertical="true"
+                        height="100%"
+                        
                     >
+                
                         <VBox
                             id="idVbox"
                             class="sapUiSmallMargin"
                         >
                             <form:SimpleForm
                                 id="_IDGenSimpleForm1"
-                                editable="true"
+                                editable="false"
                                 layout="ResponsiveGridLayout"
                                 labelSpanXL="3"
                                 labelSpanL="3"
@@ -756,6 +769,7 @@
                                 columnsL="1"
                                 columnsM="1"
                                 singleContainerFullSize="false"
+                                class="sss"
                                 
                             >
                                 <form:toolbar>
@@ -818,6 +832,7 @@
                                     required="true"
                                     id="idinputvendor"
                                     value=""
+                                    liveChange="VendorVal"
                                 />
                                 <!-- newly added -->
                                 <Label
@@ -982,6 +997,7 @@
                                         press="onAddLoan"
                                     />
                                     <Button id="jdjhajkjajkjhgh" icon="sap-icon://refresh" press="onfresh"/>
+                                    <Button id="idsort4" text="sort" press="onSort" />
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -1086,7 +1102,7 @@
                                     required="true"
                                     visible="false"
                                     editable="true"
-                                    items="{path: '/ParkingLot', filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
+                                    items="{path: '/ParkingLot',templateShareable:true, filters: [{path: 'avialable', operator: 'EQ', value1: 'Available'}]}"
                                 >
                                     <t:Item
                                         id="_IDGenItem11512"

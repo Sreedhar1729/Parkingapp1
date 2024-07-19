@@ -63,14 +63,33 @@
     }
 }
 
-.sss {
-    background-color: blueviolet;
-    enable-background: accumulate;
+.sss,.sapUiContentPadding {
+    /* background-color: blueviolet; */
     background-size: cover; /* Adjust as per your image size preference */
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
+    animation: changeBackground 50s infinite; /* Change every 5 seconds (4 images) */
 }
+
+@keyframes changeBackground {
+    0% {
+        background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
+    }
+    25% {
+        background-image: url("https://t3.ftcdn.net/jpg/04/92/39/74/240_F_492397454_2QniwEAC2qKa007ntMRzK6WbDGguY2Wh.jpg"); /* Replace with your second image URL */
+    }
+    50% {
+        background-image: url("https://static.vecteezy.com/system/resources/previews/005/139/574/large_2x/trucks-stand-in-a-row-in-the-parking-lot-front-view-park-truck-photo.jpg"); /* Replace with your third image URL */
+    }
+    75% {
+        background-image: url("https://t3.ftcdn.net/jpg/08/38/59/86/240_F_838598672_qQzHHURxxBPa05gU1CdUjZqt0nhAgR0g.jpg"); /* Replace with your fourth image URL */
+    }
+    100% {
+        background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg"); /* Back to the first image */
+    }
+}
+
+   
 
 .customDialogPosition .sapMDialogCont {
     left: 10px !important;
@@ -84,11 +103,11 @@
     background-color: aquamarine;
     color: #007bff;
 }
-.sapUiContentPadding{
+/* .sapUiContentPadding{
     color:aliceblue;
     /* background-color: cornsilk; */
-    background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
-}
+    /* background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg"); */
+/* } */ */
 /* Default light mode styles */
 body {
     background-color: #f0f0f0; /* Light background */
@@ -101,12 +120,41 @@ body.dark-mode {
     color: #f0f0f0; /* Light text */
 }
 .custom-header {
-    background-color: #007bff; /* Example blue color */
-    color: #fff; /* Example white text */
+    
+        background-color: cadetblue;
+        background-image: linear-gradient(to bottom, #aac2e8, #ffffff);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        height:10vh !important;
+        /* height: 200% !important; */
 }
  
 .temp{
     background-image: url("https://img.freepik.com/free-photo/truck-with-trailer-road_1340-32492.jpg");
 }
+.customPopoverContent {
+    width: 600px;
+    height: 200px;
+    overflow: auto; /* Optional: Add this to handle overflow content */
+   
+}
+
+/* Dark mode */
+.dark-mode .sapUiBody {
+    background-color: #333; /* Example dark background color */
+    color: #fff; /* Example light text color */
+}
 
 
+
+.badge {
+    position: absolute;
+    top: -10px; /* Adjust this value to position the badge vertically */
+    right: -10px; /* Adjust this value to position the badge horizontally */
+    background-color: #BB86FC   !important ;/* Badge background color */
+    color: white; /* Badge text color */
+    padding: 2px 5px; /* Padding inside the badge */
+    border-radius: 50%; /* Make the badge circular */
+    font-size: 12px; /* Adjust font size */
+    font-weight: bold; /* Make text bold */
+}
+ 

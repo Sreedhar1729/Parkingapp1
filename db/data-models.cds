@@ -12,9 +12,7 @@ define entity ParkingLot {
                              on reserveparking.parkinglot = $self;
 }
 
-
 define entity ParkignVeh {
-
     key id         : UUID;
         truckNo    : String;
         driverName : String;
@@ -30,7 +28,6 @@ define entity ParkignVeh {
         parkinglot : Association to ParkingLot;
 
 };
-
 
 define entity ReserveParking {
 

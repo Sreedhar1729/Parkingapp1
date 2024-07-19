@@ -6,10 +6,11 @@
     xmlns:Notifications="sap.ui.vk.Notifications"
     xmlns:l="sap.ui.layout"
 >
-    <m:Dialog
+    <m:Popover
         id="myPopover"
         title="Reservation Request Notifications"
-        class="oooo"
+        class="oooo   customPopoverContent"
+        placement="PreferredLeftOrFlip"
     
        
     >
@@ -22,7 +23,7 @@
         </m:beginButton>
         <m:NotificationList
             id="_IDGenNotificationList1"
-            items="{path:'/Notifications',parameters:{ $count : true}}"
+            items="{path:'/Notifications',parameters:{$count:true}}"
         >
             <layoutData>
                 <FlexItemData
@@ -31,6 +32,14 @@
                     maxHeight="100px"
                 />
             </layoutData>
+            <m:NotificationListGroup id="idnof"
+            title="Reservation Request::"
+              showCloseButton="false"
+                close="onItemClose"
+                items="{path:'/Notifications', parameters:{ $count : true}}"
+                press="onListItemPress"
+            
+            >
             <m:NotificationListItem
                 id="notificationssid"
                 title="{nvendorName}"
@@ -57,7 +66,8 @@
                     />
                 </buttons> -->
             </m:NotificationListItem>
+            </m:NotificationListGroup>
         </m:NotificationList>
-    </m:Dialog>
+    </m:Popover>
 </core:FragmentDefinition>
 <!--  items="{path: '/IssueBooks', parameters:{ $count : true}}" -->

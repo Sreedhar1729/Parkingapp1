@@ -36,7 +36,7 @@
             title="Reservation Request::"
               showCloseButton="false"
                 close="onItemClose"
-                items="{path:'/Notifications', parameters:{ $count : true}}"
+                items="{path:'/Notifications',templateShareable:true, parameters:{ $count : true}}"
                 press="onListItemPress"
             
             >

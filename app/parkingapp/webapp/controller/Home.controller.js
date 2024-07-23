@@ -14,6 +14,7 @@ sap.ui.define([
                 // this.onReadSorters();
                 // set the initial value
                 // Tokens
+                
                 const oView = this.getView(),
                     oMulti1 = this.oView.byId("_IDGenMultiInput1");
                 const oMulti11 = this.oView.byId("iddytrucknumber"),
@@ -517,34 +518,52 @@ sap.ui.define([
             },
             onCreate: async function () {
                 // getting values from the input fields
-                var oid = this.getView().byId("idslotcreatingidval").getValue(),
+                var temp = this.byId("idparkingslottable")._iVisibleItemsLength+1;
+                var oid=  temp.toString(),
+               
+
+                // var oid = this.getView().byId("idslotcreatingidval").getValue(),
                     olength = this.getView().byId("idslotcreatinglengthval").getValue();
                 // oinward = this.getView().byId("idslotcreatinginwardval").getValue();
                 if (oid === '' || olength === '') {
                     sap.m.MessageBox.error("Please Enter all Required Fields!!");
                 } else {
-                    var oparkingslotpayload = new JSONModel({
-                        id: oid,
-                        // inward: oinward,
-                        length: olength,
-                        avialable: "Available",
+                    var oModel=this.getView().getModel();
+                   var that = this;
+                    await oModel.create("/ParkingLot",{id:oid,length:olength,avialable:'Available'},{
+                        success:function(oData){
+                            sap.m.MessageBox.success(`Slot No:${oData.id} is created Successfully!!`);
+                            oModel.refresh(true);
+                            that.onClears();
+                        },error:function(oError){
+                            sap.m.MessageBox.error("Duplicate SLot");
+                            oModel.refresh(true);
+                            that.onClears();
+                        }
                     });
-                    this.getView().setModel(oparkingslotpayload, "oparkingslotpayload")
-                    const oPath = this.getView().getModel("oparkingslotpayload").getProperty("/");
-                    const oModel = this.getView().getModel("ModelV2");
-                    try {
-                        await this.createData(oModel, oPath, "/ParkingLot");
-                        this.getView().byId("idparkingslottable").getBinding("items").refresh();
-                        sap.m.MessageBox.success("success");
-                        var oid = this.getView().byId("idslotcreatingidval").setValue(""),
-                            olength = this.getView().byId("idslotcreatinglengthval").setValue("");
-                        this.byId("idslotcreationDialog").close();
-                        oModel.refresh(true);
-                    } catch (error) {
-                        this.byId("idslotcreationDialog").close();
-                        sap.m.MessageBox.error("Entity already Exist!!");
-                        console.log(error)
-                    }
+
+                    // var oparkingslotpayload = new JSONModel({
+                    //     id: oid,
+                    //     // inward: oinward,
+                    //     length: olength,
+                    //     avialable: "Available",
+                    // });
+                    // this.getView().setModel(oparkingslotpayload, "oparkingslotpayload")
+                    // const oPath = this.getView().getModel("oparkingslotpayload").getProperty("/");
+                    // const oModel = this.getView().getModel("ModelV2");
+                    // try {
+                    //     await this.createData(oModel, oPath, "/ParkingLot");
+                    //     this.getView().byId("idparkingslottable").getBinding("items").refresh();
+                    //     sap.m.MessageBox.success("success");
+                    //     var oid = this.getView().byId("idslotcreatingidval").setValue(""),
+                    //         olength = this.getView().byId("idslotcreatinglengthval").setValue("");
+                    //     this.byId("idslotcreationDialog").close();
+                    //     oModel.refresh(true);
+                    // } catch (error) {
+                    //     this.byId("idslotcreationDialog").close();
+                    //     sap.m.MessageBox.error("Entity already Exist!!");
+                    //     console.log(error)
+                    // }
                 }
             },
             // onReadSorters: function () {

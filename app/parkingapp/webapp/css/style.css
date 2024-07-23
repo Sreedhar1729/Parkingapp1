@@ -2,7 +2,7 @@
 
 /* for making page title as Blue color */
 .titleclass {
-    color: blue;
+    color: rgb(222, 249, 196);
 }
 
 .customToolbar .sapMTB {
@@ -16,7 +16,7 @@
 }
 
 .sample {
-    color: red;
+    color: whitesmoke;
     height: max-content;
     font-size: large;
 }
@@ -36,15 +36,15 @@
 }
 
 .setcolor1 {
-    background-color: chartreuse;
+    background-color: rgb(222, 249, 196);
 }
 
 .setcolor2 {
-    background-color: chocolate;
+    background-color:rgb(187, 233, 255);
 }
 
 .setcolor4 {
-    background-color: darkmagenta;
+    background-color: rgb(255, 233, 208);
 }
 
 .setcolor3 {
@@ -97,10 +97,10 @@
 }
  
 .toolHeader{
-    background-color: blueviolet;
+    background-color: #FFFBDA;
 }
 .sa{
-    background-color: aquamarine;
+    background-color:rgb(97, 103, 122);
     color: #007bff;
 }
 /* .sapUiContentPadding{
@@ -111,7 +111,7 @@
 /* Default light mode styles */
 body {
     background-color: #f0f0f0; /* Light background */
-    color: #333; /* Dark text */
+    color: rgb(204, 213, 174) /* Dark text */
 }
 
 /* Dark mode styles */
@@ -122,7 +122,7 @@ body.dark-mode {
 .custom-header {
     
         background-color: cadetblue;
-        background-image: linear-gradient(to bottom, #aac2e8, #ffffff);
+        background-image: linear-gradient(to bottom,rgb(109, 164, 170),rgb(100, 125, 135));
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         height:10vh !important;
         /* height: 200% !important; */
@@ -157,4 +157,16 @@ body.dark-mode {
     font-size: 12px; /* Adjust font size */
     font-weight: bold; /* Make text bold */
 }
- 
+ .ssss{
+    color:red;
+    background-color: #007bff;
+ }
+ .sssss{
+    text-decoration-color: #BB86FC;
+ }
+ .cl{
+    background-color: rgb(255, 233, 208);
+ }
+ .cssa{
+    background-color: rgb(243, 248, 255);
+ }

@@ -21,6 +21,7 @@
                     <Image
                         id="idimage1"
                         width="auto"
+                        class="tt"
                         src="https://artihcus.com/assets/img/Artihcus-global-logo-1.png"
                     />
                     <ToolbarSpacer id="idtoolspace" />
@@ -30,16 +31,7 @@
                         text="ParkingLotApplication"
                     />
                     <ToolbarSpacer id="idtoolspacer2" />
-                    <!-- <Button id="idtoogle"  text="Toggle Dark/Light Mode" press="onToggleModePress" /> -->
-                    <Button
-                        id="idlogout"
-                        text="Logout"
-                        type="Accept"
-                        press="onCS"
-                    />
-                    <ToolbarSeparator id="ikksjdsds"></ToolbarSeparator>
-                    
-                    <Button
+                      <Button
                         id="idnotification"
                         icon="sap-icon://bell"
                         press="onBell"
@@ -47,12 +39,25 @@
                     <customData>
                         <BadgeCustomData id="_IDGenBadgeCustomData1" 
                             value="{/Notifications/$count}"
+                             visible="{= ${/Notifications/$count} > 0 }"
                             />
                     </customData>
                     
                     </Button>
+                     <ToolbarSeparator id="ikksjdsds"></ToolbarSeparator>
+                    <!-- <Button id="idtoogle"  text="Toggle Dark/Light Mode" press="onToggleModePress" /> -->
+                    <Button
+                        id="idlogout"
+                        text="Logout"
+                        type="Accept"
+                        press="onCS"
+                    />
+                   
+                    
+                  
                     <!-- <Button id="idbt1" text="SMS" press="onSms"/>  -->
                 </tnt:content>
+                
             </tnt:ToolHeader>
         </tnt:header>
 
@@ -161,8 +166,8 @@
                                         <Button id="idsorter" icon="sap-icon://sort" text="sort" press="onSort1"/>
                                     </OverflowToolbar>
                                 </headerToolbar>
-                                <columns>
-                                    <Column id="idreserevependigicol1">
+                                <columns >
+                                    <Column id="idreserevependigicol1" >
                                         <Title
                                             id="idreservependingtitle"
                                             text="Truck Number"
@@ -272,10 +277,11 @@
                                     </OverflowToolbar>
                                 </headerToolbar>
                                 <columns>
-                                    <Column id="idparkinghisVeh">
+                                    <Column id="idparkinghisVeh"  class="ssss">
                                         <Title
                                             id="idparkinghisvehlabel"
                                             text="VehicleNumber"
+                                           
                                         />
                                     </Column>
                                     <Column id="idparkinghisdrivername">
@@ -323,6 +329,7 @@
                                             <Text
                                                 id="idparkinghisvehval"
                                                 text="{truckNo}"
+                                                
                                             />
                                             <Text
                                                 id="idparkinghisdrivernameval"
@@ -400,6 +407,7 @@
                                         <Title
                                             id="idparkingvehlabel"
                                             text="VehicleNumber"
+                                            
                                         />
                                     </Column>
                                     <Column id="idparkingdrivername">
@@ -687,7 +695,7 @@
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
-                                <Column id="idparkingveh_id">
+                                <Column id="idparkingveh_id" styleClass="cl">
                                     <Title
                                         id="parkingveh_text"
                                         text="Lot.No"
@@ -769,7 +777,7 @@
                                 columnsL="1"
                                 columnsM="1"
                                 singleContainerFullSize="false"
-                                class="sss"
+                                class="cssa"
                                 
                             >
                                 <form:toolbar>

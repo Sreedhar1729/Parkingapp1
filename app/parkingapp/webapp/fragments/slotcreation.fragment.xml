@@ -47,8 +47,9 @@
             <Label id="idslotcreatingidlabel" text="Parking Slot Number"/>
             <Input
                 id="idslotcreatingidval"
-                type="Number"
+                type="Text"
                 value=""
+                editable="false"
             />
             <Label id="idslotcreatinglengthlabel" text="Length"/>
             <Input

@@ -14,7 +14,7 @@ sap.ui.define([
                 // this.onReadSorters();
                 // set the initial value
                 // Tokens
-                
+
                 const oView = this.getView(),
                     oMulti1 = this.oView.byId("_IDGenMultiInput1");
                 const oMulti11 = this.oView.byId("iddytrucknumber"),
@@ -518,24 +518,24 @@ sap.ui.define([
             },
             onCreate: async function () {
                 // getting values from the input fields
-                var temp = this.byId("idparkingslottable")._iVisibleItemsLength+1;
-                var oid=  temp.toString(),
-               
+                var temp = this.byId("idparkingslottable")._iVisibleItemsLength + 1;
+                var oid = temp.toString(),
 
-                // var oid = this.getView().byId("idslotcreatingidval").getValue(),
+
+                    // var oid = this.getView().byId("idslotcreatingidval").getValue(),
                     olength = this.getView().byId("idslotcreatinglengthval").getValue();
                 // oinward = this.getView().byId("idslotcreatinginwardval").getValue();
                 if (oid === '' || olength === '') {
                     sap.m.MessageBox.error("Please Enter all Required Fields!!");
                 } else {
-                    var oModel=this.getView().getModel();
-                   var that = this;
-                    await oModel.create("/ParkingLot",{id:oid,length:olength,avialable:'Available'},{
-                        success:function(oData){
+                    var oModel = this.getView().getModel();
+                    var that = this;
+                    await oModel.create("/ParkingLot", { id: oid, length: olength, avialable: 'Available' }, {
+                        success: function (oData) {
                             sap.m.MessageBox.success(`Slot No:${oData.id} is created Successfully!!`);
                             oModel.refresh(true);
                             that.onClears();
-                        },error:function(oError){
+                        }, error: function (oError) {
                             sap.m.MessageBox.error("Duplicate SLot");
                             oModel.refresh(true);
                             that.onClears();
@@ -1070,26 +1070,26 @@ sap.ui.define([
             onSort: function (tableId) {
                 var oTable;
                 let fullId = tableId.getSource().getParent().getParent().getId();
-let id = fullId.split('--').pop();
-console.log(id); // Outputs: 'idParkingvehiclestable'
-                console.log("Trying to sort table with ID:", tableId); 
+                let id = fullId.split('--').pop();
+                console.log(id); // Outputs: 'idParkingvehiclestable'
+                console.log("Trying to sort table with ID:", tableId);
                 // Determine which table to use based on tableId parameter
                 switch (id) {
-                case "idreservependingtable":
-                    oTable = this.byId("idreservependingtable");
-                    break;
-                case "idReserveParkingtable":
-                    oTable = this.byId("idReserveParkingtable");
-                    break;
-                case "idParkingvehiclestable":
-                    oTable = this.byId("idParkingvehiclestable");
-                    break;
-                 
-                default:
-                    sap.m.MessageToast.show("Invalid table ID.");
-                    return;
-            }
-        
+                    case "idreservependingtable":
+                        oTable = this.byId("idreservependingtable");
+                        break;
+                    case "idReserveParkingtable":
+                        oTable = this.byId("idReserveParkingtable");
+                        break;
+                    case "idParkingvehiclestable":
+                        oTable = this.byId("idParkingvehiclestable");
+                        break;
+
+                    default:
+                        sap.m.MessageToast.show("Invalid table ID.");
+                        return;
+                }
+
 
                 // Get the binding for the determined table
                 var oBinding = oTable.getBinding("items");
@@ -1104,23 +1104,86 @@ console.log(id); // Outputs: 'idParkingvehiclestable'
             },
             onSort1: function () {
                 var oTable = this.byId("idparkingslottable");
-    var oBinding = oTable.getBinding("items");
-   
-    if (oBinding) {
-        var oSorter = new sap.ui.model.Sorter('id', true); // Replace 'Price' with your sorting property
-        oBinding.sort(oSorter);
-    } else {
-        sap.m.MessageToast.show("Table binding not found. Cannot apply sorting.");
-    }
- 
+                var oBinding = oTable.getBinding("items");
+
+                if (oBinding) {
+                    var oSorter = new sap.ui.model.Sorter('id', true); // Replace 'Price' with your sorting property
+                    oBinding.sort(oSorter);
+                } else {
+                    sap.m.MessageToast.show("Table binding not found. Cannot apply sorting.");
+                }
+
             },
 
             onCollapseExpandPress() {
                 const oSideNavigation = this.byId("idSidenavigation"),
                     bExpanded = oSideNavigation.getExpanded();
-    
+
                 oSideNavigation.setExpanded(!bExpanded);
             },
+            downloadpdf: function () {
+                var oModel = this.getView().getModel("ModelV2");
+            
+                // Read data asynchronously from the model
+                oModel.read("/ReserveParking", {
+                    success: function (oData) {
+                        console.log("Data read successfully:", oData);
+            
+                        // Process the data
+                        var rows = [];
+            
+                        // Assuming oData.results is an array with one item
+                        if (oData.results && oData.results.length > 0) {
+                            var item = oData.results[0]; // Assuming only one item is fetched
+                            rows.push([
+                                item.truckNo || "",
+                                item.driverName || "",
+                                item.driverMob || "",
+                                item.res_staus ? "Active" : "Inactive",
+                                item.parkinglot_id || "",
+                                item.confDate || "",
+                                item.vendorName || "",
+                                
+                            ]);
+                        } else {
+                            console.warn("No data found.");
+                            sap.m.MessageBox.warning("No data found.");
+                            return;
+                        }
+                        
+            
+                        // Generate PDF document
+                        var docDefinition = {
+                            content: [
+                                {
+                                    style: "header",
+                                    alignment: "center",
+                                    text: "Reserved Parking Details Report"
+                                },
+                                {
+                                    table: {
+                                        headerRows: 1,
+                                        widths: ["*", "*", "*", "*", "*", "*", "*"],
+                                        body: [
+                                            ["Truck Number", "Driver Name", "Driver Mobile", "Reservation Status", "Parking Lot ID", "Confirmation Date", "Vendor Name"],
+                                            ...rows
+                                        ]
+                                    }
+                                }
+                            ]
+                        };
+            
+                        // Generate and download PDF
+                        var pdfDocGenerator = pdfMake.createPdf(docDefinition);
+                        pdfDocGenerator.download("ReservedParkingDetails.pdf");
+                    },
+                    error: function (oError) {
+                        console.error("Error reading data:", oError);
+                        sap.m.MessageBox.error("Failed to fetch data.");
+                    }
+                });
+            }
+            
             
         });
     });

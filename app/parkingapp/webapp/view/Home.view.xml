@@ -1012,6 +1012,7 @@
                                         class="simple"
                                     />
                                     <ToolbarSpacer id="_IDGenToolbarSpacer1" />
+                                    <Button id="pdf" icon="sap-icon://download" press="downloadpdf"/>
                                     <Button
                                         id="_IDGenButton1"
                                         class="sapUiSmallMarginBeginEnd"

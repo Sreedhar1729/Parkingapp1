@@ -1114,5 +1114,13 @@ console.log(id); // Outputs: 'idParkingvehiclestable'
     }
  
             },
+
+            onCollapseExpandPress() {
+                const oSideNavigation = this.byId("idSidenavigation"),
+                    bExpanded = oSideNavigation.getExpanded();
+    
+                oSideNavigation.setExpanded(!bExpanded);
+            },
+            
         });
     });

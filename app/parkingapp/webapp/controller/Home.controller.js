@@ -1133,8 +1133,7 @@ sap.ui.define([
                         var rows = [];
             
                         // Assuming oData.results is an array with one item
-                        if (oData.results && oData.results.length > 0) {
-                            var item = oData.results[0]; // Assuming only one item is fetched
+                        oData.results.forEach(function (item) {
                             rows.push([
                                 item.truckNo || "",
                                 item.driverName || "",
@@ -1143,13 +1142,10 @@ sap.ui.define([
                                 item.parkinglot_id || "",
                                 item.confDate || "",
                                 item.vendorName || "",
-                                
+                               
                             ]);
-                        } else {
-                            console.warn("No data found.");
-                            sap.m.MessageBox.warning("No data found.");
-                            return;
-                        }
+                    
+                        });
                         
             
                         // Generate PDF document
@@ -1182,7 +1178,65 @@ sap.ui.define([
                         sap.m.MessageBox.error("Failed to fetch data.");
                     }
                 });
+            },
+            downloadpdf1: function () {
+                var oModel = this.getView().getModel("ModelV2");
+            
+                // Read data asynchronously from the model
+                oModel.read("/ParkignVeh", {
+                    success: function (oData) {
+                        console.log("Data read successfully:", oData);
+            
+                        // Process the data
+                        var rows = [];
+            
+                        // Assuming oData.results is an array with one item
+                        oData.results.forEach(function (item) {
+                            rows.push([
+                                item.truckNo || "",
+                                item.driverName || "",
+                                
+                                // item.res_staus ? "Active" : "Inactive",
+                                item.parkinglot_id || "",
+                                item.enterDate || "",
+                                item.vendorName || "",
+                                
+                            ]);
+                        });
+                        
+            
+                        // Generate PDF document
+                        var docDefinition = {
+                            content: [
+                                {
+                                    style: "header",
+                                    alignment: "center",
+                                    text: "Parking Vehicle Details Report"
+                                },
+                                {
+                                    table: {
+                                        headerRows: 1,
+                                        widths: ["*", "*", "*", "*", "*"],
+                                        body: [
+                                            ["Truck Number", "Driver Name", "Parking Lot ID", "Enter Date", "Vendor Name"],
+                                            ...rows
+                                        ]
+                                    }
+                                }
+                            ]
+                        };
+            
+                        // Generate and download PDF
+                        var pdfDocGenerator = pdfMake.createPdf(docDefinition);
+                        pdfDocGenerator.download("ParkingVehicleDetails.pdf");
+                    },
+                    error: function (oError) {
+                        console.error("Error reading data:", oError);
+                        sap.m.MessageBox.error("Failed to fetch data.");
+                    }
+                });
             }
+            
             
             
         });
